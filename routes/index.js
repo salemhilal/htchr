@@ -1,8 +1,5 @@
-
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
-};
+module.exports = {
+  dummy: function (req, res) {},
+  main: require('./main.js'),
+  auth: require('./auth.js')
+}

@@ -6,6 +6,10 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <% if (user) { %>
+      <h2>ID: <%= user %></h2>
+    <% } else { %>
+      <a href="/login">Log in</a>
+    <% } %>
   </body>
 </html>
