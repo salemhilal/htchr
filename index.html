@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/bootstrap.css">
+
+    <!--Responsive stuff-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" href="/css/bootstrap-responsive.css">
+
+    <style type="text/css">
+        .headroom{
+            margin-top:15px;
+        }
+        #doSomething{
+            display: none;
+        }
+        #where, #when{
+            font-size: 18px;
+            line-height: 24px;
+            height: 40px;
+        }
+        .maxwidth{
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- If they choose to do something -->
+    <div id="doSomething">
+        <div class="container">
+            <div class="hero-unit headroom maxwidth">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h1>What's up?</h1>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="row-fluid headroom">
+                            <input id="where" class="span12 search-query" type="text" placeholder="Where?">
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="row-fluid headroom">
+                            <input id="when" class="span12 search-query" type="text" placeholder="When? (Optional)">
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+
+    <!-- On initial page load -->
+    <div id="welcome">
+        <div class="container">
+            <div class="hero-unit headroom maxwidth">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <h1>Hey there. <small>Nice tie.</small></h1>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="row-fluid headroom">
+                            <a id="view" href="#" class="btn btn-large span12">View listings</a>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="row-fluid headroom">
+                            <a id="do" href="#" class="btn btn-large span12 btn-primary">Do something</a>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+
+
+
+    
+    <!--Scripts-->
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            //TODO: Set this to "tap" iff on mobile device
+            var click = "click"
+
+            $("#do").live(click, function(){
+                $("#welcome").slideUp();
+                $("#doSomething").slideDown();
+            });
+        });
+
+    </script>
+    
+</body>
+</html>
