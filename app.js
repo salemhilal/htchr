@@ -8,6 +8,11 @@ var express = require('express')
 // Routes
 var routes = require('./routes');
 
+// DB stuff
+var mongoose = require('mongoose')
+  , schemas = require('./db/schemas.js');
+mongoose.connect('mongodb://localhost/htchr');
+
 var app = express();
 
 // Setup passport
