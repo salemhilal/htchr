@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+    <style type="text/css">
+        #errorPopup{
+            max-width: 400px;
+            min-width: 300px;
+        }
+        #sorry{
+            width: 100%
+        }
+    </style>
 </head> 
 <body> 
 
@@ -13,35 +23,33 @@
 <div data-role="page">
 
     <div data-role="header">
-        <h1>New Event</h1>
+        <h1>Lets do something</h1>
     </div><!-- /header -->
 
     <div data-role="content">   
-
-            <form data-theme="b">
                 <div data-role="fieldcontain">
-                    <label for="basic">Name:</label>
-                    <input type="text" name="name" id="Name" data-theme="b"/>
+                    <label for="eventName">Name:</label>
+                    <input id="eventName" type="text" data-theme="b"/>
                 </div>
                 
                 <div data-role="fieldcontain">
-                    <label for="basic">Location:</label>
-                    <input type="text" name="name" id="basic" data-theme="b"/>
+                    <label for="eventLoc">Location:</label>
+                    <input id="eventLoc" type="text" data-theme="b"/>
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="basic">Date:</label>
-                    <input type="date" name="name" id="basic" data-theme="b"/>
+                    <label for="eventDate">Date:</label>
+                    <input id="eventDate" type="date" data-theme="b"/>
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="basic">Time:</label>
-                    <input type="time" name="name" id="basic" data-theme="b"/>
+                    <label for="eventTime">Time:</label>
+                    <input id="eventTime" type="time" data-theme="b"/>
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="flip-1">Private Event:</label>
-                    <select name="flip-1" id="flip-1" data-role="slider" data-theme="b">
+                    <label for="eventPrivate">Private Event:</label>
+                    <select id="eventPrivate" data-role="slider" data-theme="b">
                         <option value="off">Off</option>
                         <option value="on">On</option>
                     </select> 
@@ -49,11 +57,73 @@
 
                 <button id="submitEvent" type="submit" data-theme="b">Lets do it</button>
 
-            </form>            
             
     </div><!-- /content -->
 
 </div><!-- /page -->
+
+<div id="errorPopup" data-role="popup" >
+
+    <div data-role="header" data-theme="a" class="ui-corner-top ui-header ui-bar-b" role="banner">
+        <h1 class="ui-title" role="heading" aria-level="1">Hang on...</h1>
+    </div>
+    <div class="ui-content">
+        <h3>Can you please</h3>
+        <ul id="problems"></ul>
+        <span id="sorry">
+            <a href="#" id="sorry" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-a ui-btn-up-a"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Yeah, sorry.</span></span></a>
+        </span>
+    </div>
+        
+
+</div><!-- /popup -->
+
+<script type="text/javascript">
+
+    $(document).bind("pageinit", function(){
+        $("#errorPopup").popup({
+            //theme: "b",
+            overlayTheme: "a",
+            transition: "pop"
+        });
+    });
+
+
+    $("#submitEvent").live("tap", function(){
+        var problems = []
+
+        //Verify everything's alright. 
+        var name = $("#eventName").val();
+        var loc = $("#eventLoc").val();
+        var date = $("#eventDate").val();
+        var time = $("#eventTime").val();
+        var isPrivate = $("#eventPriavate").val();
+
+        if(name.length <= 3){
+            problems.push("<li>enter a <i>real</i> name (3+ letters).</li>");
+            $("#eventName").addClass("error");
+        }
+
+        if(loc.length <= 5){
+            problems.push("<li>enter a <i>real</i> location (5+ letters).</li>");
+            $("#eventLoc").addClass("error");
+        }
+
+        if(date === ""){
+            problems.push("<li>enter a valid date, please.</li>");
+        }
+
+        if(time === ""){
+            problems.push("<li>enter a valid time, if you could.</li>");
+        }
+
+        if(problems.length >0){
+            $("#problems").html(problems.join(""));
+            $("#errorPopup").popup("open");
+        }
+
+    });
+</script>
 
 </body>
 </html>
