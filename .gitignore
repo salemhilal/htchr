@@ -3,3 +3,7 @@
 .DS_Store
 node_modules/
 *.old
+
+# Sublime text shit
+*.sublime-project
+*.sublime-workspace
