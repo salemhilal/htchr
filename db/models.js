@@ -37,7 +37,7 @@ var eventSchema = new Schema({
 });
 
 module.exports = {
-	userSchema: userSchema,
-	placeSchema: placeSchema,
-	eventSchema: eventSchema
+	User: mongoose.model('User', userSchema),
+  Place: mongoose.model('Place', placeSchema),
+  Event: mongoose.model('Event', eventSchema)
 }
