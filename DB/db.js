@@ -1,41 +1,48 @@
-var mongoose = require('mongoose');
-var db = mongoose.createConnection('mongodb://localhost/test');
+var mongoose = require('mongoose')
+  , db = mongoose.createConnection('mongodb://localhost/htchr')
+  , schemas = require('./schemas.js');
+
 db.on('error', console.error.bind(console, 'connection error:'));
+
 db.once('open', function callback() {
-    console.log("connected.");
+  // console.log("connected.");
 });
 
-var userSchema = new mongoose.Schema({
-    userID: String,
-    name: String,
-    email : String
+var User = db.model('Users', schemas.userSchema);
+var Place = db.model('Places', schemas.placeSchema);
+var Event = db.model('Events', schemas.eventSchema);
+
+var matt = new User({
+  userID: 1,
+  name: "Matt Schallert",
+  email: "mattschallert@gmail.com"
 });
 
-var placeSchema = new mongoose.Schema({
-    name: String,
-    location: [{lat:Number, lng:Number }],
-    numEvents : Number
+var dima = new User({
+  userID: 2,
+  name: "Dima Ivanyuk",
+  email: "dimaivanyuk@gmail.com"
 });
 
-var eventSchema = new mongoose.Schema({
-    eventID: String,
-    owner: String,
-    name: String,
-    description: String,
-    startTime: Date, //or maybe string would be more useful (this is what FB passes it as)
-    endTime: Date,
-    location: String,
-    venue: String,
-    privacy: String,
-    updatedTime: Date,
-    picture: String,
-    invited: [{
-        userID: String,
-        rsvpStatus: String
-    }],
-    hasDriver: Boolean
+var salem = new User({
+  userID: 3,
+  name: "Salem Hilal",
+  email: "salemhilal@gmail.com"
 });
 
-var Users = db.model('Users', userSchema);
-var Places = db.model('Places', placeSchema);
-var Events = db.model('Events', eventSchema);
+// matt.save(); dima.save(); salem.save();
+
+var costcoTrip = new Event({
+  eventID: 1,
+  owner: {
+    id: 1,
+    name: "Matt Schallert"
+  },
+  name: "Costco Trip",
+  description: "Going to Costco",
+  startTime: new Date(2012, 11, 29, 12, 00, 00, 00)
+});
+
+costcoTrip.save();
+
+db.close();
