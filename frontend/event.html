@@ -7,31 +7,50 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 </head>
+
+<style>
+    .eventSubmit{
+        margin: 0 auto;
+    }
+</style>
+
 <body>
 
     <div class="container">
         <form>
             <fieldset>
                 <legend>Create an Event</legend>
-                <label for="eventName">Name</label>
-                <input class="span12" type="text" id="eventName" placeholder="Grab some groceries">
 
-                <label for="eventLoc">Location</label>
-                <input class="span12" type="text" id="eventLoc" placeholder="Trader Joe's">
+                <div class="control-group">
+                    <label for="eventName">Name</label>
+                    <input class="span12" type="text" id="eventName" placeholder="Grab some groceries">                    
+                </div>
 
-                <label for="eventTime">Time</label>
-                <input class="span12" type="text" id="eventTime" placeholder="November 15th at 3:30 pm">
+                <div class="control-group">
+                    <label for="eventLoc">Location</label>
+                    <input class="span12" type="text" id="eventLoc" placeholder="Trader Joe's">
+                </div>
+
+                <div class="control-group">
+                    <label for="eventTime">Time</label>
+                    <input class="span12" type="text" id="eventTime" placeholder="November 15th at 3:30 pm">
+                </div>
                 
-                <label for="eventDesc">Description</label>
-                <textarea class="span12" rows="3" id="eventDesc" placeholder="Man, I really need some sushi."></textarea>
+                
+                <div class="control-group">
+                    <label for="eventDesc">Description</label>
+                    <textarea class="span12" rows="3" id="eventDesc" placeholder="Man, I really need some sushi."></textarea>
+                </div>
+                
 
                 <label for="isPrivate" class="checkbox">
                     <input type="checkbox">
-                    I would like to make this event private.<br>
+                    I would like to make this event private.
                     Only people I invite will be able to see it.
                 </label>
 
-                
+                <a href="#" class="btn btn-primary btn-large eventSubmit">Alright, lets do it</a>
+                <a href="#" id="eventSubmit" class="btn btn-large">Nevermind</a>
 
             </fieldset>
         </form>
@@ -43,10 +62,15 @@
     <script type="text/javascript" src="js/jqueryui.js"></script>
 
     <script src="js/bootstrap.js"></script>
-    <script src="js/date.js"></script>
-    <script src="js/jquery.daterange.js"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
 
+            //TODO: Make this tap
+            $("#eventSubmit").live("click", function(){
+
+            });
+
+        });
     </script>
 
 </body>
