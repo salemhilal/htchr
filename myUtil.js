@@ -1,8 +1,31 @@
 var FacebookStrategy = require('passport-facebook').Strategy
   , FACEBOOK_APP_ID = "226224270843611"
-  , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf";
+  , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
+  , path = require('path');
 
 module.exports = {
+  configureApp: function (app, express, passport) {
+    app.configure(function(){
+      app.set('port', process.env.PORT || 3000);
+      app.set('views', __dirname + '/views');
+      app.set('view engine', 'ejs');
+      app.use(express.favicon());
+      app.use(express.logger('dev'));
+      app.use(express.bodyParser());
+      app.use(express.methodOverride());
+      app.use(express.cookieParser('8a8bd6c033c7a4e97f4e5994b291b43d'));
+      app.use(express.session());
+      // Initialize Passport!  Also use passport.session() middleware, to support
+      // persistent login sessions (recommended).
+      app.use(passport.initialize());
+      app.use(passport.session());
+      app.use(app.router);
+      app.use(express.static(path.join(__dirname, 'public')));
+    });
+    app.configure('development', function(){
+      app.use(express.errorHandler());
+    });
+  },
   setupPassport: function (passport) {
     // Passport session setup.
     //   To support persistent login sessions, Passport needs to be able to
