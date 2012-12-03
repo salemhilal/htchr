@@ -1,7 +1,11 @@
 module.exports = {
   home: function(req, res) {
     console.log(req.user);
-    res.render('index', { title: 'Express', user: JSON.stringify(req.user) });
+    if(req.user){
+      res.render('index', { title: 'Express', user: JSON.stringify(req.user) });
+    } else {
+      res.render('landing');
+    }
   },
 
   login: function (req, res) {
