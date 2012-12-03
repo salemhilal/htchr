@@ -8,8 +8,10 @@ if (!navigator.geolocation.getCurrentPosition) {
     navigator.geolocation.getCurrentPosition = nop;
 }
 
-
-var autocomplete //Google autocomplete object. Give it a global scope.
+//Google autocomplete object. Give it a global scope.
+var autocomplete = {};
+//The result of the places query. 
+var place = {};
 
 $(document).bind("pageinit", function(){
 
@@ -31,6 +33,9 @@ $(document).bind("pageinit", function(){
         var lng = position.coords.longitude;
         var bnd = 0.3;
 
+        console.log("lat", lat);
+        console.log("lng", lng);
+
         //Set the bounds to be the current location +- bnd.
         var bounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(lat-bnd, lng-bnd),
@@ -39,6 +44,11 @@ $(document).bind("pageinit", function(){
         //Pass them bounds to the autocomplete so our search is biased.
         autocomplete.setBounds(bounds);
 
+    });
+
+    //Watch for resolved autocomplete locations
+    google.maps.event.addListener(autocomplete, 'place_changed', function(){
+        place = autocomplete.getPlace();
     });
 
 });
@@ -52,18 +62,17 @@ $("#submitEvent").live("tap", function(){
 
     //Verify everything's alright. 
     var name = $("#eventName").val();
-    var loc = $("#eventLoc").val();
     var date = $("#eventDate").val();
     var time = $("#eventTime").val();
-    var isPrivate = $("#eventPriavate").val();
+    var isPrivate = $("#eventPrivate").val();
 
-    if(name.length <= 3){
+    if(name.length < 3){
         problems.push("<li>enter a <i>real</i> name (3+ letters).</li>");
         $("#eventName").addClass("error");
     }
 
-    if(loc.length <= 5){
-        problems.push("<li>enter a <i>real</i> location (5+ letters).</li>");
+    if(!place.geometry){
+        problems.push("<li>enter a <i>valid</i> location.</li>");
         $("#eventLoc").addClass("error");
     }
 
@@ -78,7 +87,21 @@ $("#submitEvent").live("tap", function(){
     if(problems.length >0){
         $("#problems").html(problems.join(""));
         $("#errorPopup").popup("open");
+        return;
+    } else{
+        var lat = place.geometry.location["$a"];
+        var lng = place.geometry.location["ab"];
+        var dateObj = new Date(date + " " + time);
+        
+        var response = {
+            location : {lat : lat, lng : lng},
+            name : name,
+            date : dateObj,
+            isPrivate : (function(){return isPrivate === "on"})()
+        }
+        console.log("response", response);
     }
+
 
 
 
