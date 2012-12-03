@@ -88,18 +88,22 @@ $("#submitEvent").live("tap", function(){
         $("#problems").html(problems.join(""));
         $("#errorPopup").popup("open");
         return;
-    } else{
+    } else {
         var lat = place.geometry.location["$a"];
         var lng = place.geometry.location["ab"];
-        var dateObj = new Date(date + " " + time);
-        
-        var response = {
-            location : {lat : lat, lng : lng},
-            name : name,
-            date : dateObj,
-            isPrivate : (function(){return isPrivate === "on"})()
-        }
-        console.log("response", response);
+        // TODO: incorporate this into the post data
+        // will be done after some location stuff is set up on
+        // the server side
+        // - Matt
+
+        var dateTime = new Date(date + " " + time + ":00");
+        var reqData = { name: name, description: "", startTime: dateTime, isPrivate: isPrivate === "on" };
+
+        // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
+        // will take care of this - Matt
+        $.post('http://localhost:3000/events/new', reqData, function (data) {
+            console.log(data);
+        });
     }
 
 
