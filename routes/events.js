@@ -4,7 +4,7 @@ var models = require('../db/models.js')
 
 module.exports = {
 	new_GET: function (req, res) {
-		res.send("this will work eventually...");
+		res.render('events/new');
 	},
 	new_POST: function (req, res) {
 		var body = req.body;
