@@ -15,7 +15,7 @@
 
 
     //Load newEventPage's scripts when the page is loaded.
-    $("#newEventPage").live("pagecreate", function(e){
+    $("#newEventPage").live("pageinit", function(e){
         console.log("new event");
 
         //Refresh the ich template engine.
@@ -104,7 +104,7 @@
         });
     });
 
-    $("#feedPage").live("pagecreate", function(e){
+    $("#feedPage").live("pageinit", function(e){
 
         console.log("feeds");
 
