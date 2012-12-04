@@ -49,4 +49,37 @@ div.hr {
   height: 1px;
   border: 0; 
   margin-top: 5px; 
-} 
+}
+
+div.carContent {
+  margin : auto;
+  text-align: center;
+  width: 150px;
+  height: 100px;
+  min-width:200px;
+  min-height:100px;
+  max-width:200px;
+  max-height:100px;
+  overflow:hidden;
+  display:block;
+}
+
+.item {
+  text-align : center;
+}
+
+.carContent p {
+  font-size : 13px;
+}
+
+.carContent h4 {
+  font-size : 20px;
+}
+
+.left {
+  margin-left : -25px;
+}
+
+.right {
+  margin-right : -25px;
+}
