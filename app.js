@@ -50,11 +50,14 @@ app.get('/events/feed.json'
   , myUtil.ensureAuthenticated
   , routes.events.feed_JSON);
 
-
+//Users
 // ex: http://localhost:3000/users/50bda97a1ef03b743e000002.json
 app.get('/users/:id.json'
-  , myUtil.ensureAuthenticated,
-  routes.users.profile_JSON);
+  , myUtil.ensureAuthenticated
+  , routes.users.profile_JSON);
+app.get('/users/'
+  , myUtil.ensureAuthenticated
+  , routes.users.profile_GET)
 
 // Places 
 /*app.get('/places/new'

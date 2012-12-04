@@ -6,5 +6,8 @@ module.exports = {
     User.findById(id, function (err, user) {
       res.end(JSON.stringify(user));
     });
+  },
+  profile_GET: function (req, res) {
+    res.render('users/user')
   }
 }
