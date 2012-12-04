@@ -19,7 +19,8 @@ var place = {};
 
 
 //Load newEventPage's scripts when the page is loaded.
-$("#newEventPage").live("pageinit", function(e){
+function newEventPageInit () {
+    console.log('new page init');
     //Refresh the ich template engine.
     ich.refresh();
 
@@ -130,10 +131,10 @@ $("#newEventPage").live("pageinit", function(e){
             });
         }
     });
-});
+}
 
-$("#feedPage").live("pageinit", function(e){
-
+function feedPageInit () {
+    console.log('feed init');
     //Refresh the ich template engine.
     ich.refresh();
 
@@ -141,7 +142,7 @@ $("#feedPage").live("pageinit", function(e){
     $.getJSON('/events/feed.json', function (data) {
         _.each(data, function (hEvent) {
             // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
-            if(hEvent.isPrivate === false){
+            if (hEvent.isPrivate === false && ich.eventItem){
                 var eventLi = ich.eventItem({
                     user_name: hEvent.ownerName,
                     event_name: hEvent.name,
@@ -152,17 +153,38 @@ $("#feedPage").live("pageinit", function(e){
 
         });
     });
-});
+}
 
-$("#viewEventPage").live("pageinit", function (e) {
+function viewPageInit () {
+    console.log('view init');
     ich.refresh();
+    // ich.addTemplate('eventView', '<h1>Title: {{ event.name }}</h1>\
+    //     <h2>Created by: {{ event.ownerName }}</h2>\
+    //     <h2>Begins on {{ startTime }}</h2>');
     var eventId = window.location.pathname.split('/').pop();
+    console.log(window.location.pathname);
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-        if (eventRes.length == 1) eventRes = eventRes[0];
-        var templated = ich.eventView({
-            event: eventRes,
-            startTime: new Date(eventRes.startTime)
-        });
-        $("#viewContent").append(templated);
+        if (ich.eventView) {
+            // if eventView isnt a property, the item has already been rendered
+            var templated = ich.eventView({
+                event: eventRes,
+                startTime: new Date(eventRes.startTime)
+            });
+            $("#viewContent").append(templated);
+        }
     });
+}
+
+$(document).bind("pagechange", function (e) {
+    var path = window.location.pathname;
+    if (path.indexOf('/events/feed') > -1) {
+        feedPageInit();
+    }
+    else if (path.indexOf('/events/new') > -1) {
+        newEventPageInit();
+    }
+    else if (path.length === 32) {
+        viewPageInit();
+    }
+
 });
