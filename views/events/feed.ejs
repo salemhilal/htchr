@@ -33,7 +33,7 @@
   </div><!-- /header -->
 
   <script type="text/html" id="eventItem">
-    <li>{{ user_name }} created the event {{ event_name }}</li>
+    <li><h3>{{ user_name }} <small>created the event</small> {{ event_name }}</h3></li>
   </script>
 
   <div data-role="content">
@@ -41,7 +41,7 @@
     </ul>
   </div><!-- /content -->
 
-  <div data-role="footer" data-position="fixed">        
+  <div data-id="footNav" data-role="footer" data-position="fixed">        
     <div data-role="navbar" data-iconpos="top">
         <ul>
             <li><a href="/events/feed" data-icon="home" class="ui-btn-active ui-state-persist">Feed</a></li>

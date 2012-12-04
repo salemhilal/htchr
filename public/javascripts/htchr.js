@@ -16,6 +16,8 @@
 
     //Load newEventPage's scripts when the page is loaded.
     $("#newEventPage").live("pagecreate", function(e){
+        console.log("new event");
+
         //Refresh the ich template engine.
         ich.refresh();
 
@@ -23,7 +25,6 @@
         autocomplete = new google.maps.places.Autocomplete(document.getElementById("eventLoc"),{
             componentRestrictions: {country: 'us'}
         });
-        console.log("Autocomplete initialized.");
 
         //Initialize the invalid data popup.
         $("#errorPopup").popup({
@@ -36,9 +37,6 @@
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
             var bnd = 0.3;
-
-            console.log("lat", lat);
-            console.log("lng", lng);
 
             //Set the bounds to be the current location +- bnd.
             var bounds = new google.maps.LatLngBounds(
@@ -107,15 +105,22 @@
     });
 
     $("#feedPage").live("pagecreate", function(e){
+
+        console.log("feeds");
+
         //Refresh the ich template engine.
         ich.refresh();
-        
+
         //Grab the feeds server-side and render them.
         $.getJSON('/events/feed.json', function (data) {
+            console.log(data);
           _.each(data, function (hEvent) {
             // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
-            var eventLi = ich.eventItem({ user_name: "test user", event_name: hEvent.name });
-            $("#feedList").append(eventLi).listview('refresh');
+            if(hEvent.isPrivate === false){
+               var eventLi = ich.eventItem({ user_name: "test user", event_name: hEvent.name });
+                $("#feedList").append(eventLi).listview('refresh'); 
+            }
+
           });
           console.log("Feeds Loaded");
         });
