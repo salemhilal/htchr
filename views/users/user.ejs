@@ -12,31 +12,37 @@
     <script type="text/javascript" src="/javascripts/icanhaz.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
     <script type="text/javascript" src="/javascripts/htchr.js"></script>
+
+
+    <style type="text/css">
+        #errorPopup{
+            max-width: 400px;
+            min-width: 300px;
+        }
+        #sorry{
+            width: 100%
+        }
+    </style>
 </head> 
 <body> 
 
 <!-- New Event -->
-<div id="viewEventPage" data-role="page">
+<div id="newEventPage" data-role="page">
 
-    <div data-role="header">    
-        <a href="events/feeds" data-icon="arrow-l">Back</a>
-        <h1>Event Details.</h1>
+    <div data-role="header">
+        <h1>User Info.</h1>
     </div><!-- /header -->
 
-    <script type="text/html" id="eventView">
-        <h1>Title: {{ event.name }}</h1>
-        <h2>Created by: {{ event.ownerName }}</h2>
-        <h2>Begins on {{ startTime }}</h2>
-    </script>
+    <div data-role="content">   
 
-    <div data-role="content" id="viewContent">
+            
     </div><!-- /content -->
 
     <div data-id="footNav" data-role="footer" data-position="fixed">        
         <div data-role="navbar" data-iconpos="top">
             <ul>
-                <li><a href="/events/feed" data-icon="home">Feed</a></li>
-                <li><a href="/events/new" data-icon="Plus">New Event</a></li>
+                <li><a href="/events/feed" data-icon="home"  data-prefetch="true">Feed</a></li>
+                <li><a href="/events/new" data-icon="Plus" class="ui-btn-active ui-state-persist"  data-prefetch="true">New Event</a></li>
             </ul>
         </div><!-- /navbar -->
     </div><!-- /footer -->

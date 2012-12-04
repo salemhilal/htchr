@@ -1,7 +1,8 @@
 module.exports = {
   home: function(req, res) {
     if(req.user){
-      res.render('index', { title: 'Express', user: JSON.stringify(req.user) });
+      //res.render('index', { title: 'Express', user: JSON.stringify(req.user) });
+      res.redirect('/events/feed');
     } else {
       res.render('landing');
     }
