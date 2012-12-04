@@ -74,7 +74,7 @@ module.exports = {
 	},
 	// Get event details view
 	event_GET: function (req, res) {
-		res.render('events/event');
+		res.render('events/view');
 	},
 	//Get the feed view
 	feed_GET: function (req, res) {
