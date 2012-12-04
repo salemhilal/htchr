@@ -165,5 +165,10 @@ $("#viewEventPage").live("pageinit", function (e) {
     var eventId = window.location.pathname.split('/').pop();
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
         console.log(eventRes);
+        var templated = ich.eventView({
+            event: eventRes,
+            startTime: new Date(eventRes.startTime)
+        });
+        $("#viewContent").append(templated);
     });
 });

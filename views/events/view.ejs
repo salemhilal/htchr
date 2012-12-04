@@ -22,7 +22,13 @@
         <h1>Event Details.</h1>
     </div><!-- /header -->
 
-    <div data-role="content">
+    <script type="text/html" id="eventView">
+        <h1>Title: {{ event.name }}</h1>
+        <h2>Created by: {{ event.ownerName }}</h2>
+        <h2>Begins on {{ startTime }}</h2>
+    </script>
+
+    <div data-role="content" id="viewContent">
     </div><!-- /content -->
 
     <div data-id="footNav" data-role="footer" data-position="fixed">        
