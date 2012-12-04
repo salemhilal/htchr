@@ -48,6 +48,7 @@ module.exports = {
 				description: eventBody.description,
 				startTime: eventBody.startTime,
 				owner: req.user.id,
+				ownerName: req.user.name,
 				// get location shit working
 				isPrivate: eventBody.isPrivate == "true"
 			});

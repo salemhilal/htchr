@@ -23,6 +23,7 @@ var placeSchema = new Schema({
 var eventSchema = new Schema({
   eventID: String,
   owner: Schema.ObjectId, // points to a user in OUR database
+  ownerName: String,
   name: String,
   description: String,
   startTime: Date, //or maybe string would be more useful (this is what FB passes it as)

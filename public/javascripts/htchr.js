@@ -144,7 +144,7 @@
           _.each(data, function (hEvent) {
             // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
             if(hEvent.isPrivate === false){
-               var eventLi = ich.eventItem({ user_name: "test user", event_name: hEvent.name });
+               var eventLi = ich.eventItem({ user_name: hEvent.ownerName, event_name: hEvent.name });
                 $("#feedList").append(eventLi).listview('refresh'); 
             }
 
