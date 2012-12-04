@@ -1,3 +1,7 @@
+var models = require('./db/models.js')
+    , User = models.User
+    , Event = models.Event;
+
 var FacebookStrategy = require('passport-facebook').Strategy
   , FACEBOOK_APP_ID = "226224270843611"
   , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
@@ -55,7 +59,19 @@ module.exports = {
       function(accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
         process.nextTick(function () {
-          
+          console.log(accessToken);
+          User
+          .where('userID', profile.id)
+          .findOneAndUpdate({accessToken : accessToken})
+          .exec(function (err, user) {
+            if (err) {
+              console.log("error:", err);
+            }
+            else {
+              console.log("updated tokens - success!!");
+            }
+          });
+
           // To keep the example simple, the user's Facebook profile is returned to
           // represent the logged-in user.  In a typical application, you would want
           // to associate the Facebook account with a user record in your database,

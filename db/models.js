@@ -7,7 +7,8 @@ var userSchema = new Schema({
   	type: String
   },
   name: String,
-  email : String
+  email : String,
+  accessToken: String
 });
 
 var placeSchema = new Schema({
