@@ -33,7 +33,7 @@ module.exports = {
 						console.log("place insert error", err);
 					}
 					else {
-`					}
+					}
 				});
 			}
 
