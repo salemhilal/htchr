@@ -3,12 +3,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-  userID: {
+  fbID: {
   	type: String
   },
   name: String,
   email : String,
-  accessToken: String
+  accessToken: String,
+  fbProfile: Schema.Types.Mixed
 });
 
 var placeSchema = new Schema({
@@ -26,7 +27,7 @@ var eventSchema = new Schema({
   endTime: Date,
   location: Schema.ObjectId, // points to a place in OUR database
   invited: [{
-    userID: String,
+    fbID: String,
     rsvpStatus: String
   }],
   hasDriver: Boolean,
