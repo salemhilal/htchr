@@ -4,11 +4,7 @@ var models = require('../db/models.js')
 
 module.exports = {
 	new_GET: function (req, res) {
-		if(req.user){
-			res.render('events/new');
-		} else {
-			res.redirect('/')
-		}
+		res.render('events/new');
 	},
 	new_POST: function (req, res) {
 		var body = req.body;
@@ -29,5 +25,16 @@ module.exports = {
 				res.end('true');
 			}
 		});
+	},
+	feed_GET: function (req, res) {
+		// regular feed request, render a page
+		res.render('events/feed', { user: req.user });
+	},
+	feed_JSON: function (req, res) {
+		// render the feed as a JSON response
+		Event.find().sort('createdAt').exec(function (err, data) {
+	    if (err) { res.end(); }
+      else { res.end(JSON.stringify(data)); }
+    });
 	}
 }
