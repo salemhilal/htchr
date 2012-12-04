@@ -14,6 +14,8 @@ var userSchema = new Schema({
 
 var placeSchema = new Schema({
   name: String,
+  address: String,
+  phoneNumber: String,
   location: { lat: Number, lng: Number },
   numEvents : Number
 });
