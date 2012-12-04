@@ -1,11 +1,8 @@
-var models = require('./db/models.js')
-    , User = models.User
-    , Event = models.Event;
-
 var FacebookStrategy = require('passport-facebook').Strategy
   , FACEBOOK_APP_ID = "226224270843611"
   , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
-  , path = require('path');
+  , path = require('path')
+  , User = require('./db/models.js').User;
 
 module.exports = {
   configureApp: function (app, express, passport) {
@@ -59,16 +56,22 @@ module.exports = {
       function(accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
         process.nextTick(function () {
-          console.log(accessToken);
-          User
-          .where('userID', profile.id)
-          .findOneAndUpdate({accessToken : accessToken})
-          .exec(function (err, user) {
-            if (err) {
-              console.log("error:", err);
-            }
-            else {
-              console.log("updated tokens - success!!");
+          User.where('userID', profile.id).findOne().exec(function (err, user) {
+            // do we already have a user matching that id?
+            if (user) {
+              // yes? update their access token
+              user.accessToken = accessToken;
+              user.save();
+            } else {
+              // no? create a new user in our db
+              var user = new User({
+                userID: profile.id,
+                name: profile.displayName,
+                email: profile.email,
+                accessToken: accessToken,
+                fbProfile: profile
+              });
+              user.save();
             }
           });
 
