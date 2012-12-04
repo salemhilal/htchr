@@ -21,7 +21,6 @@ module.exports = {
 				res.end('false');
 			}
 			else {
-				console.log(retEvent);
 				res.end('true');
 			}
 		});
