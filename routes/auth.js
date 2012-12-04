@@ -1,5 +1,5 @@
 module.exports = {
   callback: function (req, res) {
-    res.redirect('/');
+    res.redirect('/events/feed');
   }
 }

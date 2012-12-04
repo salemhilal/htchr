@@ -72,6 +72,6 @@ module.exports = {
     //   the request will proceed.  Otherwise, the user will be redirected to the
     //   login page.
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
+    res.redirect('/');
   }
 }

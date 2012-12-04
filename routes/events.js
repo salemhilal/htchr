@@ -4,11 +4,7 @@ var models = require('../db/models.js')
 
 module.exports = {
 	new_GET: function (req, res) {
-		if(req.user){
-			res.render('events/new');
-		} else {
-			res.redirect('/')
-		}
+		res.render('events/new');
 	},
 	new_POST: function (req, res) {
 		var body = req.body;
@@ -32,7 +28,7 @@ module.exports = {
 	},
 	feed_GET: function (req, res) {
 		// regular feed request, render a page
-		res.end('you get html');
+		res.render('events/feed', { user: req.user });
 	},
 	feed_JSON: function (req, res) {
 		// render the feed as a JSON response
