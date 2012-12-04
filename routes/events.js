@@ -13,7 +13,7 @@ module.exports = {
 			description: body.description,
 			startTime: body.startTime,
 			// get location shit working
-			isPrivate: body.isPrivate
+			isPrivate: body.isPrivate == "true"
 		});
 		uEvent.save(function (err, retEvent) {
 			if (err) {
