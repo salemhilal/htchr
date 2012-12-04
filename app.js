@@ -28,6 +28,14 @@ app.get('/auth/facebook/callback',
   routes.auth.callback
 );
 
+// Event Feed
+app.get('/events/feed'
+  , myUtil.ensureAuthenticated
+  , routes.events.feed_GET);
+app.get('/events/feed.json'
+  , myUtil.ensureAuthenticated
+  , routes.events.feed_JSON);
+
 // Events
 app.get('/events/new'
   , myUtil.ensureAuthenticated
@@ -37,18 +45,10 @@ app.post('/events/new'
   , routes.events.new_POST);
 app.get('/events/:id.json'
   , myUtil.ensureAuthenticated
-  , routes.events.event_JSON)
+  , routes.events.event_JSON);
 app.get('/events/'
   , myUtil.ensureAuthenticated
-  ,routes.events.event_GET)
-
-// Event Feed
-app.get('/events/feed'
-  , myUtil.ensureAuthenticated
-  , routes.events.feed_GET);
-app.get('/events/feed.json'
-  , myUtil.ensureAuthenticated
-  , routes.events.feed_JSON);
+  ,routes.events.event_GET);
 
 //Users
 // ex: http://localhost:3000/users/50bda97a1ef03b743e000002.json
