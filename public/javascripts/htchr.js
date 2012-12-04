@@ -145,14 +145,22 @@ $("#feedPage").live("pageinit", function(e){
     //Grab the feeds server-side and render them.
     $.getJSON('/events/feed.json', function (data) {
         console.log(data);
-      _.each(data, function (hEvent) {
-        // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
-        if(hEvent.isPrivate === false){
-           var eventLi = ich.eventItem({ user_name: hEvent.ownerName, event_name: hEvent.name });
-            $("#feedList").append(eventLi).listview('refresh'); 
-        }
+        _.each(data, function (hEvent) {
+            // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
+            if(hEvent.isPrivate === false){
+                var eventLi = ich.eventItem({
+                    user_name: hEvent.ownerName,
+                    event_name: hEvent.name,
+                    event_url: "http://localhost:3000/events/" + hEvent._id
+                });
+                $("#feedList").append(eventLi).listview('refresh'); 
+            }
 
-      });
-      console.log("Feeds Loaded");
+        });
+        console.log("Feeds Loaded");
     });
+});
+
+$("viewEventPage").live("pageInit", function (e) {
+    console.log('view');
 });

@@ -46,7 +46,7 @@ app.post('/events/new'
 app.get('/events/:id.json'
   , myUtil.ensureAuthenticated
   , routes.events.event_JSON);
-app.get('/events/'
+app.get('/events/:id'
   , myUtil.ensureAuthenticated
   ,routes.events.event_GET);
 
