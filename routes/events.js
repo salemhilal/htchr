@@ -68,8 +68,8 @@ module.exports = {
 	// Get event data
 	event_JSON: function (req, res){
 		var id = req.params.id;
-		Event.findById(id, function(err, user){
-      		res.end(JSON.stringify(user));
+		Event.findById(id, function(err, event){
+      		res.end(JSON.stringify(event));
 		});
 	},
 	// Get event details view

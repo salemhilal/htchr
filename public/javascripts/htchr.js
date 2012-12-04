@@ -161,6 +161,9 @@ $("#feedPage").live("pageinit", function(e){
     });
 });
 
-$("viewEventPage").live("pageInit", function (e) {
-    console.log('view');
+$("#viewEventPage").live("pageinit", function (e) {
+    var eventId = window.location.pathname.split('/').pop();
+    $.getJSON('/events/' + eventId + '.json', function (eventRes) {
+        console.log(eventRes);
+    });
 });
