@@ -30,27 +30,27 @@
 <div id="newEventPage" data-role="page">
 
     <div data-role="header">
-        <h1>Lets do something</h1>
+        <h1>Lets do something.</h1>
     </div><!-- /header -->
 
     <div data-role="content">   
                 <div data-role="fieldcontain">
-                    <label for="eventName">Event Name:</label>
+                    <label for="eventName">Event Name:<br/><br/></label>
                     <input id="eventName" type="text" data-theme="b"/>
                 </div>
                 
                 <div data-role="fieldcontain">
-                    <label for="eventLoc">Location:</label>
+                    <label for="eventLoc">Location:<br/><br/></label>
                     <input id="eventLoc" type="text" data-theme="b"/>
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="eventDate">Date:</label>
+                    <label for="eventDate">Date:<br/><br/></label>
                     <input id="eventDate" type="date" data-theme="b"/>
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="eventTime">Time:</label>
+                    <label for="eventTime">Time:<br/><br/></label>
                     <input id="eventTime" type="time" data-theme="b"/>
                 </div>
 
@@ -89,7 +89,24 @@
         </div>
     </div><!-- /popup -->
 
+    <div id="successPopup" data-role="popup" >
+        <div data-role="header" data-theme="a" class="ui-corner-top ui-header ui-bar-b" role="banner">
+            <h1 class="ui-title" role="heading" aria-level="1">Decent.</h1>
+        </div>
+        <div class="ui-content">
+            <h3>Your event was planned.</h3>
+            <span id="sorry">
+                <a href="#" id="sorry" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-a ui-btn-up-a"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Nice.</span></span></a>
+            </span>
+        </div>
+    </div><!-- /popup -->
+
 </div><!-- /page -->
+
+
+
+<!-- Scripts -->
+
 
 </body>
 </html>

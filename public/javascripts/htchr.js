@@ -26,8 +26,12 @@
             componentRestrictions: {country: 'us'}
         });
 
-        //Initialize the invalid data popup.
+        //Initialize the error/success popups.
         $("#errorPopup").popup({
+            overlayTheme: "a",
+            transition: "pop"
+        });       
+        $("#successPopup").popup({
             overlayTheme: "a",
             transition: "pop"
         });
@@ -117,7 +121,11 @@
                 // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
                 // will take care of this - Matt
                 $.post('http://localhost:3000/events/new', reqData, function (data) {
-                    console.log("data", data);
+                    console.log(data);
+                    $("#successPopup").bind("popupafterclose", function(){
+                        window.location.href = "/events/feed";
+                    });
+                    $("#successPopup").popup("open");
                 });
             }
         });
