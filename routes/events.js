@@ -4,7 +4,11 @@ var models = require('../db/models.js')
 
 module.exports = {
 	new_GET: function (req, res) {
-		res.render('events/new');
+		if(req.user){
+			res.render('events/new');
+		} else {
+			res.redirect('/')
+		}
 	},
 	new_POST: function (req, res) {
 		var body = req.body;
