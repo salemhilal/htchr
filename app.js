@@ -28,6 +28,7 @@ app.get('/auth/facebook/callback',
   routes.auth.callback
 );
 
+// New Event
 app.get('/events/new'
   , myUtil.ensureAuthenticated
   , routes.events.new_GET);
@@ -35,12 +36,21 @@ app.post('/events/new'
   , myUtil.ensureAuthenticated
   , routes.events.new_POST);
 
+// Event Feed
 app.get('/events/feed'
   , myUtil.ensureAuthenticated
   , routes.events.feed_GET);
 app.get('/events/feed.json'
   , myUtil.ensureAuthenticated
   , routes.events.feed_JSON);
+
+// Places 
+/*app.get('/places/new'
+  , myUtil.ensureAuthenticated
+  , routes.places.new_GET);
+app.get('/places/new'
+  , myUtil.ensureAuthenticated
+  , routes.places.new_GET);*/
 
 
 http.createServer(app).listen(app.get('port'), function(){

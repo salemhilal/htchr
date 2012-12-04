@@ -14,7 +14,6 @@ var autocomplete = {};
 var place = {};
 
 $(document).bind("pageinit", function(){
-
     //Initialize autocomplete
     autocomplete = new google.maps.places.Autocomplete(document.getElementById("eventLoc"),{
         componentRestrictions: {country: 'us'}
