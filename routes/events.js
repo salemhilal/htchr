@@ -8,17 +8,20 @@ module.exports = {
 		res.render('events/new');
 	},
 	new_POST: function (req, res) {
+
 		var placeBody = req.body.placeData;
 		var eventBody = req.body.eventData;
 
 		Place.find({name : placeBody.name}, function(err, result) {
 			if (err) {
-				console.log("SHIT WENT WRONG MOFUCKA", err);
+				console.error(err);
 			}
-			else if (result) {
-				console.log("THIS SHITS ALREADY IN HERE");
+
+			if (result.length !== 0) {
+				console.log("Place already in DB");
 			}
 			else {
+				console.log('making place');
 				var uPlace = new Place({
 					name : placeBody.name,
 					address : placeBody.address,
@@ -30,13 +33,13 @@ module.exports = {
 
 				uPlace.save(function (err, retPlace) {
 					if (err) {
-						console.log("place insert error", err);
+						console.error(err);
 					}
 					else {
+						console.log("place saved succesfully!");
 					}
 				});
 			}
-
 
 			var uEvent = new Event({
 				name: eventBody.name,
@@ -54,7 +57,7 @@ module.exports = {
 				else {
 					res.end('true');
 				}
-			});			
+			});
 
 		});
 

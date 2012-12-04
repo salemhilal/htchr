@@ -97,7 +97,26 @@
                 // - Matt
 
                 var dateTime = new Date(date + " " + time + ":00");
-                var reqData = { name: name, description: "", startTime: dateTime, isPrivate: isPrivate === "on" };
+
+                var placeData = {
+                    name : place.name,
+                    address : place.formatted_address,
+                    phoneNumber : place.formatted_phone_number,
+                    lat : lat,
+                    lng : lng
+                };
+
+                var eventData = {
+                    name: name,
+                    description: "",
+                    startTime: dateTime,
+                    isPrivate: isPrivate === "on" 
+                };
+
+                var reqData = { 
+                    placeData : placeData,
+                    eventData : eventData
+                };
 
                 // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
                 // will take care of this - Matt
