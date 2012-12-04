@@ -29,5 +29,11 @@ module.exports = {
 				res.end('true');
 			}
 		});
+	},
+	feed_GET: function (req, res) {
+    Event.find().sort('createdAt').exec(function (err, data) {
+	    if (err) { res.end(); }
+      else { res.end(JSON.stringify(data)); }
+    });
 	}
 }

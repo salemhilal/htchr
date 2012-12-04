@@ -31,6 +31,8 @@ app.get('/auth/facebook/callback',
 app.get('/events/new', routes.events.new_GET);
 app.post('/events/new', routes.events.new_POST);
 
+app.get('/events/feed', routes.events.feed_GET);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
