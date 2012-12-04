@@ -36,11 +36,13 @@ module.exports = {
     //   have a database of user records, the complete Facebook profile is serialized
     //   and deserialized.
     passport.serializeUser(function(user, done) {
-      done(null, user);
+      done(null, user.id);
     });
 
-    passport.deserializeUser(function(obj, done) {
-      done(null, obj);
+    passport.deserializeUser(function(id, done) {
+      User.findById(id, function (err, user) {
+        done(err, user);
+      });
     });
 
 
@@ -54,32 +56,25 @@ module.exports = {
         callbackURL: "http://localhost:3000/auth/facebook/callback"
       },
       function(accessToken, refreshToken, profile, done) {
-        // asynchronous verification, for effect...
-        process.nextTick(function () {
-          User.where('userID', profile.id).findOne().exec(function (err, user) {
-            // do we already have a user matching that id?
-            if (user) {
-              // yes? update their access token
-              user.accessToken = accessToken;
-              user.save();
-            } else {
-              // no? create a new user in our db
-              var user = new User({
-                userID: profile.id,
-                name: profile.displayName,
-                email: profile.email,
-                accessToken: accessToken,
-                fbProfile: profile
-              });
-              user.save();
-            }
-          });
-
-          // To keep the example simple, the user's Facebook profile is returned to
-          // represent the logged-in user.  In a typical application, you would want
-          // to associate the Facebook account with a user record in your database,
-          // and return that user instead.
-          return done(null, profile);
+        User.where('fbID', profile.id).findOne().exec(function (err, user) {
+          // do we already have a user matching that id?
+          if (user) {
+            // yes? update their access token
+            user.accessToken = accessToken;
+            user.save();
+            return done(null, user);
+          } else {
+            // no? create a new user in our db
+            user = new User({
+              fbID: profile.id,
+              name: profile.displayName,
+              email: profile.email,
+              accessToken: accessToken,
+              fbProfile: profile
+            });
+            user.save();
+            return done(null, user);
+          }
         });
       }
     ));

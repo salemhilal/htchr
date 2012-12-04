@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-  userID: {
+  fbID: {
   	type: String
   },
   name: String,
@@ -27,7 +27,7 @@ var eventSchema = new Schema({
   endTime: Date,
   location: Schema.ObjectId, // points to a place in OUR database
   invited: [{
-    userID: String,
+    fbID: String,
     rsvpStatus: String
   }],
   hasDriver: Boolean,
