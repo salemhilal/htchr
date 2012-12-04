@@ -20,8 +20,6 @@ var place = {};
 
 //Load newEventPage's scripts when the page is loaded.
 $("#newEventPage").live("pageinit", function(e){
-    console.log("new event");
-
     //Refresh the ich template engine.
     ich.refresh();
 
@@ -125,7 +123,6 @@ $("#newEventPage").live("pageinit", function(e){
             // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
             // will take care of this - Matt
             $.post('http://localhost:3000/events/new', reqData, function (data) {
-                console.log(data);
                 $("#successPopup").bind("popupafterclose", function(){
                     window.location.href = "/events/feed";
                 });
@@ -137,14 +134,11 @@ $("#newEventPage").live("pageinit", function(e){
 
 $("#feedPage").live("pageinit", function(e){
 
-    console.log("feeds");
-
     //Refresh the ich template engine.
     ich.refresh();
 
     //Grab the feeds server-side and render them.
     $.getJSON('/events/feed.json', function (data) {
-        console.log(data);
         _.each(data, function (hEvent) {
             // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
             if(hEvent.isPrivate === false){
@@ -157,14 +151,14 @@ $("#feedPage").live("pageinit", function(e){
             }
 
         });
-        console.log("Feeds Loaded");
     });
 });
 
 $("#viewEventPage").live("pageinit", function (e) {
+    ich.refresh();
     var eventId = window.location.pathname.split('/').pop();
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-        console.log(eventRes);
+        if (eventRes.length == 1) eventRes = eventRes[0];
         var templated = ich.eventView({
             event: eventRes,
             startTime: new Date(eventRes.startTime)
