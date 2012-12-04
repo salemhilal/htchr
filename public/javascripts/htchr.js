@@ -1,4 +1,8 @@
-
+// TODO: make this less FUCKING SHAMELESSLY HACKY
+var globalUser = {};
+$.getJSON('/users/current.json', function (userRes) {
+    globalUser = userRes;
+});
 
     //Geolocation shim, a la 15-237 lecture.
     var nop = function(){};
