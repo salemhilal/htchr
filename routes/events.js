@@ -32,7 +32,7 @@ module.exports = {
 	},
 	feed_JSON: function (req, res) {
 		// render the feed as a JSON response
-		Event.find().sort('createdAt').exec(function (err, data) {
+		Event.find().sort('-createdAt').exec(function (err, data) {
 	    if (err) { res.end(); }
       else { res.end(JSON.stringify(data)); }
     });
