@@ -28,14 +28,16 @@
 <body> 
 
 <!-- New Event -->
-<div id="newEventPage" data-role="page">
+<div id="newEventPage" data-role="page" id="searchPage">
 
     <div data-role="header">
         <h1>Event Search</h1>
     </div><!-- /header -->
 
     <div data-role="content">   
-        <input type="search" name="search" id="search-basic" value="" />
+        <input id="searchbox" type="search" name="search" id="search-basic" value="" placeholder="Type an event name here." />
+        <a href="#" data-role="button" id="search">Search</a><br/>
+        <ul data-role="listview" id="searchResults"></ul>
     </div><!-- /content -->
 
     <div data-id="footNav" data-role="footer" data-position="fixed">        
@@ -43,13 +45,11 @@
             <ul>
                 <li><a href="/events/feed" data-icon="home"  data-prefetch="true">Feed</a></li>
                 <li><a href="/events/new" data-icon="plus"   data-prefetch="true">Do something</a></li>
-                <!-- <li><a href="/events/new" data-icon="search" data-prefetch="true" class="ui-btn-active ui-state-persist">Search</a></li> -->
             </ul>
         </div><!-- /navbar -->
     </div><!-- /footer -->
 
 </div><!-- /page -->
-
 
 
 <!-- Scripts -->

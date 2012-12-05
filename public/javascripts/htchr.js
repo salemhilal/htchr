@@ -227,6 +227,49 @@ function viewPageInit () {
     });
 }
 
+function searchPageInit () {
+    $("#searchbox").focus();
+
+    $("#search").live("tap", function(){
+        var body = { query: $("#searchbox").val()}
+        console.log("body", body);
+        $.post("/search", body, function(response){
+            data = JSON.parse(response);
+            console.log(data);
+            $("#searchResults").html("");
+            var resultTemplate = '<li><a href="<%= url %>"><%= name %></a></li>'
+            
+            var exact = _.each(data.exact, function(d){
+                var templated = _.template(resultTemplate, {
+                    url : "/events/" + d._id,
+                    name : d.name 
+                });
+                $("#searchResults").append(templated);
+                $("#searchResults").listview("refresh");
+            });            
+            var close = _.each(data.close, function(d){
+                var templated = _.template(resultTemplate, {
+                    url : "/events/" + d._id,
+                    name : d.name 
+                });
+                $("#searchResults").append(templated);
+                $("#searchResults").listview("refresh");
+            });            
+            var far   = _.each(data.far, function(d){
+                var templated = _.template(resultTemplate, {
+                    url : "/events/" + d._id,
+                    name : d.name 
+                });
+                $("#searchResults").append(templated);
+                $("#searchResults").listview("refresh");
+            });
+
+
+        });
+
+    });
+}
+
 $(document).bind("pagechange", function (e) {
     var path = window.location.pathname;
     if (path.indexOf('/events/feed') > -1) {
@@ -234,6 +277,9 @@ $(document).bind("pagechange", function (e) {
     }
     else if (path.indexOf('/events/new') > -1) {
         newEventPageInit();
+    }
+    else if (path.indexOf('/search') > -1) {
+        searchPageInit();
     }
     else if (path.length === 32) {
         viewPageInit();
