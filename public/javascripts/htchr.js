@@ -211,9 +211,9 @@ function viewPageInit () {
     console.log('view init');
 
     var eventTemplate = 
-        '<h1>Title: {{ event.name }}</h1>' +
-        '<h2>Created by: {{ event.ownerName }}</h2>' +
-        '<h2>Begins on {{ startTime }}</h2>'
+        '<h1>Title: <%= event.name %> </h1>' +
+        '<h2>Created by: <%= event.ownerName %> </h2>' +
+        '<h2>Begins on <%= startTime %> </h2>'
     
     var eventId = window.location.pathname.split('/').pop();
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
