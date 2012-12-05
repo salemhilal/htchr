@@ -21,23 +21,21 @@ var place = {};
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
     console.log('new page init');
-    //Refresh the ich template engine.
-    ich.refresh();
 
     //get accessToken and current User's friends
     $.getJSON('/users/current.json', function(profile) {
         var accessToken = profile.accessToken;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + accessToken,
             function(friends) {
+                var template = "<option value=<%= friend_id %>><%= friend_name %> </option>"
                 _.each(friends.data, function(hFriend) {
-                    var friendLi = ich.friendItem({
+                    var templated = _.template(template,{
                             friend_id : hFriend.id,
                             friend_name : hFriend.name
                     });
-                    $("#friendList").append(friendLi);
+                    $("#friendList").append(templated);
                 });
             $("#friendList").trigger("change");
-
         });
     });
 
@@ -175,7 +173,6 @@ function feedPageInit () {
 
 function viewPageInit () {
     console.log('view init');
-    ich.refresh();
     // ich.addTemplate('eventView', '<h1>Title: {{ event.name }}</h1>\
     //     <h2>Created by: {{ event.ownerName }}</h2>\
     //     <h2>Begins on {{ startTime }}</h2>');

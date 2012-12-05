@@ -18,7 +18,7 @@ var placeSchema = new Schema({
   phoneNumber: String,
   location: {
     type: {
-      lgn: Number,
+      lng: Number,
       lat: Number
     },
     index: '2d'
