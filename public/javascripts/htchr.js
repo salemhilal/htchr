@@ -163,7 +163,6 @@ function viewPageInit () {
     //     <h2>Created by: {{ event.ownerName }}</h2>\
     //     <h2>Begins on {{ startTime }}</h2>');
     var eventId = window.location.pathname.split('/').pop();
-    console.log(window.location.pathname);
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
         if (ich.eventView) {
             // if eventView isnt a property, the item has already been rendered

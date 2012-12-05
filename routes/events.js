@@ -15,12 +15,35 @@ module.exports = {
 		var eventBody = req.body.eventData;
 
 		Place.find({name : placeBody.name}, function(err, result) {
+			var makeEvent = function (placeID) {
+				// a function to make and save an event given a place ID
+				var uEvent = new Event({
+					name: eventBody.name,
+					description: eventBody.description,
+					startTime: eventBody.startTime,
+					owner: req.user.id,
+					ownerName: req.user.name,
+					isPrivate: eventBody.isPrivate == "true",
+					placeID: placeID
+				});
+				uEvent.save(function (err, retEvent) {
+					if (err) {
+						console.error(err);
+						res.end('false');
+					}
+					else {
+						res.end('true');
+					}
+				});
+			}
+
 			if (err) {
 				console.error(err);
 			}
 
 			if (result.length !== 0) {
 				console.log("Place already in DB");
+				makeEvent(result[0]._id);
 			}
 			else {
 				console.log('making place');
@@ -40,30 +63,10 @@ module.exports = {
 					}
 					else {
 						console.log("place saved succesfully!");
+						makeEvent(retPlace._id);
 					}
 				});
 			}
-
-			var uEvent = new Event({
-				name: eventBody.name,
-				description: eventBody.description,
-				startTime: eventBody.startTime,
-				owner: req.user.id,
-				ownerName: req.user.name,
-				// get location shit working
-				isPrivate: eventBody.isPrivate == "true"
-			});
-			
-			uEvent.save(function (err, retEvent) {
-				if (err) {
-					console.error(err);
-					res.end('false');
-				}
-				else {
-					res.end('true');
-				}
-			});
-
 		});
 	},
 	// Get event data
