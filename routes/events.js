@@ -30,7 +30,8 @@ module.exports = {
 					phoneNumber : placeBody.phoneNumber,
 					location : {lat : placeBody.lat,
 								lng : placeBody.lng},
-					numEvents : 0
+					numEvents : 0,
+					googleData: placeBody.googleData
 				});
 
 				uPlace.save(function (err, retPlace) {

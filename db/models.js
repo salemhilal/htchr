@@ -17,7 +17,8 @@ var placeSchema = new Schema({
   address: String,
   phoneNumber: String,
   location: { lat: Number, lng: Number },
-  numEvents : Number
+  numEvents : Number,
+  googleData: Schema.Types.Mixed
 });
 
 var eventSchema = new Schema({

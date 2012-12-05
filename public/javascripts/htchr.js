@@ -106,7 +106,8 @@ function newEventPageInit () {
                 address : place.formatted_address,
                 phoneNumber : place.formatted_phone_number,
                 lat : lat,
-                lng : lng
+                lng : lng,
+                googleData: JSON.stringify(place)
             };
 
             var eventData = {
