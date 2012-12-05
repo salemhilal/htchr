@@ -24,6 +24,23 @@ function newEventPageInit () {
     //Refresh the ich template engine.
     ich.refresh();
 
+    //get accessToken and current User's friends
+    $.getJSON('/users/current.json', function(profile) {
+        var accessToken = profile.accessToken;
+        $.getJSON('https://graph.facebook.com/me/friends?access_token=' + accessToken,
+            function(friends) {
+                _.each(friends.data, function(hFriend) {
+                    var friendLi = ich.friendItem({
+                            friend_id : hFriend.id,
+                            friend_name : hFriend.name
+                    });
+                    $("#friendList").append(friendLi);
+                });
+            $("#friendList").trigger("change");
+
+        });
+    });
+
     //Initialize autocomplete
     autocomplete = new google.maps.places.Autocomplete(document.getElementById("eventLoc"),{
         componentRestrictions: {country: 'us'}
