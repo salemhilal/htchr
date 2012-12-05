@@ -39,8 +39,10 @@ app.get('/events/feed.json'
 //Search
 app.get('/search'
   , myUtil.ensureAuthenticated
-  , routes.search.view)
-
+  , routes.search.view);
+app.post('/search'
+  , myUtil.ensureAuthenticated
+  , routes.search.query_JSON);
 
 // Events
 app.get('/events/new'
