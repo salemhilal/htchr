@@ -21,8 +21,10 @@ var place = {};
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
     console.log('new page init');
-    //Refresh the ich template engine.
-    ich.refresh();
+
+    var friendTemplate = '<option value=<%= friend_id %>><%= friend_name %> </option>';
+
+
 
     //get accessToken and current User's friends
     $.getJSON('/users/current.json', function(profile) {
@@ -30,11 +32,12 @@ function newEventPageInit () {
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + accessToken,
             function(friends) {
                 _.each(friends.data, function(hFriend) {
-                    var friendLi = ich.friendItem({
-                            friend_id : hFriend.id,
-                            friend_name : hFriend.name
+                    var templated = _.template(friendTemplate, {
+                        friend_id : hFriend.id,
+                        friend_name : hFriend.name
                     });
-                    $("#friendList").append(friendLi);
+                          
+                    $("#friendList").append(templated);
                 });
             $("#friendList").trigger("change");
 
@@ -171,10 +174,18 @@ function newEventPageInit () {
 
 function feedPageInit () {
     console.log('feed init');
-    //Refresh the ich template engine.
-    ich.refresh();
-    ich.addTemplate('shitballs', '');
-    var liTemplate = '<li><a href="<%= event_url %>"><h3><%= user_name %> <small>created the event</small> <%= event_name %></h3></a></li>'
+
+    //Creat an li template.
+    var liTemplate = 
+        '<li>' + 
+            '<a href="<%= event_url %>">' +
+                '<h3><%= user_name %> ' +
+                    '<small>created the event</small> '+ 
+                    '<%= event_name %>' +
+                '</h3>' +
+            '</a>' +
+        '</li>'
+    
     //Grab the feeds server-side and render them.
     $.getJSON('/events/feed.json', function (data) {
         $("#feedList").html("");
@@ -188,6 +199,7 @@ function feedPageInit () {
                 event_name: hEvent.name,
                 event_url: "/events/" + hEvent._id
             });
+
             $("#feedList").append(eventLi).listview('refresh'); 
             console.log("appended");
             
@@ -197,20 +209,21 @@ function feedPageInit () {
 
 function viewPageInit () {
     console.log('view init');
-    ich.refresh();
-    // ich.addTemplate('eventView', '<h1>Title: {{ event.name }}</h1>\
-    //     <h2>Created by: {{ event.ownerName }}</h2>\
-    //     <h2>Begins on {{ startTime }}</h2>');
+
+    var eventTemplate = 
+        '<h1>Title: {{ event.name }}</h1>' +
+        '<h2>Created by: {{ event.ownerName }}</h2>' +
+        '<h2>Begins on {{ startTime }}</h2>'
+    
     var eventId = window.location.pathname.split('/').pop();
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-        if (ich.eventView) {
-            // if eventView isnt a property, the item has already been rendered
-            var templated = ich.eventView({
-                event: eventRes,
-                startTime: new Date(eventRes.startTime)
-            });
-            $("#viewContent").append(templated);
-        }
+        var templated = _.template(eventTemplate, {
+            event: eventRes,
+            startTime: new Date(eventRes.startTime)
+        });
+       
+        $("#viewContent").append(templated);
+        
     });
 }
 
