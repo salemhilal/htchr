@@ -39,7 +39,7 @@ app.get('/events/feed.json'
 //Search
 app.get('/search'
   , myUtil.ensureAuthenticated
-  , routes.search.post)
+  , routes.search.view)
 
 
 // Events
