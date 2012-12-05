@@ -56,6 +56,12 @@ function newEventPageInit () {
         transition: "pop"
     });
 
+    //Populate some dummy data.
+    var t = new Date(); 
+        t.setHours(t.getHours() + 1); 
+        t.setMinutes(0); 
+        $("#eventTime").val(t.toTimeString().substr(0,5));
+
     //Request current data to bias the autocomplete's search queries.
     navigator.geolocation.getCurrentPosition(function(position) {
         var lat = position.coords.latitude;
@@ -74,6 +80,18 @@ function newEventPageInit () {
     //Watch for resolved autocomplete locations
     google.maps.event.addListener(autocomplete, 'place_changed', function(){
         place = autocomplete.getPlace();
+    });
+
+    //Wipe the location field if an invalid location appears.
+    $("#eventLoc").live("blur", function(){
+        console.log("blur");
+        if(place.geometry === undefined){
+            console.log("blur2");
+            //For some reason, JQM won't wipe the text field
+            //inside this function call. So, we push our wipe
+            //request to the top of the stack and cross our fingers.
+            setTimeout(function () {$("#eventLoc").val("")}, 0);
+        }
     });
 
     //Bind a verifier to the submit button.
@@ -155,20 +173,24 @@ function feedPageInit () {
     console.log('feed init');
     //Refresh the ich template engine.
     ich.refresh();
-
+    ich.addTemplate('shitballs', '');
+    var liTemplate = '<li><a href="<%= event_url %>"><h3><%= user_name %> <small>created the event</small> <%= event_name %></h3></a></li>'
     //Grab the feeds server-side and render them.
     $.getJSON('/events/feed.json', function (data) {
-        _.each(data, function (hEvent) {
-            // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
-            if (ich.eventItem){
-                var eventLi = ich.eventItem({
-                    user_name: hEvent.ownerName,
-                    event_name: hEvent.name,
-                    event_url: "http://localhost:3000/events/" + hEvent._id
-                });
-                $("#feedList").append(eventLi).listview('refresh'); 
-            }
+        $("#feedList").html("");
+        console.log("wiped");
+        // console.log(data);
+        console.log(data);
+        _.each(data.data, function (hEvent) {
 
+            var eventLi = _.template(liTemplate, {
+                user_name: hEvent.ownerName,
+                event_name: hEvent.name,
+                event_url: "/events/" + hEvent._id
+            });
+            $("#feedList").append(eventLi).listview('refresh'); 
+            console.log("appended");
+            
         });
     });
 }
