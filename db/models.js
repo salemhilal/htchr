@@ -28,7 +28,7 @@ var placeSchema = new Schema({
 });
 
 var eventSchema = new Schema({
-  eventID: String, // facebook place ID
+  eventID: String, // facebook event ID
   owner: Schema.ObjectId, // points to a user in OUR database
   ownerName: String,
   name: String,
