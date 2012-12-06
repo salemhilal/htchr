@@ -51,8 +51,10 @@ module.exports = {
 					name : placeBody.name,
 					address : placeBody.address,
 					phoneNumber : placeBody.phoneNumber,
-					location : {lat : placeBody.lat,
-								lng : placeBody.lng},
+					location : {
+						lng : parseFloat(placeBody.lng),
+						lat : parseFloat(placeBody.lng)
+					},
 					numEvents : 0,
 					googleData: placeBody.googleData
 				});
