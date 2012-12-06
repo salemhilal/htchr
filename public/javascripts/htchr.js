@@ -231,7 +231,6 @@ function searchPageInit () {
         var body = { query: $("#searchbox").val() };
         $.post("/search", body, function(response) {
             data = JSON.parse(response);
-            console.log(data);
             $("#searchResults").html("");
             var resultTemplate = '<li><a href="<%= url %>"><%= name %></a></li>'
 

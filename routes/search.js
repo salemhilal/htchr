@@ -12,7 +12,7 @@ module.exports = {
     var query = req.body.query;
     //Check if empty query. We don't want those.
     if(!query || !query.replace(/ /g, "")){
-      res.json({ error: "empty query string" });
+      res.end(JSON.stringify({ error: "empty query string" }));
     } else {
       var result  = {};
       var close   = new RegExp("\\b" + query, "gi");
