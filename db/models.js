@@ -16,7 +16,13 @@ var placeSchema = new Schema({
   name: String,
   address: String,
   phoneNumber: String,
-  location: { lat: Number, lng: Number },
+  location: {
+    type: {
+      lgn: Number,
+      lat: Number
+    },
+    index: '2d'
+  },
   numEvents : Number,
   googleData: Schema.Types.Mixed
 });
