@@ -8,7 +8,7 @@ var userSchema = new Schema({
   },
   name: String,
   email : String,
-  accessToken: String,
+  access_token: String,
   fbProfile: Schema.Types.Mixed
 });
 

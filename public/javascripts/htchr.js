@@ -22,10 +22,10 @@ var place = {};
 function newEventPageInit () {
     console.log('new page init');
 
-    //get accessToken and current User's friends
+    //get access_token and current User's friends
     $.getJSON('/users/current.json', function(profile) {
-        var accessToken = profile.accessToken;
-        $.getJSON('https://graph.facebook.com/me/friends?access_token=' + accessToken,
+        var access_token = profile.access_token;
+        $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
             function(friends) {
                 var template = "<option value=<%= friend_id %>><%= friend_name %> </option>";
                 _.each(friends.data, function(hFriend) {

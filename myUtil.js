@@ -48,19 +48,19 @@ module.exports = {
 
     // Use the FacebookStrategy within Passport.
     //   Strategies in Passport require a `verify` function, which accept
-    //   credentials (in this case, an accessToken, refreshToken, and Facebook
+    //   credentials (in this case, an access_token, refreshToken, and Facebook
     //   profile), and invoke a callback with a user object.
     passport.use(new FacebookStrategy({
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
         callbackURL: "http://localhost:3000/auth/facebook/callback"
       },
-      function(accessToken, refreshToken, profile, done) {
+      function(access_token, refreshToken, profile, done) {
         User.where('fbID', profile.id).findOne().exec(function (err, user) {
           // do we already have a user matching that id?
           if (user) {
             // yes? update their access token
-            user.accessToken = accessToken;
+            user.access_token = access_token;
             user.save();
             return done(null, user);
           } else {
@@ -69,7 +69,7 @@ module.exports = {
               fbID: profile.id,
               name: profile.displayName,
               email: profile.email,
-              accessToken: accessToken,
+              access_token: access_token,
               fbProfile: profile
             });
             user.save();
