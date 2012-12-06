@@ -27,15 +27,17 @@ function newEventPageInit () {
         var accessToken = profile.accessToken;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + accessToken,
             function(friends) {
-                var template = "<option value=<%= friend_id %>><%= friend_name %> </option>"
+                var template = "<option value=<%= friend_id %>><%= friend_name %> </option>";
                 _.each(friends.data, function(hFriend) {
-                    var templated = _.template(template,{
-                            friend_id : hFriend.id,
-                            friend_name : hFriend.name
+                    var templated = _.template(friendTemplate, {
+                        friend_id : hFriend.id,
+                        friend_name : hFriend.name
                     });
+                          
                     $("#friendList").append(templated);
                 });
             $("#friendList").trigger("change");
+
         });
     });
 
@@ -53,6 +55,12 @@ function newEventPageInit () {
         overlayTheme: "a",
         transition: "pop"
     });
+
+    //Populate some dummy data.
+    var t = new Date(); 
+        t.setHours(t.getHours() + 1); 
+        t.setMinutes(0); 
+        $("#eventTime").val(t.toTimeString().substr(0,5));
 
     //Request current data to bias the autocomplete's search queries.
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -72,6 +80,18 @@ function newEventPageInit () {
     //Watch for resolved autocomplete locations
     google.maps.event.addListener(autocomplete, 'place_changed', function(){
         place = autocomplete.getPlace();
+    });
+
+    //Wipe the location field if an invalid location appears.
+    $("#eventLoc").live("blur", function(){
+        console.log("blur");
+        if(place.geometry === undefined){
+            console.log("blur2");
+            //For some reason, JQM won't wipe the text field
+            //inside this function call. So, we push our wipe
+            //request to the top of the stack and cross our fingers.
+            setTimeout(function () {$("#eventLoc").val("")}, 0);
+        }
     });
 
     //Bind a verifier to the submit button.
@@ -151,41 +171,99 @@ function newEventPageInit () {
 
 function feedPageInit () {
     console.log('feed init');
-    //Refresh the ich template engine.
-    ich.refresh();
 
+    //Creat an li template.
+    var liTemplate = 
+        '<li>' + 
+            '<a href="<%= event_url %>">' +
+                '<h3><%= user_name %> ' +
+                    '<small>created the event</small> '+ 
+                    '<%= event_name %>' +
+                '</h3>' +
+            '</a>' +
+        '</li>'
+    
     //Grab the feeds server-side and render them.
     $.getJSON('/events/feed.json', function (data) {
-        _.each(data, function (hEvent) {
-            // used `hEvent` instead of `event` because `event` is a javascript reserved keyword
-            if (ich.eventItem){
-                var eventLi = ich.eventItem({
-                    user_name: hEvent.ownerName,
-                    event_name: hEvent.name,
-                    event_url: "http://localhost:3000/events/" + hEvent._id
-                });
-                $("#feedList").append(eventLi).listview('refresh'); 
-            }
+        $("#feedList").html("");
+        console.log("wiped");
+        // console.log(data);
+        console.log(data);
+        _.each(data.data, function (hEvent) {
 
+            var eventLi = _.template(liTemplate, {
+                user_name: hEvent.ownerName,
+                event_name: hEvent.name,
+                event_url: "/events/" + hEvent._id
+            });
+
+            $("#feedList").append(eventLi).listview('refresh'); 
+            console.log("appended");
+            
         });
     });
 }
 
 function viewPageInit () {
     console.log('view init');
-    // ich.addTemplate('eventView', '<h1>Title: {{ event.name }}</h1>\
-    //     <h2>Created by: {{ event.ownerName }}</h2>\
-    //     <h2>Begins on {{ startTime }}</h2>');
+
+    var eventTemplate = 
+        '<h1>Title: <%= event.name %> </h1>' +
+        '<h2>Created by: <%= event.ownerName %> </h2>' +
+        '<h2>Begins on <%= startTime %> </h2>'
+    
     var eventId = window.location.pathname.split('/').pop();
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-        if (ich.eventView) {
-            // if eventView isnt a property, the item has already been rendered
-            var templated = ich.eventView({
-                event: eventRes,
-                startTime: new Date(eventRes.startTime)
+        var templated = _.template(eventTemplate, {
+            event: eventRes,
+            startTime: new Date(eventRes.startTime)
+        });
+       
+        $("#viewContent").append(templated);
+        
+    });
+}
+
+function searchPageInit () {
+    $("#searchbox").focus();
+
+    $("#search").live("tap", function(){
+        var body = { query: $("#searchbox").val()}
+        console.log("body", body);
+        $.post("/search", body, function(response){
+            data = JSON.parse(response);
+            console.log(data);
+            $("#searchResults").html("");
+            var resultTemplate = '<li><a href="<%= url %>"><%= name %></a></li>'
+            
+            var exact = _.each(data.exact, function(d){
+                var templated = _.template(resultTemplate, {
+                    url : "/events/" + d._id,
+                    name : d.name 
+                });
+                $("#searchResults").append(templated);
+                $("#searchResults").listview("refresh");
+            });            
+            var close = _.each(data.close, function(d){
+                var templated = _.template(resultTemplate, {
+                    url : "/events/" + d._id,
+                    name : d.name 
+                });
+                $("#searchResults").append(templated);
+                $("#searchResults").listview("refresh");
+            });            
+            var far   = _.each(data.far, function(d){
+                var templated = _.template(resultTemplate, {
+                    url : "/events/" + d._id,
+                    name : d.name 
+                });
+                $("#searchResults").append(templated);
+                $("#searchResults").listview("refresh");
             });
-            $("#viewContent").append(templated);
-        }
+
+
+        });
+
     });
 }
 
@@ -196,6 +274,9 @@ $(document).bind("pagechange", function (e) {
     }
     else if (path.indexOf('/events/new') > -1) {
         newEventPageInit();
+    }
+    else if (path.indexOf('/search') > -1) {
+        searchPageInit();
     }
     else if (path.length === 32) {
         viewPageInit();

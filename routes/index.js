@@ -3,5 +3,6 @@ module.exports = {
   main: require('./main.js'),
   auth: require('./auth.js'),
   events: require('./events.js'),
-  users: require('./users.js')
+  users: require('./users.js'),
+  search: require('./search.js')
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-    <title>My Page</title> 
+    <title>Search</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
@@ -28,28 +28,28 @@
 <body> 
 
 <!-- New Event -->
-<div id="newEventPage" data-role="page">
+<div id="newEventPage" data-role="page" id="searchPage">
 
     <div data-role="header">
-        <h1>User Info.</h1>
+        <h1>Event Search</h1>
     </div><!-- /header -->
 
     <div data-role="content">   
-
-            
+        <input id="searchbox" type="search" name="search" id="search-basic" value="" placeholder="Type an event name here." />
+        <a href="#" data-role="button" id="search">Search</a><br/>
+        <ul data-role="listview" id="searchResults"></ul>
     </div><!-- /content -->
 
     <div data-id="footNav" data-role="footer" data-position="fixed">        
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li><a href="/events/feed" data-icon="home"  data-prefetch="true">Feed</a></li>
-                <li><a href="/events/new" data-icon="Plus" class="ui-btn-active ui-state-persist"  data-prefetch="true">New Event</a></li>
+                <li><a href="/events/new" data-icon="plus"   data-prefetch="true">Do something</a></li>
             </ul>
         </div><!-- /navbar -->
     </div><!-- /footer -->
 
 </div><!-- /page -->
-
 
 
 <!-- Scripts -->

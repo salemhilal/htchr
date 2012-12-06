@@ -4,12 +4,12 @@
     <title>My Page</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/stylesheets/jquery.mobile-1.2.0.min.css" />
     <link rel="stylesheet" href="/stylesheets/htchr.css" />
     <script src="/javascripts/jquery-1.8.2.min.js"></script>
     <script src="/javascripts/jquery.mobile-1.2.0.min.js"></script>
     <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
-    <script type="text/javascript" src="/javascripts/icanhaz.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
     <script type="text/javascript" src="/javascripts/htchr.js"></script>
 
@@ -21,6 +21,14 @@
         }
         #sorry{
             width: 100%
+        }
+
+         /*Overwrite the google autocomplete styling.*/
+        .pac-container:after{
+            content: "" !important;
+        }
+        .pac-item{
+            font-family: Helvetica, Arial, sans-serif !important;
         }
     </style>
 </head> 
@@ -52,7 +60,7 @@
                 <div data-role="fieldcontain">
                     <label for="eventTime">Time:<br/><br/></label>
                     <input id="eventTime" type="time" data-theme="b"/>
-                </div>
+                </div>  
 
                 <div data-role="fieldcontain">
                     <label for="friendList" class="select">Friends to Invite:<br/></label>
