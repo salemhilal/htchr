@@ -228,14 +228,13 @@ function searchPageInit () {
     $("#searchbox").focus();
 
     $("#search").live("tap", function(){
-        var body = { query: $("#searchbox").val()}
-        console.log("body", body);
-        $.post("/search", body, function(response){
+        var body = { query: $("#searchbox").val() };
+        $.post("/search", body, function(response) {
             data = JSON.parse(response);
             console.log(data);
             $("#searchResults").html("");
             var resultTemplate = '<li><a href="<%= url %>"><%= name %></a></li>'
-            
+
             var exact = _.each(data.exact, function(d){
                 var templated = _.template(resultTemplate, {
                     url : "/events/" + d._id,

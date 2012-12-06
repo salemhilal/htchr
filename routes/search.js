@@ -12,7 +12,7 @@ module.exports = {
     var query = req.body.query;
     //Check if empty query. We don't want those.
     if(!query || !query.replace(/ /g, "")){
-      res.end("{'error':'Empty query string'}");
+      res.json({ error: "empty query string" });
     } else {
       var result  = {};
       var close   = new RegExp("\\b" + query, "gi");
@@ -22,10 +22,10 @@ module.exports = {
       Event.find({name: query}, function(err1, exact){
         result.exact = exact;
 
-        Event.find({name: close}, function(err2, close){
+        Event.find({name: close}).nin(exact).exec(function(err2, close){
           result.close = close;
 
-          Event.find({name: far}, function(err3, far){
+          Event.find({name: far}).nin(exact).nin(close).exec(function(err3, far){
             result.far = far;
             res.end(JSON.stringify(result));
           });
