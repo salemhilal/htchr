@@ -10,6 +10,7 @@
     "ejs": "*",
     "passport": "0.1.15",
     "passport-facebook": "0.1.4",
-    "mongoose": "3.4.0"
+    "mongoose": "3.4.0",
+    "fbgraph": "~0.2.6"
   }
 }
