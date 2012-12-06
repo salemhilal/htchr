@@ -20,7 +20,7 @@ app.get('/login', routes.main.login);
 app.get('/logout', routes.main.logout);
 
 app.get('/auth/facebook',
-  passport.authenticate('facebook'),
+  passport.authenticate('facebook', { scope: ['create_event'] }),
   routes.dummmy // request gets redirected to facebook
 );
 app.get('/auth/facebook/callback', 
