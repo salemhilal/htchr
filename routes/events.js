@@ -5,23 +5,26 @@ var models = require('../db/models.js')
 	, graph = require('fbgraph');
 
 module.exports = {
-	// Get the event creation view
+	// Render the page to create an event
 	new_GET: function (req, res) {
 		res.render('events/new');
 	},
 	// Create new event
 	new_POST: function (req, res) {
-
 		// Configure the graph API module
 		graph.setAccessToken(req.user.access_token);
 
+		// Two main piece of info we get in the POST data
 		var placeBody = req.body.placeData;
 		var eventBody = req.body.eventData;
 
-		Place.find({name : placeBody.name}, function(err, result) {
+		// Check to see if the place the user entered has been used before
+		Place.find({name : placeBody.name}, function(err, places) {
+
+			// a function to make and save an event given a place ID
 			var makeEvent = function (placeID) {
-				// a function to make and save an event given a place ID
-				var uEvent = new Event({
+				// event we're going to store in our database
+				var hEvent = new Event({
 					name: eventBody.name,
 					description: eventBody.description,
 					startTime: eventBody.startTime,
@@ -30,42 +33,54 @@ module.exports = {
 					isPrivate: eventBody.isPrivate == "true",
 					placeID: placeID
 				});
-				uEvent.save(function (err, retEvent) {
+
+				// save event in our database
+				hEvent.save(function (err) {
 					if (err) {
 						console.error(err);
 						res.end('false');
 					}
 					else {
+						// event saved, prepare POST data to send to Facebook
 						var fbData = {
-							name: retEvent.name,
-							start_time: retEvent.startTime.toISOString(),
-							privacy_type: retEvent.isPrivate ? "SECRET" : "OPEN"
+							name: hEvent.name,
+							// start_time needs to meet facebook's spec
+							start_time: hEvent.startTime.toISOString(),
+							privacy_type: hEvent.isPrivate ? "SECRET" : "OPEN"
 						}
+
 						graph.post(req.user.fbID + '/events', fbData, function (err, fbRes) {
-							if (err) { console.error(err); res.end(JSON.stringify({ error: "bad fb request" })); }
-							else {
-								console.log(fbRes);
+							if (err) {
+								console.error(err);
+								res.end(JSON.stringify({
+									error: "bad fb request"
+								}));
+							} else {
+								// did we get an event ID back from facebook?
 								if (fbRes.id) {
-									retEvent.eventID = fbRes.id;
-									retEvent.save(function (err, finalEvent) { res.end(JSON.stringify(fbRes)); });
+									// update event document in OUR database with FB's reference ID for the event
+									hEvent.eventID = fbRes.id;
+									hEvent.save();
+
+									res.end(JSON.stringify(fbRes));
 								}
 							}
 						});
 					}
 				});
-			}
+			} // end makeEvent function
 
 			if (err) {
 				console.error(err);
 			}
 
-			if (result.length !== 0) {
-				console.log("Place already in DB");
-				makeEvent(result[0]._id);
+			// Is there already a place corresponding to our event?
+			if (places.length !== 0) {
+				makeEvent(places[0]._id);
 			}
 			else {
-				console.log('making place');
-				var uPlace = new Place({
+				// No corresponding place, make a new one in our DB
+				var hPlace = new Place({
 					name : placeBody.name,
 					address : placeBody.address,
 					phoneNumber : placeBody.phoneNumber,
@@ -74,16 +89,18 @@ module.exports = {
 						lat : parseFloat(placeBody.lng)
 					},
 					numEvents : 0,
+					// save all the data google sends us for the fuck of it
 					googleData: placeBody.googleData
 				});
 
-				uPlace.save(function (err, retPlace) {
+				// save the new place in our database
+				hPlace.save(function (err) {
 					if (err) {
 						console.error(err);
 					}
 					else {
-						console.log("place saved succesfully!");
-						makeEvent(retPlace._id);
+						// finally create the event based on the place id
+						makeEvent(hPlace._id);
 					}
 				});
 			}
@@ -93,7 +110,11 @@ module.exports = {
 	event_JSON: function (req, res){
 		var id = req.params.id;
 		Event.findById(id, function(err, event){
-      		res.end(JSON.stringify(event));
+			if (err) {
+				console.error(err);
+				res.end(JSON.stringify({ error: "event lookup failed" }));
+			}
+			res.end(JSON.stringify(event));
 		});
 	},
 	// Get event details view
@@ -109,8 +130,16 @@ module.exports = {
 	feed_JSON: function (req, res) {
 		// render the feed as a JSON response
 		Event.find().sort('-createdAt').limit(20).exec(function (err, data) {
-		    if (err) { res.end(); }
-	      else { res.end(JSON.stringify({data: data, time: new Date()})); }
-	    });
+	    if (err) {
+	    	console.error(err);
+	    	res.end(JSON.stringify({ error: "event lookup failed" }));
+	    }
+	    else {
+      	res.end(JSON.stringify({
+      		data: data,
+      		time: new Date()
+      	}));
+      }
+    });
 	}
 }
