@@ -1,7 +1,8 @@
 var models = require('../db/models.js')
 	, User = models.User
 	, Event = models.Event
-	, Place = models.Place;
+	, Place = models.Place
+	, graph = require('fbgraph');
 
 module.exports = {
 	// Get the event creation view
@@ -10,6 +11,9 @@ module.exports = {
 	},
 	// Create new event
 	new_POST: function (req, res) {
+
+		// Configure the graph API module
+		graph.setAccessToken(req.user.access_token);
 
 		var placeBody = req.body.placeData;
 		var eventBody = req.body.eventData;
@@ -32,7 +36,21 @@ module.exports = {
 						res.end('false');
 					}
 					else {
-						res.end('true');
+						var fbData = {
+							name: retEvent.name,
+							start_time: retEvent.startTime.toISOString(),
+							privacy_type: retEvent.isPrivate ? "SECRET" : "OPEN"
+						}
+						graph.post(req.user.fbID + '/events', fbData, function (err, fbRes) {
+							if (err) { console.error(err); res.end(JSON.stringify({ error: "bad fb request" })); }
+							else {
+								console.log(fbRes);
+								if (fbRes.id) {
+									retEvent.eventID = fbRes.id;
+									retEvent.save(function (err, finalEvent) { res.end(JSON.stringify(fbRes)); });
+								}
+							}
+						});
 					}
 				});
 			}
