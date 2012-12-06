@@ -9,12 +9,12 @@ module.exports = {
   },
 
   query_JSON: function (req, res) {
-    var query = req.body.query
+    var query = req.body.query;
     //Check if empty query. We don't want those.
     if(!query || !query.replace(/ /g, "")){
       res.end("{'error':'Empty query string'}");
     } else {
-      var result  = {}
+      var result  = {};
       var close   = new RegExp("\\b" + query, "gi");
       var far     = new RegExp(query, "gi");
 
