@@ -9,6 +9,10 @@ var userSchema = new Schema({
   name: String,
   email : String,
   access_token: String,
+  friends: [{
+    name: String,
+    id: Number
+  }], 
   fbProfile: Schema.Types.Mixed
 });
 

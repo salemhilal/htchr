@@ -2,7 +2,8 @@ var FacebookStrategy = require('passport-facebook').Strategy
   , FACEBOOK_APP_ID = "226224270843611"
   , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
   , path = require('path')
-  , User = require('./db/models.js').User;
+  , User = require('./db/models.js').User
+  , graph = require('fbgraph');
 
 module.exports = {
   configureApp: function (app, express, passport) {
@@ -56,6 +57,7 @@ module.exports = {
         callbackURL: "http://localhost:3000/auth/facebook/callback"
       },
       function(access_token, refreshToken, profile, done) {
+        console.log(profile);
         User.where('fbID', profile.id).findOne().exec(function (err, user) {
           // do we already have a user matching that id?
           if (user) {
@@ -65,15 +67,23 @@ module.exports = {
             return done(null, user);
           } else {
             // no? create a new user in our db
-            user = new User({
-              fbID: profile.id,
-              name: profile.displayName,
-              email: profile.email,
-              access_token: access_token,
-              fbProfile: profile
-            });
-            user.save();
-            return done(null, user);
+            graph
+              .setAccessToken(access_token)
+              .get("/" + profile.id + "/friends", function(err, res){
+                console.log("This is the response from /friends:");
+                console.log(err);
+                console.log(res);
+                user = new User({
+                  fbID: profile.id,
+                  name: profile.displayName,
+                  email: profile.email,
+                  access_token: access_token,
+                  fbProfile: profile,
+                  friends: res.data
+                });
+                user.save();
+                done(null, user);
+              });
           }
         });
       }
