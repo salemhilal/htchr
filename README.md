@@ -1,5 +1,10 @@
 #htchr
 ============================
+###Group Members:
+Dima Ivanyuk (divanyuk)
+Matt Schallert (mschalle)
+Salem Hilal (shilal)
+
 ###Installation 
 Do this from an admin-level prompt if on windows.
 
