@@ -1,9 +1,9 @@
 #htchr
 =======================
 ###Group Members:
-Dima Ivanyuk (divanyuk)
-Matt Schallert (mschalle)
-Salem Hilal (shilal)
+Dima Ivanyuk (divanyuk)   
+Matt Schallert (mschalle)    
+Salem Hilal (shilal)   
 
 =======================
 ###Required Features:
@@ -20,4 +20,11 @@ Salem Hilal (shilal)
 
 ======================
 ###General Description of Features
-TODO
+1. Event Feed - Provide a chronological overview of events as they are created/happening
+2. View Event - Separate page for each event; has image associated with the place (Twilio) and event information
+3. Create/Search - Attempt to find a similar event within the user's friendbase with the alternative to create an event
+4. Facebook-Integrated - Login solely with Facebook; create corresponding events on Facebook
+5. Autocomplete -
+    (a) Autocompletes places using Google Places API when creating events
+    (b) Autocomplete friends names when inviting users to events
+6. Drivers - Keeps track of whether or not driver(s) needed and if there is one
