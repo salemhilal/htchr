@@ -27,7 +27,7 @@ function newEventPageInit () {
         var access_token = profile.access_token;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
             function(friends) {
-                var template = "<option value=<%= friend_id %>><%= friend_name %> </option>";
+                var friendTemplate = "<option value=<%= friend_id %>><%= friend_name %> </option>";
                 _.each(friends.data, function(hFriend) {
                     var templated = _.template(friendTemplate, {
                         friend_id : hFriend.id,
@@ -83,7 +83,8 @@ function newEventPageInit () {
     });
 
     //Wipe the location field if an invalid location appears.
-    $("#eventLoc").live("blur", function(){
+    $("#event.loc").off("blur");
+    $("#eventLoc").on("blur", function(){
         console.log("blur");
         if(place.geometry === undefined){
             console.log("blur2");
@@ -95,7 +96,8 @@ function newEventPageInit () {
     });
 
     //Bind a verifier to the submit button.
-    $("#submitEvent").live("tap", function(){
+    $("#submitEvent").off("tap");
+    $("#submitEvent").on("tap", function(){
         var problems = []
 
         //Verify everything's alright. 
@@ -160,7 +162,8 @@ function newEventPageInit () {
             // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
             // will take care of this - Matt
             $.post('http://localhost:3000/events/new', reqData, function (data) {
-                $("#successPopup").bind("popupafterclose", function(){
+                $("#successPopup").off("popupafterclose")
+                $("#successPopup").on("popupafterclose", function(){
                     window.location.href = "/events/feed";
                 });
                 $("#successPopup").popup("open");
@@ -227,7 +230,8 @@ function viewPageInit () {
 function searchPageInit () {
     $("#searchbox").focus();
 
-    $("#search").live("tap", function(){
+    $("#search").off("tap");
+    $("#search").on("tap", function(){
         var body = { query: $("#searchbox").val() };
         $.post("/search", body, function(response) {
             data = JSON.parse(response);

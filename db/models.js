@@ -9,6 +9,10 @@ var userSchema = new Schema({
   name: String,
   email : String,
   access_token: String,
+  friends: [{
+    name: String,
+    id: Number
+  }], 
   fbProfile: Schema.Types.Mixed
 });
 
@@ -30,6 +34,7 @@ var placeSchema = new Schema({
 var eventSchema = new Schema({
   eventID: String, // facebook event ID
   owner: Schema.ObjectId, // points to a user in OUR database
+  ownerFbID: String,
   ownerName: String,
   name: String,
   description: String,
