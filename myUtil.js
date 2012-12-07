@@ -63,16 +63,20 @@ module.exports = {
           if (user) {
             // yes? update their access token
             user.access_token = access_token;
-            user.save();
-            return done(null, user);
+            // Make sure we have a fresh copy of their friends list.
+            graph.setAccessToken(access_token)
+              .get("/" + profile.id + "/friends", function(err, res){
+                user.friends = res.data;
+                user.save();
+                console.log("Updated " + user. + "'s friendslist.")
+                done(null, user);
+              });
+            
           } else {
             // no? create a new user in our db
             graph
               .setAccessToken(access_token)
               .get("/" + profile.id + "/friends", function(err, res){
-                console.log("This is the response from /friends:");
-                console.log(err);
-                console.log(res);
                 user = new User({
                   fbID: profile.id,
                   name: profile.displayName,
@@ -82,6 +86,7 @@ module.exports = {
                   friends: res.data
                 });
                 user.save();
+                console.log("Created user ", profile.displayName);
                 done(null, user);
               });
           }
