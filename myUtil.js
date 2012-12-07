@@ -68,7 +68,7 @@ module.exports = {
               .get("/" + profile.id + "/friends", function(err, res){
                 user.friends = res.data;
                 user.save();
-                console.log("Updated " + user. + "'s friendslist.")
+                console.log("Updated " + user.name + "'s friendslist.")
                 done(null, user);
               });
             
@@ -76,14 +76,14 @@ module.exports = {
             // no? create a new user in our db
             graph
               .setAccessToken(access_token)
-              .get("/" + profile.id + "/friends", function(err, res){
+              .get("/" + profile.id + "/friends", function(err, fbRes){
                 user = new User({
                   fbID: profile.id,
                   name: profile.displayName,
                   email: profile.email,
                   access_token: access_token,
                   fbProfile: profile,
-                  friends: res.data
+                  friends: fbRes.data
                 });
                 user.save();
                 console.log("Created user ", profile.displayName);

@@ -29,6 +29,7 @@ module.exports = {
 					description: eventBody.description,
 					startTime: eventBody.startTime,
 					owner: req.user.id,
+					ownerFbID: req.user.fbID,
 					ownerName: req.user.name,
 					isPrivate: eventBody.isPrivate == "true",
 					placeID: placeID
@@ -129,7 +130,15 @@ module.exports = {
 	//Get the feed data.
 	feed_JSON: function (req, res) {
 		// render the feed as a JSON response
-		Event.find().sort('-createdAt').limit(20).exec(function (err, data) {
+		var friends = []
+		var i=0;
+		for(frnd in req.user.friends){
+			friends[i] = req.user.friends[frnd].id + "";
+			i++;
+		}
+		friends[i] = req.user.fbID;
+
+		Event.find().sort('-createdAt').where('ownerFbID').in(friends).where('isPrivate').equals(false).limit(20).exec(function (err, data) {
 	    if (err) {
 	    	console.error(err);
 	    	res.end(JSON.stringify({ error: "event lookup failed" }));

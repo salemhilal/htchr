@@ -27,7 +27,7 @@ function newEventPageInit () {
         var access_token = profile.access_token;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
             function(friends) {
-                var template = "<option value=<%= friend_id %>><%= friend_name %> </option>";
+                var friendTemplate = "<option value=<%= friend_id %>><%= friend_name %> </option>";
                 _.each(friends.data, function(hFriend) {
                     var templated = _.template(friendTemplate, {
                         friend_id : hFriend.id,
