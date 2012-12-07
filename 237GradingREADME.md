@@ -5,26 +5,53 @@ Dima Ivanyuk (divanyuk)
 Matt Schallert (mschalle)    
 Salem Hilal (shilal)   
 
-=======================
-###Required Features:
+
+###Required Features
 1. Javascript (? - they want inheritance/something, so we need to put something interesting)
-2. DOM Manipulation - Populating news feed, viewing events, autocomplete (htchr.js Lines 170-260)
+2. DOM Manipulation
+    * Populating news feed
+    * Viewing events
+    * Autocomplete
+    * htchr.js Lines 170-260
 3. jQuery
-4. jQuery Mobile - All front end minus landing page
-5. AJAX : Consume API - Google Maps/Places, Facebook, Twilio (todo?)
+4. jQuery Mobile
+    * Front end minus landing page
+5. AJAX : Consume API
+    * Google Maps/Places
+    * Facebook
+    * Twilio (todo)
 6. AJAX : Provide API
 7. node.js
-8. Server-side DB (MongoDB/mongoose.js)
+8. Server-side DB
+    * MongoDB
+    * Mongoose
 9. EJS templates
 10. PhoneGap
 
-======================
+
 ###General Description of Features
-1. Event Feed - Provide a chronological overview of events as they are created/happening
-2. View Event - Separate page for each event; has image associated with the place (Twilio) and event information
-3. Create/Search - Attempt to find a similar event within the user's friendbase with the alternative to create an event
-4. Facebook-Integrated - Login solely with Facebook; create corresponding events on Facebook
-5. Autocomplete -
-    (a) Autocompletes places using Google Places API when creating events
-    (b) Autocomplete friends names when inviting users to events
-6. Drivers - Keeps track of whether or not driver(s) needed and if there is one
+1. Event Feed
+    * Provide a chronological overview of events as they are created/happening
+2. View Event
+    * Separate page exists for each event
+    * Default image for the event is set to the Google Places image associated with the event's location 
+3. Facebook-Integrated
+    * Login with Facebook (Passport)
+    * Creates corresponding events on Facebook for each event made in htchr
+4. Event Search
+    * Attempt to find a similar event within the user's friendbase
+    * Uses name by default, but optionally include time/date range(s)
+4. Create Event
+    * Alternatively, create an event if one cannot be found
+    * Control privacy of your event and who to initially invite
+5. Autocomplete  
+    * Autocompletes places using Google Places API when creating events   
+    * Autocomplete friends names when inviting users to events   
+6. Notifications
+    * Allow the owner of an event to send push notifications to attending friends who also have htchr installed
+    * Notify attendees as the event's start time approaches
+7. Event Recommendation   
+    * Recommend events to users based on...
+        - User event history
+        - Friends event history
+        - Other things??
