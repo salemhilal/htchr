@@ -1,49 +1,48 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-    <title>My Page</title> 
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>Event</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/stylesheets/jquery.mobile-1.2.0.min.css" />
-    <link rel="stylesheet" href="/stylesheets/htchr.css" />
-    <script src="/javascripts/jquery-1.8.2.min.js"></script>
-    <script src="/javascripts/jquery.mobile-1.2.0.min.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.tokeninput.js"></script>
-    <link rel="stylesheet" href="/stylesheets/token-input-facebook.css" />        
-    <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
-    <script type="text/javascript" src="/javascripts/htchr.js"></script>
+  <!-- Stylesheets -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/stylesheets/jquery.mobile-1.2.0.min.css" />
+  <link rel="stylesheet" href="/stylesheets/htchr.css" />
+  <link rel="stylesheet" href="/stylesheets/token-input-facebook.css" />  
+  
+  <!-- Scripts -->
+  <script src="/javascripts/jquery-1.8.2.min.js"></script>
+  <script src="/javascripts/jquery.mobile-1.2.0.min.js"></script>
+  <script type="text/javascript" src="/javascripts/jquery.tokeninput.js"></script>
+  <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
+  <script type="text/javascript" src="/javascripts/htchr.js"></script>
+  
 </head> 
 <body> 
 
 <!-- New Event -->
 <div id="viewEventPage" data-role="page">
 
-    <div data-role="header">    
-        <a href="/events/feed" data-icon="arrow-l">Back</a>
-        <h1>Event Details.</h1>
-    </div><!-- /header -->
+  <div data-role="header">    
+      <a href="/events/feed" data-icon="arrow-l">Back</a>
+      <h1>Event Details.</h1>
+  </div><!-- /header -->
 
-    <div data-role="content" id="viewContent">
-    </div><!-- /content -->
+  <div data-role="content" id="viewContent">
+  </div><!-- /content -->
 
-    <div data-id="footNav" data-role="footer" data-position="fixed">        
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li><a href="/events/feed" data-icon="home">Feed</a></li>
-                <li><a href="/search" data-icon="search">Find</a></li>
-                <li><a href="/events/new" data-icon="Plus">New Event</a></li>
-            </ul>
-        </div><!-- /navbar -->
-    </div><!-- /footer -->
+  <div data-id="footNav" data-role="footer" data-position="fixed">        
+    <div data-role="navbar" data-iconpos="top">
+      <ul>
+        <li><a href="/events/feed" data-icon="home">Feed</a></li>
+        <li><a href="/search" data-icon="search">Find</a></li>
+        <li><a href="/events/new" data-icon="Plus">New Event</a></li>
+      </ul>
+    </div><!-- /navbar -->
+  </div><!-- /footer -->
 
 </div><!-- /page -->
-
-
-
-<!-- Scripts -->
-
 
 </body>
 </html>

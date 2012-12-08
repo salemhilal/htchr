@@ -1,61 +1,45 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-    <title>My Page</title> 
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>User</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/stylesheets/jquery.mobile-1.2.0.min.css" />
-    <link rel="stylesheet" href="/stylesheets/htchr.css" />
-    <script src="/javascripts/jquery-1.8.2.min.js"></script>
-    <script src="/javascripts/jquery.mobile-1.2.0.min.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.tokeninput.js"></script>
-    <link rel="stylesheet" href="/stylesheets/token-input-facebook.css" />            
-    <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
-    <script type="text/javascript" src="/javascripts/icanhaz.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
-    <script type="text/javascript" src="/javascripts/htchr.js"></script>
+  <!-- Stylesheets -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/stylesheets/jquery.mobile-1.2.0.min.css" />
+  <link rel="stylesheet" href="/stylesheets/htchr.css" />
+  <link rel="stylesheet" href="/stylesheets/token-input-facebook.css" />  
+  
+  <!-- Scripts -->
+  <script src="/javascripts/jquery-1.8.2.min.js"></script>
+  <script src="/javascripts/jquery.mobile-1.2.0.min.js"></script>
+  <script type="text/javascript" src="/javascripts/jquery.tokeninput.js"></script>
+  <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
+  <script type="text/javascript" src="/javascripts/htchr.js"></script>
 
-
-    <style type="text/css">
-        #errorPopup{
-            max-width: 400px;
-            min-width: 300px;
-        }
-        #sorry{
-            width: 100%
-        }
-    </style>
 </head> 
 <body> 
 
 <!-- New Event -->
 <div id="newEventPage" data-role="page">
+    
+  <div data-role="header">
+    <h1>User Info.</h1>
+  </div><!-- /header -->
 
-    <div data-role="header">
-        <h1>User Info.</h1>
-    </div><!-- /header -->
+  <div data-role="content"></div><!-- /content -->
 
-    <div data-role="content">   
-
-            
-    </div><!-- /content -->
-
-    <div data-id="footNav" data-role="footer" data-position="fixed">        
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li><a href="/events/feed" data-icon="home"  data-prefetch="true">Feed</a></li>
-                <li><a href="/events/new" data-icon="Plus" class="ui-btn-active ui-state-persist"  data-prefetch="true">New Event</a></li>
-            </ul>
-        </div><!-- /navbar -->
-    </div><!-- /footer -->
+  <div data-id="footNav" data-role="footer" data-position="fixed">        
+    <div data-role="navbar" data-iconpos="top">
+      <ul>
+        <li><a href="/events/feed" data-icon="home"  data-prefetch="true">Feed</a></li>
+        <li><a href="/events/new" data-icon="Plus" class="ui-btn-active ui-state-persist"  data-prefetch="true">New Event</a></li>
+      </ul>
+    </div><!-- /navbar -->
+  </div><!-- /footer -->
 
 </div><!-- /page -->
-
-
-
-<!-- Scripts -->
-
 
 </body>
 </html>
