@@ -1207,3 +1207,15 @@ a.ui-link-inherit {
 	outline-width: 1px;
 	outline-style: auto;
 }
+
+/* ID-specific styling.
+-----------------------------------------------------------------------------------------------------------*/
+
+/* New event creation modal */
+#errorPopup{
+  max-width: 400px;
+  min-width: 300px;
+}
+#sorry{
+  width: 100%
+}

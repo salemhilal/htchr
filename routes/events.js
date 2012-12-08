@@ -100,8 +100,8 @@ module.exports = {
         var topTypes = req.users.types.top;
 
         // Given a type, update the topTypes and hash.
-        function updateTopTypes(type){
-          // Type is in hash and in , no need to update topTypes.
+        var updateTopTypes = function(type){
+          // Type is in hash and in top, no need to update topTypes.
           if(type === topTypes[0] || type === topTypes[1] || type === topTypes[2]){
             hash[type] = hash[type] + 1;
             return;
@@ -126,17 +126,9 @@ module.exports = {
         }
 
         placeBody.types.forEach(updateTopTypes);
-        User.findById(req.user.id, function(err, currentUser){
-        	if(err){
-        		console.log(err);
-        	} else {
-        		currentUser.types = {hash: hash, top: top};
-        		currentUser.save();
-        	}
-
-        })
-
-
+        req.user.types = {hash: hash, top: top};
+    		console.log({hash: hash, top: top});
+        req.user.save();
 
         // save the new place in our database
         hPlace.save(function (err) {
@@ -150,6 +142,7 @@ module.exports = {
       }
     });
   },
+
   // Get event data
   event_JSON: function (req, res){
     var id = req.params.id;
