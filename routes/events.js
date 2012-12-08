@@ -126,6 +126,15 @@ module.exports = {
         }
 
         placeBody.types.forEach(updateTopTypes);
+        User.findById(req.user.id, function(err, currentUser){
+        	if(err){
+        		console.log(err);
+        	} else {
+        		currentUser.types = {hash: hash, top: top};
+        		currentUser.save();
+        	}
+
+        })
 
 
 
@@ -133,8 +142,7 @@ module.exports = {
         hPlace.save(function (err) {
           if (err) {
             console.error(err);
-          }
-          else {
+          } else {
             // finally create the event based on the place id
             makeEvent(hPlace._id);
           }

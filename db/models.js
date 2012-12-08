@@ -16,7 +16,7 @@ var userSchema = new Schema({
   prefs: {
     top: [String], //Keep the top 3 close.
     hash: Schema.Types.Mixed //Hash types to counts
-  }
+  },
   fbProfile: Schema.Types.Mixed
 });
 
