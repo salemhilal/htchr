@@ -1,4 +1,4 @@
-// TODO: make this less FUCKING SHAMELESSLY HACKY
+// TODO: make this LESS SHAMELESSLY HACKY
 var globalUser = {};
 $.getJSON('/users/current.json', function (userRes) {
     globalUser = userRes;
@@ -43,8 +43,8 @@ function newEventPageInit () {
                     $("#friendList").append(templated);
                 });
             $("#friendList").trigger("change");
+            
             window.setTimeout(function() {
-
                 $("#friendInput").tokenInput(friendTags, {
                     theme: "facebook",
                     resultsLimit: '6',
@@ -96,6 +96,7 @@ function newEventPageInit () {
     //Watch for resolved autocomplete locations
     google.maps.event.addListener(autocomplete, 'place_changed', function(){
         place = autocomplete.getPlace();
+        console.log(place);
     });
 
     //Wipe the location field if an invalid location appears.

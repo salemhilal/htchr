@@ -13,6 +13,10 @@ var userSchema = new Schema({
     name: String,
     id: Number
   }], 
+  prefs: {
+    top: [String], //Keep the top 3 close.
+    hash: Schema.Types.Mixed //Hash types to counts
+  }
   fbProfile: Schema.Types.Mixed
 });
 
@@ -27,6 +31,7 @@ var placeSchema = new Schema({
     },
     index: '2d'
   },
+  types: [String],
   numEvents : Number,
   googleData: Schema.Types.Mixed
 });

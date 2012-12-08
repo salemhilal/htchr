@@ -10,7 +10,7 @@ module.exports = {
 
   query_JSON: function (req, res) {
     var query = req.body.query;
-    //Check if empty query. We don't want those.
+    // Check if empty query. We don't want those.
     if(!query || !query.replace(/ /g, "")){
       res.end(JSON.stringify({ error: "empty query string" }));
     } else {
@@ -18,7 +18,8 @@ module.exports = {
       var close   = new RegExp("\\b" + query, "gi");
       var far     = new RegExp(query, "gi");
 
-      //Nested queries for exact, close, and far matches.
+      // Nested queries for exact, close, and far matches.
+      // Better matches are placed higher up in the search list.
       Event.find({name: query}, function(err1, exact){
         result.exact = exact;
 
