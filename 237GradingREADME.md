@@ -7,13 +7,16 @@ Salem Hilal (shilal)
 
 
 ###Required Features
-1. Javascript (? - they want inheritance/something, so we need to put something interesting)
+1. Javascript 
+    * public/javascripts/htchr.js for the frontend
+    * app.js, routes/*, db/models.js for serverside
 2. DOM Manipulation
     * Populating news feed
     * Viewing events
     * Autocomplete
     * htchr.js Lines 170-260
 3. jQuery
+    * 
 4. jQuery Mobile
     * Front end minus landing page
 5. AJAX : Consume API
@@ -21,6 +24,7 @@ Salem Hilal (shilal)
     * Facebook
     * Twilio (todo)
 6. AJAX : Provide API
+    * app.js has RESTful routes hidden behind facebook auth.
 7. node.js
 8. Server-side DB
     * MongoDB
