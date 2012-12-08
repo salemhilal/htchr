@@ -22,39 +22,35 @@ var place = {};
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
   console.log('new page init');
+    //get access_token and current User's friends
+    $.getJSON('/users/current.json', function(profile) {
+        var access_token = profile.access_token;
+        $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
+            function(friends) {
+                var friendTags = [];
+                var friendTemplate = "<option value=<%= friend_id %>><%= friend_name %> </option>";
+                _.each(friends.data, function(hFriend) {
+                    var templated = _.template(friendTemplate, {
+                        friend_id : hFriend.id,
+                        friend_name : hFriend.name
+                    });
 
-  //get access_token and current User's friends
-  $.getJSON('/users/current.json', function(profile) {
-    var access_token = profile.access_token;
-    $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
-      function(friends) {
-        var friendTags = [];
-        var friendTemplate = "<option value=<%= friend_id %>><%= friend_name %> </option>";
+                    friendTags.push({
+                        "id" : hFriend.id,
+                        "name" : hFriend.name
+                    });
 
-        _.each(friends.data, function(hFriend) {
-          var templated = _.template(friendTemplate, {
-            friend_id : hFriend.id,
-            friend_name : hFriend.name
-          });
-
-          friendTags.push({
-            "id" : hFriend.id,
-            "name" : hFriend.name
-           });
-
-           $("#friendList").append(templated);
-        });
-
-        $("#friendList").trigger("change");
+                    $("#friendList").append(templated);
+                });
+            $("#friendList").trigger("change");
             
-        $("#friendInput").tokenInput(friendTags, {
-          theme: "facebook",
-          resultsLimit: '6',
-          preventDuplicates: true,
-          hintText: "Type in a friend's name",
-          noResultsText: "No friends found!"
-        });
-
+            $("#friendInput").tokenInput(friendTags, {
+                    theme: "facebook",
+                    resultsLimit: '6',
+                    preventDuplicates: true,
+                    hintText: "Start typing a friend's name",
+                    noResultsText: "No friends found!"
+                });
     });
   });
 

@@ -4,26 +4,36 @@ ul.token-input-list-facebook {
     height: auto !important; 
     height: 1%;
     width: 400px;
-    border: 1px solid #8496ba;
+    /*border: 1px solid #8496ba;*/
     cursor: text;
-    font-size: 12px;
-    font-family: Verdana;
+    /*font-size: 12px;*/
+    /*font-family: Verdana;*/
     min-height: 1px;
     z-index: 999;
     margin: 0;
-    padding: 0;
-    background-color: #fff;
+    /*padding: 0;*/
+    /*background-color: #fff;*/
     list-style-type: none;
-    clear: left;
+    /*clear: left;*/
+    display: inline-block;
+    -webkit-box-shadow: inset 0px 1px 4px rgba(0, 0, 0, .2);
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, .2);
+    border : 1px groove #FAFAFA;
+    text-shadow: 0 1px 0 white;
+    color: #333;
+    padding-left : 5px;
 }
 
 ul.token-input-list-facebook li input {
     border: 0;
-    width: 100px;
+    /*width: 100px;*/
     padding: 3px 8px;
-    background-color: white;
+    /*background-color: white;*/
     margin: 2px 0;
-    -webkit-appearance: caret;
+    background-color: #F0F0F0;
+    /*background-color: transparent !important;*/
+
+    /*-webkit-appearance: caret;*/
 }
 
 li.token-input-token-facebook {

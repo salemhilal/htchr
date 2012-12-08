@@ -1,10 +1,10 @@
 #htchr
-=======================
+----------------------
 ###Group Members:
 Dima Ivanyuk (divanyuk)   
 Matt Schallert (mschalle)    
 Salem Hilal (shilal)   
-
+----------------------
 
 ###Required Features
 1. Javascript 
@@ -32,19 +32,23 @@ Salem Hilal (shilal)
 9. EJS templates
 10. PhoneGap
 
+---------------------
 
 ###General Description of Features
 1. Event Feed
     * Provide a chronological overview of events as they are created/happening
+    * Updated on the fly
 2. View Event
     * Separate page exists for each event
-    * Default image for the event is set to the Google Places image associated with the event's location 
+    * Default image for the event is set to the Google Places image associated with the event's location
 3. Facebook-Integrated
     * Login with Facebook (Passport)
     * Creates corresponding events on Facebook for each event made in htchr
+    * Events viewable by default only to Facebook Friends 
 4. Event Search
     * Attempt to find a similar event within the user's friendbase
-    * Uses name by default, but optionally include time/date range(s)
+    * Attempts to find nearby events if an exact match isn't found.
+    * Uses event name by default, but optionally include time/date range(s)
 4. Create Event
     * Alternatively, create an event if one cannot be found
     * Control privacy of your event and who to initially invite
