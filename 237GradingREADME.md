@@ -4,7 +4,7 @@
 Dima Ivanyuk (divanyuk)   
 Matt Schallert (mschalle)    
 Salem Hilal (shilal) 
-  
+
 ----------------------
 
 ###Required Features
@@ -17,7 +17,6 @@ Salem Hilal (shilal)
     * Autocomplete
     * htchr.js Lines 170-260
 3. jQuery
-    * 
 4. jQuery Mobile
     * Front end minus landing page
 5. AJAX : Consume API
@@ -27,10 +26,14 @@ Salem Hilal (shilal)
 6. AJAX : Provide API
     * app.js has RESTful routes hidden behind facebook auth.
 7. node.js
+    * Used express throughout
 8. Server-side DB
     * MongoDB
     * Mongoose
+    * db/*; querying in myUtil.js, routes/*
 9. EJS templates
+    * See views/*
+    * ~ lines 30, 190, 230, 250
 10. PhoneGap
 
 ---------------------
@@ -54,13 +57,12 @@ Salem Hilal (shilal)
     * Alternatively, create an event if one cannot be found
     * Control privacy of your event and who to initially invite
 5. Autocomplete  
-    * Autocompletes places using Google Places API when creating events   
+    * Autocompletes places using Google Places API, biased by proximity of place to user's physical location   
     * Autocomplete friends names when inviting users to events   
 6. Notifications
     * Allow the owner of an event to send push notifications to attending friends who also have htchr installed
     * Notify attendees as the event's start time approaches
 7. Event Recommendation   
-    * Recommend events to users based on...
-        - User event history
-        - Friends event history
-        - Other things??
+    * Recommendation system attempts to pair up users and events
+    * Events are recommended to users in the event feed
+    * Upon event creation, htchr suggests friends to invite
