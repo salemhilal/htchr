@@ -1,3 +1,4 @@
+// Facebook app info and module imports.
 var FacebookStrategy = require('passport-facebook').Strategy
   , FACEBOOK_APP_ID = "226224270843611"
   , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
@@ -8,19 +9,24 @@ var FacebookStrategy = require('passport-facebook').Strategy
 module.exports = {
   configureApp: function (app, express, passport) {
     app.configure(function(){
+      // Node
       app.set('port', process.env.PORT || 3000);
       app.set('views', __dirname + '/views');
+
+      //Lets use EJS. None of that fancy Jade nonsense.
       app.set('view engine', 'ejs');
+
+      // Express
       app.use(express.favicon());
-      // app.use(express.logger('dev'));
       app.use(express.bodyParser());
       app.use(express.methodOverride());
       app.use(express.cookieParser('8a8bd6c033c7a4e97f4e5994b291b43d'));
       app.use(express.session());
-      // Initialize Passport!  Also use passport.session() middleware, to support
-      // persistent login sessions (recommended).
+
+      // Passport
       app.use(passport.initialize());
       app.use(passport.session());
+
       app.use(app.router);
       app.use(express.static(path.join(__dirname, 'public')));
     });
@@ -60,8 +66,7 @@ module.exports = {
         console.log(profile);
         User.where('fbID', profile.id).findOne().exec(function (err, user) {
           // do we already have a user matching that id?
-          if (user) {
-            // yes? update their access token
+          if (user) { // yes? update their access token
             user.access_token = access_token;
             // Make sure we have a fresh copy of their friends list.
             graph.setAccessToken(access_token)
@@ -72,8 +77,7 @@ module.exports = {
                 done(null, user);
               });
             
-          } else {
-            // no? create a new user in our db
+          } else { // no? create a new user in our db
             graph
               .setAccessToken(access_token)
               .get("/" + profile.id + "/friends", function(err, fbRes){

@@ -1,4 +1,4 @@
-// Modules
+// Import modules
 var http = require('http')
   , express = require('express')
   , passport = require('passport')
@@ -8,17 +8,18 @@ var http = require('http')
 
   , mongoose = require('mongoose');
 
-// SET IT UP
+// Set up the app
 var app = express();
 myUtil.setupPassport(passport);
 myUtil.configureApp(app, express, passport);
 mongoose.connect('mongodb://localhost/htchr');
 
-// Routes
+// Basic routes
 app.get('/', routes.main.home);
 app.get('/login', routes.main.login);
 app.get('/logout', routes.main.logout);
 
+//Facebook auth routes.
 app.get('/auth/facebook',
   passport.authenticate('facebook', { scope: ['create_event', 'user_events'] }),
   routes.dummmy // request gets redirected to facebook
@@ -59,22 +60,12 @@ app.get('/events/:id'
   ,routes.events.event_GET);
 
 //Users
-// ex: http://localhost:3000/users/50bda97a1ef03b743e000002.json
 app.get('/users/:id.json'
   , myUtil.ensureAuthenticated
   , routes.users.profile_JSON);
 app.get('/users/'
   , myUtil.ensureAuthenticated
   , routes.users.profile_GET)
-
-// Places 
-/*app.get('/places/new'
-  , myUtil.ensureAuthenticated
-  , routes.places.new_GET);
-app.get('/places/new'
-  , myUtil.ensureAuthenticated
-  , routes.places.new_GET);*/
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
