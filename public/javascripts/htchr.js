@@ -44,15 +44,13 @@ function newEventPageInit () {
                 });
             $("#friendList").trigger("change");
             
-            window.setTimeout(function() {
-                $("#friendInput").tokenInput(friendTags, {
+            $("#friendInput").tokenInput(friendTags, {
                     theme: "facebook",
                     resultsLimit: '6',
                     preventDuplicates: true,
                     hintText: "Type in a friend's name",
                     noResultsText: "No friends found!"
                 });
-            }, 300);
 
         });
     });
