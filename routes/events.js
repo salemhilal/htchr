@@ -191,8 +191,6 @@ module.exports = {
         response.date = new Date();
         response.data = data;
 
-        Event.find().
-
         res.end(JSON.stringify({
           data: data,
           time: new Date()
