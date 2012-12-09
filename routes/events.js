@@ -63,7 +63,47 @@ module.exports = {
                   hEvent.eventID = fbRes.id;
                   hEvent.save();
 
+                  //invite friends to the event using the given ID
+                  var inviteUsers = function(inviteList) {
+                    var inviteString = "";
+                    for (var i=0; i < inviteList.length; i++) {
+                      var post = "";
+                      if (i !== inviteList.length - 1) {
+                        post = ","
+                      }
+                      else {
+                        post = "";
+                      }
+                      inviteString+= (inviteList[i].id + post)
+                    };
+
+                    console.log("inviteString:", inviteString);
+
+                    //send FB request to invite the friends selected by user in event creation
+                    graph.post(fbRes.id + '/invited?users=' + inviteString, function (err, result) {
+                      if (err) {
+                        console.error(err);
+                        res.end(JSON.stringify({
+                          error: "bad fb request"
+                      }));
+                    } else {
+                      if (!result) {
+                        console.log("invites unsuccessful!!!!");
+                      }
+                      else {
+                        console.log("invites succeeded.");
+                      }
+                    }
+                    });
+                  };
+
+                  inviteUsers(eventBody.toInvite);
+
+
                   res.end(JSON.stringify(fbRes));
+                }
+                else {
+                  console.log("No event ID!!!");
                 }
               }
             });

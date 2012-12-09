@@ -163,16 +163,15 @@ function newEventPageInit () {
         googleData: JSON.stringify(place)
       };
 
-      //var friendsToInvite = $("#friendInput").tokenInput("get");
+      var friendsToInvite = $("#friendInput").tokenInput("get"); //each item is an object of form {id: x, name:y}
 
       var eventData = {
         name: name,
         description: "",
         startTime: dateTime,
-        isPrivate: isPrivate === "on" 
+        isPrivate: isPrivate === "on",
+        toInvite: friendsToInvite
       };
-
-      console.log("googleData", placeData.googleData);
 
       var reqData = { 
         placeData : placeData,
@@ -211,7 +210,7 @@ function feedPageInit () {
     $("#feedList").html("");
     console.log("wiped");
     // console.log(data);
-    console.log(data);
+    console.log("data:\n--------------------------------------------\n", data);
     _.each(data.data, function (hEvent) {
       var eventLi = _.template(liTemplate, {
         user_name: hEvent.ownerName,
