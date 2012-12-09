@@ -48,7 +48,7 @@ module.exports = {
               // start_time needs to meet facebook's spec
               start_time: hEvent.startTime.toISOString(),
               privacy_type: hEvent.isPrivate ? "SECRET" : "OPEN"
-            }
+            };
 
             graph.post(req.user.fbID + '/events', fbData, function (err, fbRes) {
               if (err) {
@@ -80,7 +80,8 @@ module.exports = {
         makeEvent(places[0]._id);
       }
       else {
-        // No corresponding place, make a new one in our DB
+        var gData = JSON.parse(placeBody.googleData);
+        // No corresponJSON.parse(placeBody.googleData);ding place, make a new one in our DB
         var hPlace = new Place({
           name : placeBody.name,
           address : placeBody.address,
@@ -89,50 +90,52 @@ module.exports = {
             lng : parseFloat(placeBody.lng),
             lat : parseFloat(placeBody.lng)
           },
-          types: placeBody.googleData.types,
           numEvents : 0,
           // save all the data google sends us, because why not.
-          googleData: placeBody.googleData
+          googleData: placeBody.googleData,
+          types: gData.types        
         });
 
-        console.log("googleData:", placeBody.googleData);
+        var placeTags = [];
+        //console.log("hPlace:", hPlace);
+
         // Update the current user's preferences.
         var hash = req.user.prefs.hash;
         var topTypes = req.user.prefs.top;
 
         // Given a type, update the topTypes and hash.
-        var updateTopTypes = function(type){
-          // Type is in hash and in top, no need to update topTypes.
-          if(type === topTypes[0] || type === topTypes[1] || type === topTypes[2]){
-            hash[type] = hash[type] + 1;
-            return;
-          }
+        // var updateTopTypes = function(type){
+        //   // Type is in hash and in top, no need to update topTypes.
+        //   if(type === topTypes[0] || type === topTypes[1] || type === topTypes[2]){
+        //     hash[type] = hash[type] + 1;
+        //     return;
+        //   }
 
-          //Update the hash.
-          if(hash[type] == undefined){
-            hash[type] = 1;
-          } else {
-            hash[type] = hash[type] + 1;
-          }
+      //     //Update the hash.
+      //     if(hash[type] == undefined){
+      //       hash[type] = 1;
+      //     } else {
+      //       hash[type] = hash[type] + 1;
+      //     }
 
-          //Update topTypes
-          if(hash[type] >= hash[topTypes[0]])
-          	topTypes.splice(0,0,type);
-          else if(hash[type] >= hash[topTypes[1]])
-          	topTypes.splice(1,0,type);
-          else if(hash[type] >= hash[topTypes[2]])
-          	topTypes.splice(2,0,type);
+      //     //Update topTypes
+      //     if(hash[type] >= hash[topTypes[0]])
+      //     	topTypes.splice(0,0,type);
+      //     else if(hash[type] >= hash[topTypes[1]])
+      //     	topTypes.splice(1,0,type);
+      //     else if(hash[type] >= hash[topTypes[2]])
+      //     	topTypes.splice(2,0,type);
 
-          topTypes.length = 3;
-        }
+      //     topTypes.length = 3;
+      //   };
 
-        for (i=0; i<hPlace.types.length; i++) {
-          updateTopTypes(hPlace.types[i]);
-        }
+      //   for (var i=0; i<hPlace.types.length; i++) {
+      //     updateTopTypes(hPlace.types[i]);
+      //   }
 
-        req.user.types = {hash: hash, top: top};
-    		console.log({hash: hash, top: top});
-        req.user.save();
+      //   req.user.types = {hash: hash, top: top};
+    		// console.log({hash: hash, top: top});
+      //   req.user.save();
 
         // save the new place in our database
         hPlace.save(function (err) {
@@ -143,8 +146,8 @@ module.exports = {
             makeEvent(hPlace._id);
           }
         });
-      }
-    });
+    }
+  });
   },
 
   // Get event data

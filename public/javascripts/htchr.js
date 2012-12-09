@@ -163,12 +163,16 @@ function newEventPageInit () {
         googleData: JSON.stringify(place)
       };
 
+      //var friendsToInvite = $("#friendInput").tokenInput("get");
+
       var eventData = {
         name: name,
         description: "",
         startTime: dateTime,
         isPrivate: isPrivate === "on" 
       };
+
+      console.log("googleData", placeData.googleData);
 
       var reqData = { 
         placeData : placeData,
