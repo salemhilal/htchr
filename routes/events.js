@@ -89,15 +89,16 @@ module.exports = {
             lng : parseFloat(placeBody.lng),
             lat : parseFloat(placeBody.lng)
           },
-          types: placeBody.types,
+          types: placeBody.googleData.types,
           numEvents : 0,
           // save all the data google sends us, because why not.
           googleData: placeBody.googleData
         });
 
+        console.log("googleData:", placeBody.googleData);
         // Update the current user's preferences.
-        var hash = req.user.types.hash;
-        var topTypes = req.users.types.top;
+        var hash = req.user.prefs.hash;
+        var topTypes = req.user.prefs.top;
 
         // Given a type, update the topTypes and hash.
         var updateTopTypes = function(type){
@@ -125,7 +126,10 @@ module.exports = {
           topTypes.length = 3;
         }
 
-        placeBody.types.forEach(updateTopTypes);
+        for (i=0; i<hPlace.types.length; i++) {
+          updateTopTypes(hPlace.types[i]);
+        }
+
         req.user.types = {hash: hash, top: top};
     		console.log({hash: hash, top: top});
         req.user.save();
