@@ -63,7 +63,6 @@ module.exports = {
         callbackURL: "http://localhost:3000/auth/facebook/callback"
       },
       function(access_token, refreshToken, profile, done) {
-        console.log(profile);
         User.where('fbID', profile.id).findOne().exec(function (err, user) {
           // do we already have a user matching that id?
           if (user) { // yes? update their access token
@@ -90,7 +89,7 @@ module.exports = {
                   friends: fbRes.data
                 });
                 user.save();
-                console.log("Created user ", profile.displayName);
+                console.log("Created user profile for ", profile.displayName);
                 done(null, user);
               });
           }
