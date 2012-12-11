@@ -250,7 +250,32 @@ function searchPageInit () {
     var body = { query: $("#searchbox").val() };
     $.post("/search", body, function(response) {
       data = JSON.parse(response);
+      console.log("Response from POST to /search:\n", data);
+      //Clear search results
       $("#searchResults").html("");
+
+      var templated = "";
+
+      if(data.error === "empty query string"){
+        $("#searchResults").append(
+          "<li style='text-align: center; display:none' class='errorList'>"
+            +"<h4>You need to search for something.</h4>"
+          +"</li>");
+        $("#searchResults").listview("refresh");
+        $(".errorList").fadeIn();
+        return;
+      }
+
+      if(data.exact.length + data.close.length + data.far.length === 0){
+        $("#searchResults").append(
+          "<li style='text-align: center; display:none' class='errorList'>"
+            +"<h4>Your search returned no events. Try something easier. I'm only a phone.</h4>"
+          +"</li>");
+        $("#searchResults").listview("refresh");
+        $(".errorList").fadeIn();
+        return;        
+      }
+
       var resultTemplate = '<li><a href="<%= url %>"><%= name %></a></li>'
 
       var exact = _.each(data.exact, function(d){

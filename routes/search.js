@@ -27,7 +27,7 @@ module.exports = {
           result.close = close;
 
           Event.find({name: far}).nin(exact).nin(close).exec(function(err3, far){
-            result.far = far;
+            result.far = (err3 ? [] : far);
             res.end(JSON.stringify(result));
           });
         });
