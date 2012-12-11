@@ -21,7 +21,7 @@ var place = {};
 
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
-  console.log('new page init');
+  console.log('Loaded up newEventPageInit().');
     //get access_token and current User's friends
     $.getJSON('/users/current.json', function(profile) {
         var access_token = profile.access_token;
@@ -93,15 +93,13 @@ function newEventPageInit () {
     //Watch for resolved autocomplete locations
   google.maps.event.addListener(autocomplete, 'place_changed', function(){
     place = autocomplete.getPlace();
-    console.log(place);
+    console.log("The user just picked a place:\n", place);
   });
 
     //Wipe the location field if an invalid location appears.
   $("#event.loc").off("blur");
   $("#eventLoc").on("blur", function(){
-    console.log("blur");
     if(place.geometry === undefined){
-      console.log("blur2");
       // For some reason, JQM won't wipe the text field
       // inside this function call. So, we push our wipe
       // request to the top of the stack and cross our fingers.
@@ -192,7 +190,7 @@ function newEventPageInit () {
 }
 
 function feedPageInit () {
-  console.log('feed init');
+  console.log('Loaded up feedPageInit().');
 
   // Creat an li template.
   var liTemplate = 
@@ -208,9 +206,8 @@ function feedPageInit () {
     //Grab the feeds server-side and render them.
   $.getJSON('/events/feed.json', function (data) {
     $("#feedList").html("");
-    console.log("wiped");
-    // console.log(data);
-    console.log("data:\n--------------------------------------------\n", data);
+    console.log("I just wiped the feed.");
+    console.log("Here's the feed data:\n", data);
     _.each(data.data, function (hEvent) {
       var eventLi = _.template(liTemplate, {
         user_name: hEvent.ownerName,
@@ -219,14 +216,14 @@ function feedPageInit () {
       });
 
       $("#feedList").append(eventLi).listview('refresh'); 
-      console.log("appended");
+      console.log("Just put updated the feed.");
             
     });
   });
 }
 
 function viewPageInit () {
-  console.log('view init');
+  console.log('Loaded up viewPageInit().');
 
   var eventTemplate = 
     '<h1>Title: <%= event.name %> </h1>' +
