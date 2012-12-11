@@ -88,7 +88,7 @@ module.exports = {
                       }));
                     } else {
                       if (!result) {
-                        console.log("invites unsuccessful!!!!");
+                        console.log("invites unsuccessful!");
                       }
                       else {
                         console.log("invites succeeded.");
@@ -213,7 +213,7 @@ module.exports = {
   //Get the feed data.
   feed_JSON: function (req, res) {
     // render the feed as a JSON response
-    var friends = []
+    var friends = [];
     var i=0;
     for(frnd in req.user.friends){
       friends[i] = req.user.friends[frnd].id + "";

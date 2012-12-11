@@ -266,7 +266,7 @@ function searchPageInit () {
         return;
       }
 
-      if(data.exact.length + data.close.length + data.far.length === 0){
+      if(data.close.length + data.far.length === 0){
         $("#searchResults").append(
           "<li style='text-align: center; display:none' class='errorList'>"
             +"<h4>Your search returned no events. Try something easier. I'm only a phone.</h4>"

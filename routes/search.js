@@ -18,21 +18,24 @@ module.exports = {
       var close   = new RegExp("\\b" + query, "gi");
       var far     = new RegExp(query, "gi");
 
-      // Nested queries for exact, close, and far matches.
+      var friends = [];
+      var i=0;
+      for(frnd in req.user.friends){
+        friends[i] = req.user.friends[frnd].id + "";
+        i++;
+      }
+      friends[i] = req.user.fbID;
+
+      // Nested queries for close and far matches.
       // Better matches are placed higher up in the search list.
-      Event.find({name: query}, function(err1, exact){
-        result.exact = exact;
+      Event.find({name: close}).where('ownerFbID').in(friends).exec(function(err2, close){
+        result.close = close;
 
-        Event.find({name: close}).nin(exact).exec(function(err2, close){
-          result.close = close;
-
-          Event.find({name: far}).nin(exact).nin(close).exec(function(err3, far){
-            result.far = (err3 ? [] : far);
-            res.end(JSON.stringify(result));
-          });
+        Event.find({name: far}).nin(close).where('ownerFbID').in(friends).exec(function(err3, far){
+          result.far = (err3 ? [] : far);
+          res.end(JSON.stringify(result));
         });
       });
-      
     }
   }
 }
