@@ -86,7 +86,11 @@ module.exports = {
                   email: profile.email,
                   access_token: access_token,
                   fbProfile: profile,
-                  friends: fbRes.data
+                  friends: fbRes.data,
+                  prefs: {
+                    "hash": {"htchr":0}, 
+                    "top" : ["htchr"]
+                  }
                 });
                 user.save();
                 console.log("Created user profile for ", profile.displayName);
