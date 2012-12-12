@@ -88,8 +88,8 @@ module.exports = {
                   fbProfile: profile,
                   friends: fbRes.data,
                   prefs: {
-                    "hash": {"htchr":0}, 
-                    "top" : ["htchr"]
+                    "hash": {}, 
+                    "top" : []
                   }
                 });
                 user.save();

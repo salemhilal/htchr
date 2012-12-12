@@ -143,13 +143,9 @@ function newEventPageInit () {
       $("#errorPopup").popup("open");
       return;
     } else {
-      var lat = place.geometry.location["$a"];
-      var lng = place.geometry.location["ab"];
-      // TODO: incorporate this into the post data
-      // will be done after some location stuff is set up on
-      // the server side
-      // - Matt
 
+      var lat = place.geometry.location.lat();
+      var lng = place.geometry.location.lng();
       var dateTime = new Date(date + " " + time + ":00");
 
       var placeData = {
