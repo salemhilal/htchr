@@ -22,6 +22,7 @@ var place = {};
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
+  $('friendsList').html('');
     //get access_token and current User's friends
     $.getJSON('/users/current.json', function(profile) {
         var access_token = profile.access_token;
@@ -224,6 +225,7 @@ function feedPageInit () {
 
 function userPageInit () {
   console.log('loading userPageInit().');
+  $('#userInfo').html("");
 
   var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
 

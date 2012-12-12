@@ -18,7 +18,6 @@ var userSchema = new Schema({
     hash: Schema.Types.Mixed //Hash types to counts
   },
   fbProfile: Schema.Types.Mixed
-  events: [String] //array of eventIDs attending
 });
 
 var placeSchema = new Schema({
