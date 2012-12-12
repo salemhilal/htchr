@@ -152,10 +152,12 @@ module.exports = {
           }
 
           //Update the hash.
-          if(hash[type] == undefined){
-            hash[type] = 1;
+          if(hash[type] === undefined
+              || parseInt(hash[type]).toString() === "NaN"
+              || hash[type] < 0){
+            hash[type] = 1; // Check for errors in the hash and fix them.
           } else {
-            hash[type] = hash[type] + 1;
+            hash[type]++;   // Increment the hash.
           }
 
           //Update topTypes
@@ -177,7 +179,7 @@ module.exports = {
     		console.log("req.user.types for " + req.user.name + " is now:", {hash: hash, top: topTypes});
         req.user.save();
 
-        // save the new place in our database
+        // Save the new place in our database
         hPlace.save(function (err) {
           if (err) {
             console.error(err);
