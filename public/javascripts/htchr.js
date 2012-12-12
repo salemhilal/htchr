@@ -171,7 +171,7 @@ function newEventPageInit () {
         toInvite: friendsToInvite
       };
 
-      var reqData = { 
+      var reqData = {
         placeData : placeData,
         eventData : eventData
       };
@@ -219,6 +219,21 @@ function feedPageInit () {
       console.log("Just put updated the feed.");
             
     });
+  });
+}
+
+function userPageInit () {
+  console.log('loading userPageInit().');
+
+  var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
+
+  $.getJSON('/users/current.json', function (user) {
+      console.log(user);
+      var templated = _.template(userTemplate, {
+        username : user.name
+      });
+  
+      $('#userInfo').append(templated);
   });
 }
 
@@ -318,6 +333,9 @@ $(document).bind("pagechange", function (e) {
   }
   else if (path.indexOf('/search') > -1) {
     searchPageInit();
+  }
+  else if (path.indexOf('/users/user') > -1) {
+    userPageInit();
   }
   else if (path.length === 32) {
     viewPageInit();

@@ -63,7 +63,7 @@ app.get('/events/:id'
 app.get('/users/:id.json'
   , myUtil.ensureAuthenticated
   , routes.users.profile_JSON);
-app.get('/users/'
+app.get('/users/user'
   , myUtil.ensureAuthenticated
   , routes.users.profile_GET)
 

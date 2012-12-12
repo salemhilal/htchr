@@ -10,7 +10,7 @@ module.exports = {
     else {
       User.findById(id, function (err, user) {
         if (err) { res.end('error'); }
-        else { res.end(JSON.stringify(user)) };
+        else { res.end(JSON.stringify(user)); };
       });
     }
   }, 

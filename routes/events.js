@@ -69,7 +69,7 @@ module.exports = {
                     for (var i=0; i < inviteList.length; i++) {
                       var post = "";
                       if (i !== inviteList.length - 1) {
-                        post = ","
+                        post = ",";
                       }
                       else {
                         post = "";
