@@ -15,6 +15,6 @@ module.exports = {
     }
   }, 
   profile_GET: function (req, res) {
-    res.render('users/user');
+    res.render('users/user', { name : req.user.name });
   }
 }

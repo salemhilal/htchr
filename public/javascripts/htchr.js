@@ -22,8 +22,6 @@ var place = {};
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
-    //remove all instances of tokenInput forms
-    console.log($(".token-input-list-facebook"));
     //get access_token and current User's friends
     $.getJSON('/users/current.json', function(profile) {
         var access_token = profile.access_token;
@@ -44,7 +42,9 @@ function newEventPageInit () {
 
                     $("#friendList").append(templated);
                 });
+            //remove all previous instances of tokenInput forms
             $(".token-input-list-facebook").remove();
+            //update the friend invite list once it is populated
             $("#friendList").trigger("change");
             
             $("#friendInput").tokenInput(friendTags, {
@@ -227,17 +227,17 @@ function feedPageInit () {
 
 function userPageInit () {
   console.log('loading userPageInit().');
-  $('#userInfo').html("");
+  // $('#userInfo').html("");
 
   var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
 
   $.getJSON('/users/current.json', function (user) {
-      console.log(user);
+      console.log("user", user);
       var templated = _.template(userTemplate, {
         username : user.name
       });
   
-      $('#userInfo').append(templated);
+      // $('#userInfo').append(templated);
   });
 }
 
@@ -338,7 +338,7 @@ $(document).bind("pagechange", function (e) {
   else if (path.indexOf('/search') > -1) {
     searchPageInit();
   }
-  else if (path.indexOf('/users/user') > -1) {
+  else if (path.indexOf('/users/self') > -1) {
     userPageInit();
   }
   else if (path.length === 32) {
