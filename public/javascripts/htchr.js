@@ -22,7 +22,8 @@ var place = {};
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
-  $('friendsList').html('');
+    //remove all instances of tokenInput forms
+    console.log($(".token-input-list-facebook"));
     //get access_token and current User's friends
     $.getJSON('/users/current.json', function(profile) {
         var access_token = profile.access_token;
@@ -43,6 +44,7 @@ function newEventPageInit () {
 
                     $("#friendList").append(templated);
                 });
+            $(".token-input-list-facebook").remove();
             $("#friendList").trigger("change");
             
             $("#friendInput").tokenInput(friendTags, {
