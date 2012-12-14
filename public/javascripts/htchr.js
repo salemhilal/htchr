@@ -240,6 +240,7 @@ function feedPageInit () {
         $("#feedList").append(recLi); 
       });
       $("#feedList").listview('refresh');
+      console.log("Recommendations have been added.");
     }
 
     // Add feed items to the feed.
@@ -253,7 +254,7 @@ function feedPageInit () {
       $("#feedList").append(eventLi); 
     });
     $("#feedList").listview('refresh');
-    console.log("Just put updated the feed.");
+    console.log("The feed is now updated.");
   });
 }
 
