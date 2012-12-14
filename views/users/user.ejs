@@ -37,11 +37,36 @@
         <a id="logoutButton" href="/logout" rel="external" data-theme='b' data-role="button" data-mini='true' data-inline='true'>Logout</a>
     </div>
     <br/>
-    <div id="eventBox">
-      <h3>What's up?</h3><br/>
-      <ul data-role="listview" id="userEvents">
-      </ul>
+
+    <div data-role="collapsible-set" data-theme="b" data-content-theme="b">
+      <div data-role="collapsible">
+        <h2>I made</h2>
+        <ul data-role="listview" data-inset="true" id="ownedEvents"> </ul>
+      </div>
+
+      <div data-role="collapsible">
+        <h2>I'm attending</h2>
+        <ul data-role="listview" data-inset="true" id="attendEvents"> </ul>
+      </div>     
+
+      <div data-role="collapsible">
+        <h2>I might go to</h2>
+        <ul data-role="listview" data-inset="true" id="maybeEvents"> </ul>
+      </div>
+
+      <div data-role="collapsible">
+        <h2>I don't know about</h2>
+        <ul data-role="listview" data-inset="true" id="unrepliedEvents"> </ul>
+      </div>
+
+      <div data-role="collapsible">
+        <h2>I don't think I'm going to</h2>
+        <ul data-role="listview" data-inset="true" id="declinedEvents"> </ul>
+      </div>      
+
+
     </div>
+
 
   </div><!-- /content -->
 

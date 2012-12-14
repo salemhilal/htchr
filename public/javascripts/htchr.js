@@ -208,7 +208,7 @@ function feedPageInit () {
         event_url: "/events/" + hEvent._id
       });
 
-      $("#feedList").append(eventLi).listview('refresh'); 
+      $("#feedList").append(eventLi).listview('refresh');
       console.log("Just put updated the feed.");
             
     });
@@ -235,7 +235,30 @@ function userPageInit () {
           event_url: "/events/" + hEvent._id
         });
 
-        $("#userEvents").append(eventLi).listview('refresh');
+        if (hEvent.ownerFbID === user.fbID) {
+          $("#ownedEvents").append(eventLi).listview('refresh');
+        } else {
+          var myInvite = _.find(hEvent.invited, function(invite){
+            return (invite.fbID === user.fbID);
+          });
+          var status = myInvite.rsvpStatus;
+          if (status === "attending"){
+            $("#attendEvents").append(eventLi).listview('refresh');          
+          }
+          else if (status === "maybe"){
+            $("#maybeEvents").append(eventLi).listview('refresh');
+          }
+          else if (status === "noreply"){
+            $('#unrepliedEvents').append(eventLi).listview('refresh');
+          }
+          else if (status === "declined"){
+            $('#declinedEvents').append(eventLi).listview('refresh');
+          }
+          else {
+            console.log("Status is not defined correctly - check it", status);
+          }
+        }
+
       });
   });
 

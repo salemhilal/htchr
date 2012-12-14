@@ -1239,13 +1239,49 @@ a.ui-link-inherit {
   display: inline-block;
 }
 
+#userInfo h2 {
+	font-size: 20px;
+}
+
 #logoutButton {
   float: right;
   width: 75px;
-  margin: 20px 20px 0px 0px;
+  margin: 10px 20px 0px 0px;
 }
 
-#eventBox {
+#invitedBox {
+	display: inline-block;
 	width: 300px;
 	text-align: center;
+}
+
+#invitedEvents {
+	text-align: center;
+}
+
+#ownerBox {
+	display: inline-block;
+	width: 300px;
+	text-align: center;
+}
+
+#ownedEvents {
+	text-align: center;
+}
+
+/*Collapsible list animations*/
+.ui-collapsible-content {
+    -webkit-transition: all 0.8s;
+    -moz-transition: all 0.8s;
+    -ms-transition: all 0.8s;
+    -o-transition: all 0.8s;
+    transition: all 0.8s;
+    opacity: 1;
+    height: auto;
+}
+.ui-collapsible-content-collapsed {
+	opacity: 0;
+    display: block;
+    height: 0;
+    padding: 0 16px;    
 }

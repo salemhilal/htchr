@@ -8,7 +8,7 @@ module.exports = {
     var fbID = req.user.fbID;
 
     //find all events user is attending/hosting
-    Event.find({$or : [{'invited.fbID': fbID}, {'ownerFbID': fbID}]})
+    Event.find({$or : [{'invited.fbID': fbID}, {'ownerFbID': fbID}]}).sort('-createdAt')
          .limit(10)
          .exec(function(err, eventData) {
           if (err) {
