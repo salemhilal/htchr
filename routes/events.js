@@ -2,7 +2,8 @@ var models = require('../db/models.js')
   , User = models.User
   , Event = models.Event
   , Place = models.Place
-  , graph = require('fbgraph');
+  , graph = require('fbgraph')
+  , myUtil = require('../myUtil.js');
 
 module.exports = {
   // Render the page to create an event
