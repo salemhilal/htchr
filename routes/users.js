@@ -22,8 +22,14 @@ module.exports = {
     var fbID = req.user.fbID;
     //find all events for which the user fbID is in the invited array of objects
     //also group them by the rsvp status on the profile page
-    // Event.find({   })
-    res.render('users/user', { name : req.user.name });
+    Event.find({ 'invited.fbID': fbID }).exec(function(err, eventData) {
+      console.log("eventData\n--------------------------\n", eventData);
+      if (err) {
+        console.error(err);
+      } else {
+          res.render('users/user', { name : req.user.name, eventData : eventData });
+      }
+    });
   }
 
 }
