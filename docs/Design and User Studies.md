@@ -2,7 +2,7 @@
 ----
 Initially our app started off as a *totally* different concept. It was going to be more of a ride-sharing app but for friends (think Über taxi, but for friends, kinda). Before we got to coding our idea had evolved more towards what it is now, but not entirely. We kind of came up with new ideas and modified our overall concept as we made the app.
 
-Why does this matter? Because parts our formal mockups may seem like they have *nothing* to do with our app. That's how much it changed. Anyway, see the `mockups` folder for a few of the mockup stages we went through. A lot of our design iterations were whiteboard / paper general wireframes so we didn't bother formally mocking them up, but we've stages we did actually mockup (we used Balsamiq Mockups).
+Why does this matter? Because parts our formal mockups may seem like they have *nothing* to do with our app. That's how much it changed. Anyway, see the `mockups` folder for a few of the mockup stages we went through. A lot of our design iterations were whiteboard / paper general wireframes so we didn't bother formally mocking them up, but we've included the stages we did actually mockup (we used Balsamiq Mockups).
 
 # User Studies
 --------
