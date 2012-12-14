@@ -69,3 +69,11 @@ Salem Hilal (shilal)
     * Recommendation system attempts to pair up users and events
     * Events are recommended to users in the event feed
     * Upon event creation, htchr suggests friends to invite
+
+------
+
+### Something Extra
+
+As part of our project, we also looked into how modern web applications are hosted at real-world scale. As such, we learned how to structure our infastructure and our application to potentially prepare to take our site to a larger public audience some day. We set up our own infastructure on Amazon Web Services. We have a single mongoDB database server, and currently one express application server. In front of our application server is an Elastic Load Balancer. This means that if we ever launch and have a rush of users, we can replicate our most recent snapshot of our application server (~4 minutes), pull the most recent code to the new server (~1 minute), and put the server behind the load balancer (~3 minutes for changes to propegate across network). Thus in under 10 minutes, we can scale our overall infastructure to handle twice as many users, and thus won't be bottlenecked until we hit heavy load on our DB server (at which point we would look into data sharding techniques to deal with the new load).
+
+This was an unanticipated learning experience we gained in our project, and it was really interesting to see how real-world applications are created and served.
