@@ -9,21 +9,36 @@ module.exports = {
   },
 
   geo_JSON: function (req, res){
+    console.log(req.body);
     var lng = req.body.lng;
     var lat = req.body.lat;
     if(parseFloat(lat).toString() === "NaN" || parseFloat(lng).toString() === "NaN"){
       res.end(JSON.stringify({error: "Invalid coordinates."}));
     } else {
       var result = {};
-      
-      Place.find({ location : { $near : [lng, lat] } }).limit(5).select("_id").exec(function(err, nearby){
+      var range = 2; //km
+      var earthRadius = 6378; //km
+
+      Place.find({ location : { $near : [lng, lat]} }).limit(3).exec(function(err, nearby){
         if(err){
           console.error("Error occurred when searching for nearby places", err);
           res.end(JSON.stringify({error: err}));
         } else{
-          result.places = nearby.map(function(i){return i._id});
+          var places = {};
+          for(i in nearby){
+            places[nearby[i]._id] = nearby[i];
+          }
+          result.places = places;
 
-          Event.find().where("placeID").in(result.places).limit(5).exec(function(err2, nearbyEvents){
+          var friends = [];
+          var i=0;
+          for(frnd in req.user.friends){
+            friends[i] = req.user.friends[frnd].id + "";
+            i++;
+          }
+          friends[i] = req.user.fbID;
+
+          Event.find().where("placeID").in(nearby.map(function(i){return i._id})).where('ownerFbID').in(friends).limit(5).exec(function(err2, nearbyEvents){
             if(err){
               console.error("Error occurred when searching for nearby events", err);
               res.end(JSON.stringify({error: err2}));
@@ -38,7 +53,6 @@ module.exports = {
       });
 
     }
-
   },
 
   query_JSON: function (req, res) {

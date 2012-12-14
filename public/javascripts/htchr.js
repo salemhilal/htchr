@@ -94,9 +94,47 @@ function newEventPageInit () {
     if(place.geometry){
       fadeslide(".field3");
       $(".field3 > input").focus();
-      $(this).off("setplace");
+      $.post("/search/geo", {lng: place.geometry.location.lng(), lat: place.geometry.location.lat()}, function(d){
+          var data = JSON.parse(d);
+          console.log("Geo query", data);
+
+        if(!data.events || data.events.length === 0){ 
+          console.log(data);
+          return;
+        } else {
+          var liTemplate = 
+            '<li>' + 
+              '<a href="<%= event_url %>">' +
+                '<h3><%= user_name %> ' +
+                  '<small>is going to</small> '+ 
+                  '<%= event_location %>' +
+                '</h3>' +
+                '<h5>for the event <%= event_name %> on <%= event_date %>.</h5>' + 
+                '<h5>at <%= event_addr %>.</h5>' + 
+              '</a>' +
+            '</li>';
+
+          _.each(data.events, function(hEvent){
+            var date = new Date(hEvent.startTime).toString().split(" ").slice(0,3).join(" ");
+
+            var eventLi = _.template(liTemplate, {
+              user_name: hEvent.ownerName,
+              event_name: hEvent.name,
+              event_location: data.places[hEvent.placeID].name,
+              event_addr: data.places[hEvent.placeID].address,
+              event_date: date,
+              event_url: "/events/" + hEvent._id
+            });
+            $("#tryThese").append(eventLi);
+          });
+          $("#tryThese").listview("refresh");
+          $("#suggestPopup").popup("open");
+        }
+
+      });
     }
   });
+
 
   //Date
   $(".field3 > input").off("focus");
@@ -115,12 +153,16 @@ function newEventPageInit () {
   });
 
 
-  //Initialize the error/success popups.
+  //Initialize the error/success/suggest popups.
   $("#errorPopup").popup({
     overlayTheme: "a",
     transition: "pop"
   });       
   $("#successPopup").popup({
+    overlayTheme: "a",
+    transition: "pop"
+  });
+  $("#suggestPopup").popup({
     overlayTheme: "a",
     transition: "pop"
   });
