@@ -83,6 +83,11 @@ function newEventPageInit () {
     }
   });
 
+  $("#suggestClose").off("click");
+  $("#suggestClose").on("click", function(){
+    $("#suggestPopup").popup("close");
+  });
+
   //Places
   $(".field2 > input").off("setplace");
   $(".field2 > input").on("setplace", function(){
@@ -433,38 +438,58 @@ function viewPageInit () {
       $("#viewContent").prepend(templated);
 
       $("#eventViewBack").off();
-      $("#eventViewBack")
-        .on('click', function() {
-              history.back();
-              return false;
-        });
+      $("#eventViewBack").on('click', function() {
+        history.back();
+        return false;
+      });
 
       var status = "";
 
       var myInvite = _.find(eventRes.invited, function(invite){
          return (invite.fbID === profile.fbID);
       });
-        if (myInvite === undefined) {
-          status = "";
-        }
-        else {
-          status = myInvite.rsvpStatus;
-          if (status === "attending"){
-            $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
-          }
-          else if (status === "maybe"){
-            $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
-          }
-          else if (status === "declined"){
-            $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
-          }
-          else if (status === "noreply"){
-            $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
-            $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
-            $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
-          } 
-        }
 
+      $("#radio-view-a").off("click");
+      $("#radio-view-b").off("click");
+      $("#radio-view-c").off("click");
+
+      $("#radio-view-a").on("click", function(){
+        $.post("/events/update", {eventID: eventId, fbID: profile.fbID, rsvp : "attending"}, function(data){
+          console.log(JSON.parse(data));
+        });
+      });
+      $("#radio-view-b").on("click", function(){
+        $.post("/events/update", {eventID: eventId, fbID: profile.fbID, rsvp : "maybe"}, function(data){
+          console.log(JSON.parse(data));
+        });
+      });
+      $("#radio-view-c").on("click", function(){
+        $.post("/events/update", {eventID: eventId, fbID: profile.fbID, rsvp : "declined"}, function(data){
+          console.log(JSON.parse(data));
+        });
+      });
+
+
+      if (myInvite === undefined) {
+        status = "";
+      }
+      else {
+        status = myInvite.rsvpStatus;
+        if (status === "attending"){
+          $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "maybe"){
+          $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "declined"){
+          $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "noreply"){
+          $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
+        } 
+      }
     });
   });
 }
