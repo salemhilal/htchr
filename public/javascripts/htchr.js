@@ -324,7 +324,8 @@ function viewPageInit () {
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
       var templated = _.template(eventTemplate, {
         event: eventRes,
-        startTime: new Date(eventRes.startTime)
+        // we use the moment library cause it's fuckin awesome. yeah.
+        startTime: moment(new Date(eventRes.startTime)).format('MMMM Do YYYY, h:mm a')
       });
          
       $("#viewContent").prepend(templated);
