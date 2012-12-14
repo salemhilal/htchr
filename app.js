@@ -2,7 +2,7 @@
 var http = require('http')
   , express = require('express')
   , passport = require('passport')
-  , myUtil = require('./utils/myUtil.js')
+  , myUtil = require('./myUtil.js')
 
   , routes = require('./routes')
 
