@@ -1,3 +1,8 @@
+function hideURLbar(){
+  window.scrollTo(0,1);
+}
+addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+
 //Geolocation shim, a la 15-237 lecture.
 var nop = function(){};
 if (!navigator.geolocation) {
