@@ -13,6 +13,7 @@ var userSchema = new Schema({
     name: String,
     id: Number
   }], 
+  phoneNumber: String,
   prefs: {
     top: [String], //Keep the top 3 close.
     hash: Schema.Types.Mixed //Hash types to counts
@@ -46,6 +47,7 @@ var eventSchema = new Schema({
   startTime: Date, //or maybe string would be more useful (this is what FB passes it as)
   endTime: Date,
   placeID: Schema.ObjectId, // points to a place in OUR database
+  types: [String],
   invited: [{
     fbID: String,
     rsvpStatus: String

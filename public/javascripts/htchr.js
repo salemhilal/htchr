@@ -141,6 +141,15 @@ function newEventPageInit () {
       $("#errorPopup").popup("open");
       return;
     } else {
+        $("#submitEvent").off("tap");
+        $.blockUI.defaults.css = {};
+        $.blockUI({ 
+          overlayCSS: {
+            backgroundColor: '#F9F9F9', 
+            opacity: .5
+          },
+          message: null
+        });
 
       var lat = place.geometry.location.lat();
       var lng = place.geometry.location.lng();
@@ -171,8 +180,9 @@ function newEventPageInit () {
       };
 
       // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
-      // will take care of this - Matt
+      // will take care of this - Matt 
       $.post('http://localhost:3000/events/new', reqData, function (data) {
+        $.unblockUI();
         $("#successPopup").off("popupafterclose")
         $("#successPopup").on("popupafterclose", function(){
           window.location.href = "/events/feed";
@@ -186,7 +196,7 @@ function newEventPageInit () {
 function feedPageInit () {
   console.log('Loaded up feedPageInit().');
 
-  // Creat an li template.
+  // Create an li template.
   var liTemplate = 
     '<li>' + 
       '<a href="<%= event_url %>">' +
@@ -195,24 +205,52 @@ function feedPageInit () {
           '<%= event_name %>' +
         '</h3>' +
       '</a>' +
-    '</li>';
+    '</li>'
+
+  // Create a recommended template
+  var recTemplate = 
+    '<li>' + 
+      '<a href="<%= event_url %>">' +
+        '<h3>' +
+          '<small>You should check out</small> '+ 
+          '<%= event_name %>' +
+        '</h3>' +
+      '</a>' +
+    '</li>'
     
-    //Grab the feeds server-side and render them.
+    // Grab the feeds server-side and render them.
   $.getJSON('/events/feed.json', function (data) {
     $("#feedList").html("");
     console.log("I just wiped the feed.");
     console.log("Here's the feed data:\n", data);
+
+    // Add recommendations to the feed (if there are any).
+    if(data.recommended.length > 0){
+      $("#feedList").append("<li data-role='list-divider'>Recommended!</li>");
+       _.each(data.recommended, function (hEvent) {
+        var recLi = _.template(recTemplate, {
+          event_name: hEvent.name,
+          event_url: "/events/" + hEvent._id
+        });
+        $("#feedList").append(recLi); 
+      });
+      $("#feedList").listview('refresh');
+      console.log("Recommendations have been added.");
+    }
+
+    // Add feed items to the feed.
+    $("#feedList").append("<li data-role='list-divider'>Recent Activity</li>");
     _.each(data.data, function (hEvent) {
       var eventLi = _.template(liTemplate, {
         user_name: hEvent.ownerName,
         event_name: hEvent.name,
         event_url: "/events/" + hEvent._id
       });
-
       $("#feedList").append(eventLi).listview('refresh');
       console.log("Just put updated the feed.");
-            
     });
+    $("#feedList").listview('refresh');
+    console.log("The feed is now updated.");
   });
 }
 
