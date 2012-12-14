@@ -16,9 +16,6 @@
 
 .ui-bar-a {
 	border: 1px solid #b3b3b3 /*{a-bar-border}*/;
-	box-shadow: 0 -5px 10px #333;
-	-moz-box-shadow: 0 -5px 10px #333;
-	-webkit-box-shadow: 0 -5px 10px #333;
 	background: #31475e /*{a-bar-background-color}*/;
 	color: #dbdbdb /*{a-bar-color}*/;
 	font-weight: bold;
@@ -1222,6 +1219,12 @@ a.ui-link-inherit {
   width: 100%;
 }
 
+#eventViewBack {
+	width: 75px;
+	margin-top: 7px;
+	margin-left: 7px;
+}
+
 .ui-slider {
     margin-bottom: 10px !important;
 }
@@ -1251,7 +1254,6 @@ a.ui-link-inherit {
 	padding-bottom: 7px;
 }
 
-
 .ui-collapsible-content {
 	padding: 0 !important;
 }
@@ -1270,6 +1272,32 @@ a.ui-link-inherit {
   margin: 10px 20px 0px 0px;
 }
 
+/* Footer top shadow to give the appearance of depth */
+.ui-footer-fixed {
+	box-shadow: 0 -5px 10px #333;
+	-moz-box-shadow: 0 -5px 10px #333;
+	-webkit-box-shadow: 0 -5px 10px #333;
+
+}
+
+/* Styling for the new event form. */
+.desc {
+  font-style: italic;
+}
+.modalfield label {
+  font-weight: bold;
+}
+.modalfield {
+  display: none;
+}
+
+/* Facebook Friends selector. */
+@media all and (max-width: 449px){
+	ul.token-input-list-facebook{
+		width: 100% !important;
+	}
+}
+
 #invitedEvents {
 	text-align: center;
 }
@@ -1280,17 +1308,17 @@ a.ui-link-inherit {
 
 /*Collapsible list animations*/
 .ui-collapsible-content {
-    -webkit-transition: all 0.8s;
-    -moz-transition: all 0.8s;
-    -ms-transition: all 0.8s;
-    -o-transition: all 0.8s;
-    transition: all 0.8s;
-    opacity: 1;
-    height: auto;
+  -webkit-transition: all 0.8s;
+  -moz-transition: all 0.8s;
+  -ms-transition: all 0.8s;
+  -o-transition: all 0.8s;
+  transition: all 0.8s;
+  opacity: 1;
+  height: auto;
 }
 .ui-collapsible-content-collapsed {
 	opacity: 0;
-    display: block;
-    height: 0;
-    padding: 0 16px;    
+  display: block;
+  height: 0;
+  padding: 0 16px;    
 }

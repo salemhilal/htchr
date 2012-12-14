@@ -16,6 +16,7 @@
   <script type="text/javascript" src="/javascripts/jquery.tokeninput.js"></script>
   <script type="text/javascript" src="/javascripts/jquery.blockui.js"></script>
   <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
+  <script type="text/javascript" src="/javascripts/moment.min.js"></script>
   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
   <script type="text/javascript" src="/javascripts/htchr.js"></script>
 
@@ -39,29 +40,34 @@
     </div>
     <br/>
 
+    <div data-role="fieldcontain" class="ui-hide-label">
+        <input id="phoneEntry" type="tel" data-theme="b" value="" placeholder="Your Phone Number"/>
+        <a href="#" data-role="button" id="phoneSubmit">Update</a><br/>
+    </div>
+
     <div data-role="collapsible-set" data-theme="b" data-content-theme="b">
       <div data-role="collapsible">
-        <h3 class="eventSubhead">I made</h3>
+        <h3 class="eventSubhead">I'm the organizer.</h3>
         <ul data-role="listview" data-inset="true" id="ownedEvents"> </ul>
       </div>
 
       <div data-role="collapsible">
-        <h3 class="eventSubhead">I'm attending</h3>
+        <h3 class="eventSubhead">Definitely going.</h3>
         <ul data-role="listview" data-inset="true" id="attendEvents"> </ul>
       </div>     
 
       <div data-role="collapsible">
-        <h3 class="eventSubhead">I might go to</h3>
+        <h3 class="eventSubhead">Maybe. I'm thinking about it.</h3>
         <ul data-role="listview" data-inset="true" id="maybeEvents"> </ul>
       </div>
 
       <div data-role="collapsible">
-        <h3 class="eventSubhead">I don't know about</h3>
+        <h3 class="eventSubhead">I have no idea.</h3>
         <ul data-role="listview" data-inset="true" id="unrepliedEvents"> </ul>
       </div>
 
       <div data-role="collapsible">
-        <h3 class="eventSubhead">I don't think I'm going to</h3>
+        <h3 class="eventSubhead">I don't think I'm going.</h3>
         <ul data-role="listview" data-inset="true" id="declinedEvents"> </ul>
       </div>      
 

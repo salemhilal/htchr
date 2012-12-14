@@ -12,12 +12,12 @@ var autocomplete = {};
 //The result of the places query. 
 var place = {};
 
-
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
     //get access_token and current User's friends
-    $.getJSON('/users/current.json', function(profile) {
+    $.getJSON('/users/current.json', function(data) {
+        var profile = data.user;
         var access_token = profile.access_token;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
             function(friends) {
@@ -51,12 +51,104 @@ function newEventPageInit () {
     });
   });
 
+  // Elegantly causes elem to come into view.
+  function fadeslide(elem) {
+    // Only animate if the element is hidden.
+    if($(elem).css("display") !== "none"){
+      return;
+    }
+    $(elem).css('opacity', 0)
+      .slideDown('slow')
+      .animate(
+        { opacity: 1 },
+        { queue: false, duration: 'slow' }
+      );
+  }
+
   //Initialize autocomplete
   autocomplete = new google.maps.places.Autocomplete(document.getElementById("eventLoc"),{
     componentRestrictions: {country: 'us'}
   });
 
-  //Initialize the error/success popups.
+  //Begin the event creation process.
+  fadeslide(".field1");
+  $(".field1 > input").focus();
+
+  //Event name
+  $(".field1").off("keyup");
+  $(".field1").on("keyup", function(){
+    if( $(".field1 > input").val().length >= 5){
+      fadeslide(".field2");
+      $(this).off("keyup");
+    }
+  });
+
+  //Places
+  $(".field2 > input").off("setplace");
+  $(".field2 > input").on("setplace", function(){
+    if(place.geometry){
+      fadeslide(".field3");
+      $(".field3 > input").focus();
+      $.post("/search/geo", {lng: place.geometry.location.lng(), lat: place.geometry.location.lat()}, function(d){
+          var data = JSON.parse(d);
+          console.log("Geo query", data);
+
+        if(!data.events || data.events.length === 0){ 
+          console.log(data);
+          return;
+        } else {
+          var liTemplate = 
+            '<li>' + 
+              '<a href="<%= event_url %>">' +
+                '<h3><%= user_name %> ' +
+                  '<small>is going to</small> '+ 
+                  '<%= event_location %>' +
+                '</h3>' +
+                '<h5>for the event <%= event_name %> on <%= event_date %>.</h5>' + 
+                '<h5>at <%= event_addr %>.</h5>' + 
+              '</a>' +
+            '</li>';
+
+          _.each(data.events, function(hEvent){
+            var date = new Date(hEvent.startTime).toString().split(" ").slice(0,3).join(" ");
+
+            var eventLi = _.template(liTemplate, {
+              user_name: hEvent.ownerName,
+              event_name: hEvent.name,
+              event_location: data.places[hEvent.placeID].name,
+              event_addr: data.places[hEvent.placeID].address,
+              event_date: date,
+              event_url: "/events/" + hEvent._id
+            });
+            $("#tryThese").append(eventLi);
+          });
+          $("#tryThese").listview("refresh");
+          $("#suggestPopup").popup("open");
+        }
+
+      });
+    }
+  });
+
+
+  //Date
+  $(".field3 > input").off("focus");
+  $(".field3 > input").on("focus", function(){
+    fadeslide(".field4"); // Time
+    fadeslide(".field5"); // Friends
+    fadeslide(".field6"); // Private
+    $(this).off("focus");
+  });
+
+  //Time
+  $(".field4 > input").off("focus");
+  $(".field4 > input").on("focus", function(){
+    fadeslide(".field7"); // Button
+    $(this).off("focus");
+  });
+
+
+  //Initialize the error/success/suggest popups.
   $("#errorPopup").popup({
     overlayTheme: "a",
     transition: "pop"
@@ -65,12 +157,10 @@ function newEventPageInit () {
     overlayTheme: "a",
     transition: "pop"
   });
-
-  //Populate some dummy data.
-  var t = new Date(); 
-  t.setHours(t.getHours() + 1); 
-  t.setMinutes(0); 
-  $("#eventTime").val(t.toTimeString().substr(0,5));
+  $("#suggestPopup").popup({
+    overlayTheme: "a",
+    transition: "pop"
+  });
 
   //Request current data to bias the autocomplete's search queries.
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -90,6 +180,7 @@ function newEventPageInit () {
     //Watch for resolved autocomplete locations
   google.maps.event.addListener(autocomplete, 'place_changed', function(){
     place = autocomplete.getPlace();
+    $(".field2 > input").trigger("setplace");
     console.log("The user just picked a place:\n", place);
   });
 
@@ -117,7 +208,7 @@ function newEventPageInit () {
     var time = $("#eventTime").val();
     var isPrivate = $("#eventPrivate").val();
 
-    if(name.length < 3){
+    if(name.length < 5){
       problems.push("<li>enter a <i>real</i> name (3+ letters).</li>");
       $("#eventName").addClass("error");
     }
@@ -128,7 +219,7 @@ function newEventPageInit () {
     }
 
     if(date === ""){
-      problems.push("<li>enter a valid date, please.</li>");
+      problems.push("<li>enter a valid date.</li>");
     }
 
     if(time === ""){
@@ -256,6 +347,18 @@ function feedPageInit () {
 function userPageInit () {
   console.log("loading userPageInit()");
 
+  $("#phoneSubmit").off("tap");
+  $("#phoneSubmit").on("tap", function () {
+    // strip out non-numeric stuff
+    var newNumber = $("#phoneEntry").val().replace(/[^0-9]/g, '');
+    if (newNumber.length === 10) {
+      console.log("good");
+      $.post("/users/self/phone", { number: newNumber }, function (data) {
+        $("#phoneEntry").val("");
+      });
+    }
+  });
+
   var eventTemplate =
     '<li>' +
       '<a class="eventItem" href="<%= event_url %>">' +
@@ -275,10 +378,12 @@ function userPageInit () {
 
         if (hEvent.ownerFbID === user.fbID) {
           $("#ownedEvents").append(eventLi).listview('refresh');
-        } else {
+        }
+        else {
           var myInvite = _.find(hEvent.invited, function(invite){
             return (invite.fbID === user.fbID);
           });
+
           var status = myInvite.rsvpStatus;
 
           //Add the event to the appropriate listview
@@ -306,22 +411,61 @@ function userPageInit () {
 }
 
 function viewPageInit () {
-  console.log('Loaded up viewPageInit().');
-
+  $('#viewContent').html('');
   var eventTemplate =
     '<h1>Title: <%= event.name %> </h1>' +
     '<h2>Created by: <%= event.ownerName %> </h2>' +
     '<h2>Begins on <%= startTime %> </h2>';
     
   var eventId = window.location.pathname.split('/').pop();
-  $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-    var templated = _.template(eventTemplate, {
-      event: eventRes,
-      startTime: new Date(eventRes.startTime)
-    });
-       
-    $("#viewContent").append(templated);
+  $.getJSON('/users/current.json', function(data){
+    var profile = data.user;
+    var eventData = data.eventData;
+    
+    $.getJSON('/events/' + eventId + '.json', function (eventRes) {
+      var templated = _.template(eventTemplate, {
+        event: eventRes,
+        // we use the moment library cause it's fuckin awesome. yeah.
+        startTime: moment(new Date(eventRes.startTime)).format('MMMM Do YYYY, h:mm a')
+      });
+         
+      $("#viewContent").prepend(templated);
+
+      $("#eventviewBack").off();
+      $("#eventViewBack")
+        .on('click', function() {
+              history.back();
+              return false;
+        });
+
+      if (profile.fbID === eventRes.ownerFbID) {
+        $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+      }
+      else {
+        var myInvite = _.find(eventRes.invited, function(invite){
+          return (invite.fbID === profile.fbID);
+        });
+        var status = myInvite.rsvpStatus;
+
+        if (status === "attending"){
+          $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "maybe"){
+          $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "declined"){
+          $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "noreply"){
+          $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
+        }
         
+        
+      }
+
+    });
   });
 }
 
