@@ -1238,29 +1238,36 @@ a.ui-link-inherit {
   display: inline-block;
 }
 
+.eventItem {
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+}
+
+.ui-collapsible-heading-toggle {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+
+.ui-collapsible-content {
+	padding: 0 !important;
+}
+
+.ui-li-heading {
+	font-size: 14px;
+}
+
 #userInfo h2 {
 	font-size: 20px;
 }
 
 #logoutButton {
   float: right;
-  width: 75px;
+  width: 70px;
   margin: 10px 20px 0px 0px;
 }
 
-#invitedBox {
-	display: inline-block;
-	width: 300px;
-	text-align: center;
-}
-
 #invitedEvents {
-	text-align: center;
-}
-
-#ownerBox {
-	display: inline-block;
-	width: 300px;
 	text-align: center;
 }
 

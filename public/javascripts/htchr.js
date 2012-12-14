@@ -219,8 +219,8 @@ function userPageInit () {
   console.log("loading userPageInit()");
 
   var eventTemplate =
-    '<li>' + 
-      '<a href="<%= event_url %>">' +
+    '<li>' +
+      '<a class="eventItem" href="<%= event_url %>">' +
         '<h4> <%= event_name %>' +
         '</h4>' +
       '</a>' +
@@ -242,8 +242,10 @@ function userPageInit () {
             return (invite.fbID === user.fbID);
           });
           var status = myInvite.rsvpStatus;
+
+          //Add the event to the appropriate listview
           if (status === "attending"){
-            $("#attendEvents").append(eventLi).listview('refresh');          
+            $("#attendEvents").append(eventLi).listview('refresh');
           }
           else if (status === "maybe"){
             $("#maybeEvents").append(eventLi).listview('refresh');
@@ -268,7 +270,7 @@ function userPageInit () {
 function viewPageInit () {
   console.log('Loaded up viewPageInit().');
 
-  var eventTemplate = 
+  var eventTemplate =
     '<h1>Title: <%= event.name %> </h1>' +
     '<h2>Created by: <%= event.ownerName %> </h2>' +
     '<h2>Begins on <%= startTime %> </h2>';
