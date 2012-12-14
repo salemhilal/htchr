@@ -26,11 +26,12 @@
 <div id="viewEventPage" data-role="page">
 
   <div data-role="header">    
-      <a href="/events/feed" id="eventViewBack" data-icon="arrow-l">Back</a>
+      <a href="#" id="eventViewBack" data-back='true' data-icon="arrow-l">Back</a>
       <h1>Event Details.</h1>
   </div><!-- /header -->
 
   <div data-role="content" id="viewContent">
+    <a href="#" id="eventInteract" data-role='button' data-icon='check' data-iconpos='right' data-inline='true'></a>
   </div><!-- /content -->
 
   <div data-id="footNav" data-role="footer" data-position="fixed">        
@@ -40,8 +41,6 @@
         <li><a href="/search" data-icon="search">Find</a></li>
         <li><a href="/events/new" data-icon="Plus">New Event</a></li>
         <li><a href="/users/self" data-icon="star">My Profile</a></li>
-
-
       </ul>
     </div><!-- /navbar -->
   </div><!-- /footer -->

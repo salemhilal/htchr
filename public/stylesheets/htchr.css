@@ -1222,6 +1222,12 @@ a.ui-link-inherit {
   width: 100%;
 }
 
+#eventViewBack {
+	width: 75px;
+	margin-top: 7px;
+	margin-left: 7px;
+}
+
 .ui-slider {
     margin-bottom: 10px !important;
 }
@@ -1250,7 +1256,6 @@ a.ui-link-inherit {
 	padding-top: 7px;
 	padding-bottom: 7px;
 }
-
 
 .ui-collapsible-content {
 	padding: 0 !important;

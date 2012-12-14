@@ -17,7 +17,8 @@ var place = {};
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
     //get access_token and current User's friends
-    $.getJSON('/users/current.json', function(profile) {
+    $.getJSON('/users/current.json', function(data) {
+        var profile = data.user;
         var access_token = profile.access_token;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
             function(friends) {
@@ -287,10 +288,12 @@ function userPageInit () {
 
         if (hEvent.ownerFbID === user.fbID) {
           $("#ownedEvents").append(eventLi).listview('refresh');
-        } else {
+        }
+        else {
           var myInvite = _.find(hEvent.invited, function(invite){
             return (invite.fbID === user.fbID);
           });
+
           var status = myInvite.rsvpStatus;
 
           //Add the event to the appropriate listview
@@ -326,14 +329,24 @@ function viewPageInit () {
     '<h2>Begins on <%= startTime %> </h2>';
     
   var eventId = window.location.pathname.split('/').pop();
-  $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-    var templated = _.template(eventTemplate, {
-      event: eventRes,
-      startTime: new Date(eventRes.startTime)
+  $.getJSON('/events/current.json', function(data){
+    var profile = data.user;
+    var eventData = data.eventData;
+    
+    $.getJSON('/events/' + eventId + '.json', function (eventRes) {
+      var templated = _.template(eventTemplate, {
+        event: eventRes,
+        startTime: new Date(eventRes.startTime)
+      });
+         
+      $("#viewContent").prepend(templated);
+
+      $("#eventViewBack")
+        .click(function() {
+              history.back();
+              return false;
+        });
     });
-       
-    $("#viewContent").append(templated);
-        
   });
 }
 
