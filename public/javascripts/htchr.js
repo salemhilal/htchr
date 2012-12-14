@@ -18,7 +18,6 @@ var autocomplete = {};
 //The result of the places query. 
 var place = {};
 
-
 //Load newEventPage's scripts when the page is loaded.
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
@@ -57,10 +56,64 @@ function newEventPageInit () {
     });
   });
 
+  // Elegantly causes elem to come into view.
+  function fadeslide(elem) {
+    // Only animate if the element is hidden.
+    if($(elem).css("display") !== "none"){
+      return;
+    }
+    $(elem).css('opacity', 0)
+      .slideDown('slow')
+      .animate(
+        { opacity: 1 },
+        { queue: false, duration: 'slow' }
+      );
+  }
+
   //Initialize autocomplete
   autocomplete = new google.maps.places.Autocomplete(document.getElementById("eventLoc"),{
     componentRestrictions: {country: 'us'}
   });
+
+  //Begin the event creation process.
+  fadeslide(".field1");
+  $(".field1 > input").focus();
+
+  //Event name
+  $(".field1").off("keyup");
+  $(".field1").on("keyup", function(){
+    if( $(".field1 > input").val().length >= 5){
+      fadeslide(".field2");
+      $(this).off("keyup");
+    }
+  });
+
+  //Places
+  $(".field2 > input").off("setplace");
+  $(".field2 > input").on("setplace", function(){
+    if(place.geometry){
+      fadeslide(".field3");
+      $(".field3 > input").focus();
+      $(this).off("setplace");
+    }
+  });
+
+  //Date
+  $(".field3 > input").off("focus");
+  $(".field3 > input").on("focus", function(){
+    fadeslide(".field4"); // Time
+    fadeslide(".field5"); // Friends
+    fadeslide(".field6"); // Private
+    $(this).off("focus");
+  });
+
+  //Time
+  $(".field4 > input").off("focus");
+  $(".field4 > input").on("focus", function(){
+    fadeslide(".field7"); // Button
+    $(this).off("focus");
+  });
+
 
   //Initialize the error/success popups.
   $("#errorPopup").popup({
@@ -71,12 +124,6 @@ function newEventPageInit () {
     overlayTheme: "a",
     transition: "pop"
   });
-
-  //Populate some dummy data.
-  var t = new Date(); 
-  t.setHours(t.getHours() + 1); 
-  t.setMinutes(0); 
-  $("#eventTime").val(t.toTimeString().substr(0,5));
 
   //Request current data to bias the autocomplete's search queries.
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -96,6 +143,7 @@ function newEventPageInit () {
     //Watch for resolved autocomplete locations
   google.maps.event.addListener(autocomplete, 'place_changed', function(){
     place = autocomplete.getPlace();
+    $(".field2 > input").trigger("setplace");
     console.log("The user just picked a place:\n", place);
   });
 
@@ -123,7 +171,7 @@ function newEventPageInit () {
     var time = $("#eventTime").val();
     var isPrivate = $("#eventPrivate").val();
 
-    if(name.length < 3){
+    if(name.length < 5){
       problems.push("<li>enter a <i>real</i> name (3+ letters).</li>");
       $("#eventName").addClass("error");
     }
@@ -134,7 +182,7 @@ function newEventPageInit () {
     }
 
     if(date === ""){
-      problems.push("<li>enter a valid date, please.</li>");
+      problems.push("<li>enter a valid date.</li>");
     }
 
     if(time === ""){

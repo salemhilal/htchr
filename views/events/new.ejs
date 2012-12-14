@@ -19,6 +19,10 @@
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
     <script type="text/javascript" src="/javascripts/htchr.js"></script>
 
+    <style type="text/css">
+
+    </style>
+
 </head> 
 <body> 
 
@@ -30,42 +34,48 @@
     </div><!-- /header -->
 
     <div data-role="content">   
-                <div data-role="fieldcontain">
-                    <label for="eventName">Event Name:<br/><br/></label>
-                    <input id="eventName" type="text" data-theme="b"/>
-                </div>
-                
-                <div data-role="fieldcontain">
-                    <label for="eventLoc">Location:<br/><br/></label>
-                    <input id="eventLoc" type="text" data-theme="b"/>
-                </div>
+        <div data-role="fieldcontain" class="modalfield field1">
+            <label for="eventName">Event Name:</label>
+            <input id="eventName" type="text" data-theme="b"/>
+            <p class="desc">Make it meaningful. Give it depth. And also at least 5 characters. </p>
+        </div>
+        
+        <div data-role="fieldcontain" class="modalfield field2">
+            <label for="eventLoc">Location:</label>
+            <input id="eventLoc" type="text" data-theme="b"/>
+            <p class="desc">Just start typing a name, then select a place from the drop-down list. Don't see it? Try its address.</p>
+        </div>
 
-                <div data-role="fieldcontain">
-                    <label for="eventDate">Date:<br/><br/></label>
-                    <input id="eventDate" type="date" data-theme="b"/>
-                </div>
+        <div data-role="fieldcontain" class="modalfield field3">
+            <label for="eventDate">Date:</label>
+            <input id="eventDate" type="date" data-theme="b"/>
+            <p class="desc">Pick a good one. It should also be of the form MM/DD/YYYY.</p>
+        </div>
 
-                <div data-role="fieldcontain">
-                    <label for="eventTime">Time:<br/><br/></label>
-                    <input id="eventTime" type="time" data-theme="b"/>
-                </div>  
+        <div data-role="fieldcontain" class="modalfield field4">
+            <label for="eventTime">Time:</label>
+            <input id="eventTime" type="time" data-theme="b"/>
+            <p class="desc">The right event at the wrong time would be a darn shame.</p>
 
-                <div id="inviteBox" data-role="fieldcontain">
-                    <label for="friendInput">Friends to Invite:</label>
-                    <input type="text" id="friendInput" name="friendInput" data-theme="b"/>
-                </div>
+        </div>  
 
-                <div data-role="fieldcontain">
-                    <label for="eventPrivate">Private Event:</label>
-                    <select id="eventPrivate" data-role="slider" data-theme="b">
-                        <option value="off">Off</option>
-                        <option value="on">On</option>
-                    </select> 
-                </div>
+        <div id="inviteBox" data-role="fieldcontain" class="modalfield field5">
+            <label for="friendInput">Friends to Invite:</label>
+            <input type="text" id="friendInput" name="friendInput" data-theme="b"/>
+            <p class="desc">Don't go by yourself. You know, in case of zombies. Bring a few friends along.</p>
+        </div>
 
-                <button id="submitEvent" type="submit" data-theme="b">Lets do it</button>
-
-            
+        <div data-role="fieldcontain" class="modalfield field6">
+            <label for="eventPrivate">Private Event:</label>
+            <select id="eventPrivate" data-role="slider" data-theme="b">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+            </select>
+            <p class="desc">Don't want people knowing about this event unless you tell them? Flip the switch on.</p>
+        </div>
+        <div class="modalfield field7">
+            <button id="submitEvent" type="submit" data-theme="b">Lets do it</button>
+        </div>
     </div><!-- /content -->
 
     <div data-id="footNav" data-role="footer" data-position="fixed">        
@@ -85,7 +95,7 @@
             <h1 class="ui-title" role="heading" aria-level="1">Hang on...</h1>
         </div>
         <div class="ui-content">
-            <h3>Can you please</h3>
+            <h3>Can you please...</h3>
             <ul id="problems"></ul>
             <span id="sorry">
                 <a href="#" id="sorry" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-hover-a ui-btn-up-a"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Yeah, sorry.</span></span></a>

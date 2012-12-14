@@ -16,9 +16,6 @@
 
 .ui-bar-a {
 	border: 1px solid #b3b3b3 /*{a-bar-border}*/;
-	box-shadow: 0 -5px 10px #333;
-	-moz-box-shadow: 0 -5px 10px #333;
-	-webkit-box-shadow: 0 -5px 10px #333;
 	background: #31475e /*{a-bar-background-color}*/;
 	color: #dbdbdb /*{a-bar-color}*/;
 	font-weight: bold;
@@ -1246,4 +1243,30 @@ a.ui-link-inherit {
   float: right;
   width: 75px;
   margin: 20px 20px 0px 0px;
+}
+
+/* Footer top shadow to give the appearance of depth */
+.ui-footer-fixed {
+	box-shadow: 0 -5px 10px #333;
+	-moz-box-shadow: 0 -5px 10px #333;
+	-webkit-box-shadow: 0 -5px 10px #333;
+
+}
+
+/* Styling for the new event form. */
+.desc {
+  font-style: italic;
+}
+.modalfield label {
+  font-weight: bold;
+}
+.modalfield {
+  display: none;
+}
+
+/* Facebook Friends selector. */
+@media all and (max-width: 449px){
+	ul.token-input-list-facebook{
+		width: 100% !important;
+	}
 }
