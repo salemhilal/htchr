@@ -8,6 +8,39 @@ module.exports = {
     res.render('search');
   },
 
+  geo_JSON: function (req, res){
+    var lng = req.body.lng;
+    var lat = req.body.lat;
+    if(parseFloat(lat).toString() === "NaN" || parseFloat(lng).toString() === "NaN"){
+      res.end(JSON.stringify({error: "Invalid coordinates."}));
+    } else {
+      var result = {};
+      
+      Place.find({ location : { $near : [lng, lat] } }).limit(5).select("_id").exec(function(err, nearby){
+        if(err){
+          console.error("Error occurred when searching for nearby places", err);
+          res.end(JSON.stringify({error: err}));
+        } else{
+          result.places = nearby.map(function(i){return i._id});
+
+          Event.find().where("placeID").in(result.places).limit(5).exec(function(err2, nearbyEvents){
+            if(err){
+              console.error("Error occurred when searching for nearby events", err);
+              res.end(JSON.stringify({error: err2}));
+            } else{
+              result.events = nearbyEvents;
+              res.end(JSON.stringify(result));
+            }
+
+          });
+        }
+
+      });
+
+    }
+
+  },
+
   query_JSON: function (req, res) {
     var query = req.body.query;
     // Check if empty query. We don't want those.
