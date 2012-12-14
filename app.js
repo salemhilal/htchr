@@ -63,9 +63,9 @@ app.get('/events/:id'
 app.get('/users/:id.json'
   , myUtil.ensureAuthenticated
   , routes.users.profile_JSON);
-app.get('/users/'
+app.get('/users/self'
   , myUtil.ensureAuthenticated
-  , routes.users.profile_GET)
+  , routes.users.profile_GET);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

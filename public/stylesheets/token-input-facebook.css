@@ -5,7 +5,6 @@ ul.token-input-list-facebook {
     height: auto !important; 
     height: 1%;
     width: 78%;
-    /*border: 1px solid #8496ba;*/
     cursor: text;
     /*font-size: 12px;*/
     /*font-family: Verdana;*/
@@ -35,7 +34,7 @@ ul.token-input-list-facebook li input {
     padding: 2px 2px;
     margin: 2px 0;
     background-color: #F9F9F9;
-
+    font-size: 15px;
     /*background-color: transparent !important;*/
 
     /*-webkit-appearance: caret;*/
@@ -51,7 +50,7 @@ li.token-input-token-facebook {
     color: #000;
     cursor: default;
     border: 1px solid #ccd5e4;
-    font-size: 11px;
+    font-size: 14px;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -94,7 +93,7 @@ div.token-input-dropdown-facebook {
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     cursor: default;
-    font-size: 11px;
+    font-size: 13px;
     font-family: Verdana;
     z-index: 1;
 }

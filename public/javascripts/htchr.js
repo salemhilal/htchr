@@ -42,6 +42,9 @@ function newEventPageInit () {
 
                     $("#friendList").append(templated);
                 });
+            //remove all previous instances of tokenInput forms
+            $(".token-input-list-facebook").remove();
+            //update the friend invite list once it is populated
             $("#friendList").trigger("change");
             
             $("#friendInput").tokenInput(friendTags, {
@@ -167,7 +170,7 @@ function newEventPageInit () {
         toInvite: friendsToInvite
       };
 
-      var reqData = { 
+      var reqData = {
         placeData : placeData,
         eventData : eventData
       };
@@ -216,6 +219,24 @@ function feedPageInit () {
             
     });
   });
+}
+
+function userPageInit () {
+  /*doing the template rendering server side now to load faster
+      but this init may come in handy later so saving it for now.
+
+      // $('#userInfo').html("");
+
+      var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
+
+      $.getJSON('/users/current.json', function (user) {
+          console.log("user", user);
+          var templated = _.template(userTemplate, {
+            username : user.name
+          });
+      
+          // $('#userInfo').append(templated);
+      }); */
 }
 
 function viewPageInit () {
@@ -314,6 +335,9 @@ $(document).bind("pagechange", function (e) {
   }
   else if (path.indexOf('/search') > -1) {
     searchPageInit();
+  }
+  else if (path.indexOf('/users/self') > -1) {
+    userPageInit();
   }
   else if (path.length === 32) {
     viewPageInit();
