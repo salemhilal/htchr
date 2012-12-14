@@ -256,6 +256,18 @@ function feedPageInit () {
 function userPageInit () {
   console.log("loading userPageInit()");
 
+  $("#phoneSubmit").off("tap");
+  $("#phoneSubmit").on("tap", function () {
+    // strip out non-numeric stuff
+    var newNumber = $("#phoneEntry").val().replace(/[^0-9]/g, '');
+    if (newNumber.length === 10) {
+      console.log("good");
+      $.post("/users/self/phone", { number: newNumber }, function (data) {
+        $("#phoneEntry").val("");
+      });
+    }
+  });
+
   var eventTemplate =
     '<li>' +
       '<a class="eventItem" href="<%= event_url %>">' +

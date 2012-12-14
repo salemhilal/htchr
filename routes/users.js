@@ -42,6 +42,17 @@ module.exports = {
 
   profile_GET: function (req, res) {
     res.render('users/user', { name : req.user.name });
+  },
+
+  phone_POST: function (req, res) {
+    // add country code
+    var newNumber = "+1" + req.body.number;
+    console.log(req.user._id);
+    User.findById(req.user._id, function (err, user) {
+      user.phoneNumber = newNumber;
+      user.save();
+      res.end();
+    });
   }
 
 }

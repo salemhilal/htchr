@@ -66,6 +66,9 @@ app.get('/users/:id.json'
 app.get('/users/self'
   , myUtil.ensureAuthenticated
   , routes.users.profile_GET);
+app.post('/users/self/phone'
+  , myUtil.ensureAuthenticated
+  , routes.users.phone_POST);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
