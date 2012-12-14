@@ -237,10 +237,12 @@ function userPageInit () {
 
         if (hEvent.ownerFbID === user.fbID) {
           $("#ownedEvents").append(eventLi).listview('refresh');
-        } else {
+        }
+        else {
           var myInvite = _.find(hEvent.invited, function(invite){
             return (invite.fbID === user.fbID);
           });
+          
           var status = myInvite.rsvpStatus;
 
           //Add the event to the appropriate listview
@@ -283,7 +285,12 @@ function viewPageInit () {
     });
        
     $("#viewContent").append(templated);
-        
+
+    $("#eventViewBack")
+      .click(function() {
+            history.back();
+            return false;
+      });
   });
 }
 
