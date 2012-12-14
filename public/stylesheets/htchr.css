@@ -1210,7 +1210,6 @@ a.ui-link-inherit {
 
 /* ID-specific styling.
 -----------------------------------------------------------------------------------------------------------*/
-
 /* New event creation model */
 #errorPopup{
   max-width: 400px;
@@ -1218,6 +1217,12 @@ a.ui-link-inherit {
 }
 #sorry{
   width: 100%;
+}
+
+#eventViewBack {
+	width: 75px;
+	margin-top: 7px;
+	margin-left: 7px;
 }
 
 .ui-slider {
@@ -1239,10 +1244,32 @@ a.ui-link-inherit {
   display: inline-block;
 }
 
+.eventItem {
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+}
+
+.ui-collapsible-heading-toggle {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.ui-collapsible-content {
+	padding: 0 !important;
+}
+
+.ui-li-heading {
+	font-size: 14px;
+}
+
+#userInfo h2 {
+	font-size: 20px;
+}
+
 #logoutButton {
   float: right;
-  width: 75px;
-  margin: 20px 20px 0px 0px;
+  width: 70px;
+  margin: 10px 20px 0px 0px;
 }
 
 /* Footer top shadow to give the appearance of depth */
@@ -1269,4 +1296,29 @@ a.ui-link-inherit {
 	ul.token-input-list-facebook{
 		width: 100% !important;
 	}
+}
+
+#invitedEvents {
+	text-align: center;
+}
+
+#ownedEvents {
+	text-align: center;
+}
+
+/*Collapsible list animations*/
+.ui-collapsible-content {
+  -webkit-transition: all 0.8s;
+  -moz-transition: all 0.8s;
+  -ms-transition: all 0.8s;
+  -o-transition: all 0.8s;
+  transition: all 0.8s;
+  opacity: 1;
+  height: auto;
+}
+.ui-collapsible-content-collapsed {
+	opacity: 0;
+  display: block;
+  height: 0;
+  padding: 0 16px;    
 }

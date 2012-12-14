@@ -1,0 +1,14 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="674" measuredH="635" mockupW="282" mockupH="510">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="392" y="125" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bgPattern>allBlack</bgPattern>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Alert" x="433" y="324" w="-1" h="-1" measuredW="200" measuredH="113" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>RideShareApp%0APickup%20Requested%0AView%2C%20Ignore</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

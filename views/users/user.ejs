@@ -30,12 +30,45 @@
   </div><!-- /header -->
 
   <div data-role="content">
+
     <div id="nameHead">
       <div id="userInfo"> 
-        <h1>Hi, my name is <%= name %></h1>
+        <h2>Hi, my name is <%= name %></h2>
       </div>
         <a id="logoutButton" href="/logout" rel="external" data-theme='b' data-role="button" data-mini='true' data-inline='true'>Logout</a>
     </div>
+    <br/>
+
+    <div data-role="collapsible-set" data-theme="b" data-content-theme="b">
+      <div data-role="collapsible">
+        <h3 class="eventSubhead">I'm the organizer.</h3>
+        <ul data-role="listview" data-inset="true" id="ownedEvents"> </ul>
+      </div>
+
+      <div data-role="collapsible">
+        <h3 class="eventSubhead">Definitely going.</h3>
+        <ul data-role="listview" data-inset="true" id="attendEvents"> </ul>
+      </div>     
+
+      <div data-role="collapsible">
+        <h3 class="eventSubhead">Maybe. I'm thinking about it.</h3>
+        <ul data-role="listview" data-inset="true" id="maybeEvents"> </ul>
+      </div>
+
+      <div data-role="collapsible">
+        <h3 class="eventSubhead">I have no idea.</h3>
+        <ul data-role="listview" data-inset="true" id="unrepliedEvents"> </ul>
+      </div>
+
+      <div data-role="collapsible">
+        <h3 class="eventSubhead">I don't think I'm going.</h3>
+        <ul data-role="listview" data-inset="true" id="declinedEvents"> </ul>
+      </div>      
+
+
+    </div>
+
+
   </div><!-- /content -->
 
   <div data-id="footNav" data-role="footer" data-position="fixed">        

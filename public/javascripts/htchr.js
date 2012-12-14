@@ -1,9 +1,3 @@
-// TODO: make this LESS SHAMELESSLY HACKY
-var globalUser = {};
-$.getJSON('/users/current.json', function (userRes) {
-    globalUser = userRes;
-});
-
 //Geolocation shim, a la 15-237 lecture.
 var nop = function(){};
 if (!navigator.geolocation) {
@@ -22,7 +16,8 @@ var place = {};
 function newEventPageInit () {
   console.log('Loaded up newEventPageInit().');
     //get access_token and current User's friends
-    $.getJSON('/users/current.json', function(profile) {
+    $.getJSON('/users/current.json', function(data) {
+        var profile = data.user;
         var access_token = profile.access_token;
         $.getJSON('https://graph.facebook.com/me/friends?access_token=' + access_token,
             function(friends) {
@@ -341,7 +336,8 @@ function feedPageInit () {
         event_name: hEvent.name,
         event_url: "/events/" + hEvent._id
       });
-      $("#feedList").append(eventLi); 
+      $("#feedList").append(eventLi).listview('refresh');
+      console.log("Just put updated the feed.");
     });
     $("#feedList").listview('refresh');
     console.log("The feed is now updated.");
@@ -349,40 +345,115 @@ function feedPageInit () {
 }
 
 function userPageInit () {
-  /*doing the template rendering server side now to load faster
-      but this init may come in handy later so saving it for now.
+  console.log("loading userPageInit()");
 
-      // $('#userInfo').html("");
+  var eventTemplate =
+    '<li>' +
+      '<a class="eventItem" href="<%= event_url %>">' +
+        '<h4> <%= event_name %>' +
+        '</h4>' +
+      '</a>' +
+    '</li>';
 
-      var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
+  $.getJSON('/users/current.json', function (data) {
+      var user = data.user;
+      var eventData = data.eventData;
+      _.each(eventData, function (hEvent) {
+        var eventLi = _.template(eventTemplate, {
+          event_name: hEvent.name,
+          event_url: "/events/" + hEvent._id
+        });
 
-      $.getJSON('/users/current.json', function (user) {
-          console.log("user", user);
-          var templated = _.template(userTemplate, {
-            username : user.name
+        if (hEvent.ownerFbID === user.fbID) {
+          $("#ownedEvents").append(eventLi).listview('refresh');
+        }
+        else {
+          var myInvite = _.find(hEvent.invited, function(invite){
+            return (invite.fbID === user.fbID);
           });
-      
-          // $('#userInfo').append(templated);
-      }); */
+
+          var status = myInvite.rsvpStatus;
+
+          //Add the event to the appropriate listview
+          if (status === "attending"){
+            $("#attendEvents").append(eventLi).listview('refresh');
+          }
+          else if (status === "maybe"){
+            $("#maybeEvents").append(eventLi).listview('refresh');
+          }
+          else if (status === "noreply"){
+            $('#unrepliedEvents').append(eventLi).listview('refresh');
+          }
+          else if (status === "declined"){
+            $('#declinedEvents').append(eventLi).listview('refresh');
+          }
+          else {
+            console.log("Status is not defined correctly - check it", status);
+          }
+        }
+
+      });
+  });
+
+
 }
 
 function viewPageInit () {
   console.log('Loaded up viewPageInit().');
 
-  var eventTemplate = 
+  var eventTemplate =
     '<h1>Title: <%= event.name %> </h1>' +
     '<h2>Created by: <%= event.ownerName %> </h2>' +
-    '<h2>Begins on <%= startTime %> </h2>'
+    '<h2>Begins on <%= startTime %> </h2>';
     
   var eventId = window.location.pathname.split('/').pop();
-  $.getJSON('/events/' + eventId + '.json', function (eventRes) {
-    var templated = _.template(eventTemplate, {
-      event: eventRes,
-      startTime: new Date(eventRes.startTime)
-    });
-       
-    $("#viewContent").append(templated);
+  $.getJSON('/users/current.json', function(data){
+    var profile = data.user;
+    var eventData = data.eventData;
+    
+    $.getJSON('/events/' + eventId + '.json', function (eventRes) {
+      var templated = _.template(eventTemplate, {
+        event: eventRes,
+        // we use the moment library cause it's fuckin awesome. yeah.
+        startTime: moment(new Date(eventRes.startTime)).format('MMMM Do YYYY, h:mm a')
+      });
+         
+      $("#viewContent").prepend(templated);
+
+      $("#eventViewBack")
+        .click(function() {
+              history.back();
+              return false;
+        });
+
+      if (profile.fbID === eventRes.ownerFbID) {
+        $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+      }
+      else {
+        var myInvite = _.find(eventRes.invited, function(invite){
+          return (invite.fbID === profile.fbID);
+        });
+        var status = myInvite.rsvpStatus;
+
+        if (status === "attending"){
+          $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "maybe"){
+          $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "declined"){
+          $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "noreply"){
+          $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
+        }
         
+        
+      }
+
+    });
   });
 }
 
