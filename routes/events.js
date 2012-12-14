@@ -97,7 +97,7 @@ module.exports = {
                     });
                   };
 
-                  inviteUsers(eventBody.toInvite);
+                  inviteUsers(eventBody.toInvite || []);
 
 
                   res.end(JSON.stringify(fbRes));
@@ -140,8 +140,8 @@ module.exports = {
         //console.log("hPlace:", hPlace);
 
         // Update the current user's preferences.
-        var hash = req.user.prefs.hash;
-        var topTypes = req.user.prefs.top;
+        var hash = req.user.prefs.hash || {};
+        var topTypes = req.user.prefs.top || {};
 
         // Given a type, update the topTypes and hash.
          var updateTopTypes = function(type){
