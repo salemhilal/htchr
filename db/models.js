@@ -47,6 +47,7 @@ var eventSchema = new Schema({
   startTime: Date, //or maybe string would be more useful (this is what FB passes it as)
   endTime: Date,
   placeID: Schema.ObjectId, // points to a place in OUR database
+  types: [String],
   invited: [{
     fbID: String,
     rsvpStatus: String
