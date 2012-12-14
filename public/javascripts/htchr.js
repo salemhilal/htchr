@@ -1,8 +1,3 @@
-function hideURLbar(){
-  window.scrollTo(0,1);
-}
-addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-
 //Geolocation shim, a la 15-237 lecture.
 var nop = function(){};
 if (!navigator.geolocation) {
@@ -417,6 +412,7 @@ function userPageInit () {
 
 function viewPageInit () {
   $('#viewContent').html('');
+
   var eventTemplate =
     '<h1>Title: <%= event.name %> </h1>' +
     '<h2>Created by: <%= event.ownerName %> </h2>' +
@@ -436,39 +432,38 @@ function viewPageInit () {
          
       $("#viewContent").prepend(templated);
 
-      $("#eventviewBack").off();
+      $("#eventViewBack").off();
       $("#eventViewBack")
         .on('click', function() {
               history.back();
               return false;
         });
 
-      if (profile.fbID === eventRes.ownerFbID) {
-        $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
-      }
-      else {
-        var myInvite = _.find(eventRes.invited, function(invite){
-          return (invite.fbID === profile.fbID);
-        });
-        var status = myInvite.rsvpStatus;
+      var status = "";
 
-        if (status === "attending"){
-          $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+      var myInvite = _.find(eventRes.invited, function(invite){
+         return (invite.fbID === profile.fbID);
+      });
+        if (myInvite === undefined) {
+          status = "";
         }
-        else if (status === "maybe"){
-          $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
+        else {
+          status = myInvite.rsvpStatus;
+          if (status === "attending"){
+            $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+          }
+          else if (status === "maybe"){
+            $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
+          }
+          else if (status === "declined"){
+            $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
+          }
+          else if (status === "noreply"){
+            $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
+            $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
+            $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
+          } 
         }
-        else if (status === "declined"){
-          $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
-        }
-        else if (status === "noreply"){
-          $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
-          $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
-          $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
-        }
-        
-        
-      }
 
     });
   });
