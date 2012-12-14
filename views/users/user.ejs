@@ -29,12 +29,20 @@
   </div><!-- /header -->
 
   <div data-role="content">
+
     <div id="nameHead">
       <div id="userInfo"> 
-        <h1>Hi, my name is <%= name %></h1>
+        <h2>Hi, my name is <%= name %></h2>
       </div>
         <a id="logoutButton" href="/logout" rel="external" data-theme='b' data-role="button" data-mini='true' data-inline='true'>Logout</a>
     </div>
+    <br/>
+    <div id="eventBox">
+      <h3>What's up?</h3><br/>
+      <ul data-role="listview" id="userEvents">
+      </ul>
+    </div>
+
   </div><!-- /content -->
 
   <div data-id="footNav" data-role="footer" data-position="fixed">        

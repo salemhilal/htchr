@@ -5,31 +5,43 @@ var models = require('../db/models.js')
 module.exports = {
   profile_JSON: function (req, res) {
     var id = req.params.id;
-    if (id === 'current') {
-      res.end(JSON.stringify(req.user));
-    }
+    var fbID = req.user.fbID;
 
-    else {
-      User.findById(id, function (err, user) {
-        if (err) { res.end('error'); }
-        else { res.end(JSON.stringify(user)); };
-      });
-    }
-  }, 
+    //find all events user is attending/hosting
+    Event.find({$or : [{'invited.fbID': fbID}, {'ownerFbID': fbID}]})
+         .limit(10)
+         .exec(function(err, eventData) {
+          if (err) {
+            console.error(err);
+          }
+          else {
+            if (id === 'current') {
+              res.end(JSON.stringify({
+                user: req.user,
+                eventData: eventData
+              }));
+            }
+
+            else {
+              User.findById(id, function (err, user) {
+                if (err) { res.end('error'); }
+                else {
+                  res.end(JSON.stringify({
+                    user: user,
+                    eventData: eventData
+                  }));
+                }
+              });
+            } //lookup user branch
+          } //event find branch
+    });
+
+
+  },
+
 
   profile_GET: function (req, res) {
-    console.log("profile_GET USER", req.user);
-    var fbID = req.user.fbID;
-    //find all events for which the user fbID is in the invited array of objects
-    //also group them by the rsvp status on the profile page
-    Event.find({ 'invited.fbID': fbID }).exec(function(err, eventData) {
-      console.log("eventData\n--------------------------\n", eventData);
-      if (err) {
-        console.error(err);
-      } else {
-          res.render('users/user', { name : req.user.name, eventData : eventData });
-      }
-    });
+    res.render('users/user', { name : req.user.name });
   }
 
 }

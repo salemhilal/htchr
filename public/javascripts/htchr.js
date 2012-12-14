@@ -1,9 +1,3 @@
-// TODO: make this LESS SHAMELESSLY HACKY
-var globalUser = {};
-$.getJSON('/users/current.json', function (userRes) {
-    globalUser = userRes;
-});
-
 //Geolocation shim, a la 15-237 lecture.
 var nop = function(){};
 if (!navigator.geolocation) {
@@ -200,7 +194,7 @@ function feedPageInit () {
           '<%= event_name %>' +
         '</h3>' +
       '</a>' +
-    '</li>'
+    '</li>';
     
     //Grab the feeds server-side and render them.
   $.getJSON('/events/feed.json', function (data) {
@@ -222,21 +216,30 @@ function feedPageInit () {
 }
 
 function userPageInit () {
-  /*doing the template rendering server side now to load faster
-      but this init may come in handy later so saving it for now.
+  console.log("loading userPageInit()");
 
-      // $('#userInfo').html("");
+  var eventTemplate =
+    '<li>' + 
+      '<a href="<%= event_url %>">' +
+        '<h4> <%= event_name %>' +
+        '</h4>' +
+      '</a>' +
+    '</li>';
 
-      var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
+  $.getJSON('/users/current.json', function (data) {
+      var user = data.user;
+      var eventData = data.eventData;
+      _.each(eventData, function (hEvent) {
+        var eventLi = _.template(eventTemplate, {
+          event_name: hEvent.name,
+          event_url: "/events/" + hEvent._id
+        });
 
-      $.getJSON('/users/current.json', function (user) {
-          console.log("user", user);
-          var templated = _.template(userTemplate, {
-            username : user.name
-          });
-      
-          // $('#userInfo').append(templated);
-      }); */
+        $("#userEvents").append(eventLi).listview('refresh');
+      });
+  });
+
+
 }
 
 function viewPageInit () {
@@ -245,7 +248,7 @@ function viewPageInit () {
   var eventTemplate = 
     '<h1>Title: <%= event.name %> </h1>' +
     '<h2>Created by: <%= event.ownerName %> </h2>' +
-    '<h2>Begins on <%= startTime %> </h2>'
+    '<h2>Begins on <%= startTime %> </h2>';
     
   var eventId = window.location.pathname.split('/').pop();
   $.getJSON('/events/' + eventId + '.json', function (eventRes) {
