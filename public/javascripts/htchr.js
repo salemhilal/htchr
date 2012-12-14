@@ -146,6 +146,15 @@ function newEventPageInit () {
       $("#errorPopup").popup("open");
       return;
     } else {
+        $("#submitEvent").off("tap");
+        $.blockUI.defaults.css = {};
+        $.blockUI({ 
+          overlayCSS: {
+            backgroundColor: '#F9F9F9', 
+            opacity: .5
+          },
+          message: null
+        });
 
       var lat = place.geometry.location.lat();
       var lng = place.geometry.location.lng();
@@ -176,8 +185,9 @@ function newEventPageInit () {
       };
 
       // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
-      // will take care of this - Matt
+      // will take care of this - Matt 
       $.post('http://localhost:3000/events/new', reqData, function (data) {
+        $.unblockUI();
         $("#successPopup").off("popupafterclose")
         $("#successPopup").on("popupafterclose", function(){
           window.location.href = "/events/feed";
@@ -213,11 +223,9 @@ function feedPageInit () {
         event_name: hEvent.name,
         event_url: "/events/" + hEvent._id
       });
-
       $("#feedList").append(eventLi).listview('refresh'); 
-      console.log("Just put updated the feed.");
-            
     });
+    console.log("Just put updated the feed.");
   });
 }
 

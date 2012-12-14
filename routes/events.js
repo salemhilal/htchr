@@ -162,11 +162,11 @@ module.exports = {
           }
 
           //Update topTypes
-          if(hash[type] >= hash[topTypes[0]])
+          if(hash[type] >= hash[topTypes[0]]      || topTypes.length === 0)
           	topTypes.splice(0,0,type);
-          else if(hash[type] >= hash[topTypes[1]])
+          else if(hash[type] >= hash[topTypes[1]] || topTypes.length === 1)
           	topTypes.splice(1,0,type);
-          else if(hash[type] >= hash[topTypes[2]])
+          else if(hash[type] >= hash[topTypes[2]] || topTypes.length === 2)
           	topTypes.splice(2,0,type);
 
           if(topTypes.length > 3) topTypes.length = 3;
@@ -235,15 +235,17 @@ module.exports = {
         response.data = data;
 
         var top = req.user.prefs.top;
+        var curFbID = req.user.fbID;
 
         // If the user has a complete top 3...
         if(top.length === 3){
           Event.find({
             isPrivate : false,
+            ownerFbID : {$ne : curFbID},
             $or: [
-              {types : {$all : [top[1], top[2]]}},
-              {types : {$all : [top[1], top[3]]}},
-              {types : {$all : [top[2], top[3]]}}
+              {types : {$all : [top[0], top[1]]}},
+              {types : {$all : [top[0], top[2]]}},
+              {types : {$all : [top[1], top[2]]}}
             ]
           }).limit(3).exec(function(err, recommended){
             if(err){
