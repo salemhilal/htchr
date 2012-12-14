@@ -6,6 +6,7 @@ Matt Schallert (mschalle)
 Salem Hilal (shilal)
 
 **Note:** Iterative designs / user studies can be found in the `/docs` folder
+**Note 2:** The iOS simulator for Mac has known issues with obeying `device-width` and similar `meta` tags, so the video does not 100% accurately reflect the visual performance.
 
 ----------------------
 
