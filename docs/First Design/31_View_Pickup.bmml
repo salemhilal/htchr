@@ -1,0 +1,24 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="674" measuredH="635" mockupW="282" mockupH="510">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::iPhone" x="392" y="125" w="-1" h="-1" measuredW="282" measuredH="510" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Map" x="419" y="225" w="227" h="330" measuredW="252" measuredH="222" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::RoundButton" x="609" y="271" w="17" h="17" measuredW="32" measuredH="32" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>7317724</color>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Component" x="473" y="493" w="32" h="33" measuredW="32" measuredH="33" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/symbols.bmml#Map%20Marker</src>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Component" x="609" y="508" w="32" h="33" measuredW="32" measuredH="33" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="1">
+          <text>B</text>
+        </override>
+        <src>./assets/symbols.bmml#Map%20Marker</src>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
