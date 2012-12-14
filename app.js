@@ -49,6 +49,9 @@ app.post('/search/geo'
   , routes.search.geo_JSON);
 
 // Events
+app.post('/events/update'
+  , myUtil.ensureAuthenticated
+  , routes.events.update_POST);
 app.get('/events/new'
   , myUtil.ensureAuthenticated
   , routes.events.new_GET);

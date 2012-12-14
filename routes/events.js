@@ -66,6 +66,8 @@ module.exports = {
                   hEvent.eventID = fbRes.id;
                   hEvent.save();
 
+                  var eventInvites = [];
+
                   //invite friends to the event using the given ID
                   var inviteUsers = function(inviteList) {
                     var inviteString = "";
@@ -77,7 +79,8 @@ module.exports = {
                       else {
                         post = "";
                       }
-                      inviteString+= (inviteList[i].id + post)
+                      inviteString+= (inviteList[i].id + post);
+                      eventInvites.push({fbID: inviteList[i].id , rsvpStatus: "noreply" });
                     };
 
                     console.log("inviteString:", inviteString);
@@ -111,6 +114,8 @@ module.exports = {
                     });
                   });
                   inviteUsers(eventBody.toInvite || []);
+                  hEvent.invited = eventInvites;
+                  hEvent.save();
 
 
                   res.end(JSON.stringify(fbRes));
@@ -205,7 +210,7 @@ module.exports = {
     });
   },
 
-  event_POST: function (req, res){
+  update_POST: function (req, res){
     var eventID = req.body.eventID;
     var fbID = req.body.fbID;
     var status = req.body.rsvp;
@@ -223,10 +228,13 @@ module.exports = {
             res.end(JSON.stringify({result:"OK"}));
           }
         }
+
+        data.invited.push({fbID: fbID, rsvpStatus: status});
+
         return;
       }
     });
-  }
+  },
 
   // Get event data
   event_JSON: function (req, res){

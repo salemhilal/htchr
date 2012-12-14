@@ -429,6 +429,8 @@ function viewPageInit () {
     var eventData = data.eventData;
     
     $.getJSON('/events/' + eventId + '.json', function (eventRes) {
+      console.log(eventRes);
+
       var templated = _.template(eventTemplate, {
         event: eventRes,
         // we use the moment library cause it's fuckin awesome. yeah.
