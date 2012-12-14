@@ -22,7 +22,7 @@ module.exports = {
     Place.find({name : placeBody.name}, function(err, places) {
 
       // a function to make and save an event given a place ID
-      var makeEvent = function (placeID) {
+      var makeEvent = function (placeID, types) {
         // event we're going to store in our database
         var hEvent = new Event({
           name: eventBody.name,
@@ -32,6 +32,7 @@ module.exports = {
           ownerFbID: req.user.fbID,
           ownerName: req.user.name,
           isPrivate: eventBody.isPrivate == "true",
+          types: types,
           placeID: placeID
         });
 
@@ -117,7 +118,7 @@ module.exports = {
 
       // Is there already a place corresponding to our event?
       if (places.length !== 0) {
-        makeEvent(places[0]._id);
+        makeEvent(places[0]._id, places[0].types);
       }
       else {
         var gData = JSON.parse(placeBody.googleData);
@@ -175,8 +176,8 @@ module.exports = {
           updateTopTypes(hPlace.types[i]);
         }
 
-        req.user.types = {hash: hash, top: topTypes};
-    		console.log("req.user.types for " + req.user.name + " is now:", {hash: hash, top: topTypes});
+        req.user.prefs = {hash: hash, top: topTypes};
+    		console.log("req.user.prefs for " + req.user.name + " is now:", {hash: hash, top: topTypes});
         req.user.save();
 
         // Save the new place in our database
@@ -185,11 +186,11 @@ module.exports = {
             console.error(err);
           } else {
             // finally create the event based on the place id
-            makeEvent(hPlace._id);
+            makeEvent(hPlace._id, hPlace.types);
           }
         });
-    }
-  });
+      }
+    });
   },
 
   // Get event data
@@ -233,10 +234,29 @@ module.exports = {
         response.date = new Date();
         response.data = data;
 
-        res.end(JSON.stringify({
-          data: data,
-          time: new Date()
-        }));
+        var tops = req.user.prefs.top;
+
+        Event.find({
+          isPrivate : false,
+          $or: [
+            {types : $all[top[1], top[2]]},
+            {types : $all[top[1], top[3]]},
+            {types : $all[top[2], top[3]]}
+          ]
+        }).limit(3).exec(function(err, recommended){
+            if(err){
+              console.error(err);
+            }
+            console.log("Recommended: ", recommended);
+           
+            res.end(JSON.stringify({
+              data: data,
+              recommended : recommended,
+              time: new Date()
+            }));
+
+          });
+
       }
     });
   }
