@@ -317,7 +317,7 @@ function viewPageInit () {
     '<h2>Begins on <%= startTime %> </h2>';
     
   var eventId = window.location.pathname.split('/').pop();
-  $.getJSON('/events/current.json', function(data){
+  $.getJSON('/users/current.json', function(data){
     var profile = data.user;
     var eventData = data.eventData;
     
@@ -334,6 +334,34 @@ function viewPageInit () {
               history.back();
               return false;
         });
+
+      if (profile.fbID === eventRes.ownerFbID) {
+        $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+      }
+      else {
+        var myInvite = _.find(eventRes.invited, function(invite){
+          return (invite.fbID === profile.fbID);
+        });
+        var status = myInvite.rsvpStatus;
+
+        if (status === "attending"){
+          $("#radio-view-a").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "maybe"){
+          $("#radio-view-b").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "declined"){
+          $("#radio-view-c").attr("checked",true).checkboxradio("refresh");
+        }
+        else if (status === "noreply"){
+          $("#radio-view-a").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-b").attr("checked",false).checkboxradio("refresh");
+          $("#radio-view-c").attr("checked",false).checkboxradio("refresh");
+        }
+        
+        
+      }
+
     });
   });
 }
