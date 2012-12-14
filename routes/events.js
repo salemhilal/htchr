@@ -3,7 +3,8 @@ var models = require('../db/models.js')
   , Event = models.Event
   , Place = models.Place
   , graph = require('fbgraph')
-  , myUtil = require('../myUtil.js');
+  , myUtil = require('../myUtil.js')
+  , _ = require('underscore');
 
 module.exports = {
   // Render the page to create an event
@@ -98,6 +99,16 @@ module.exports = {
                     }
                     });
                   };
+
+                 _.each(eventBody.toInvite, function (user) {
+                    User.findOne({"fbID": user.id}).exec(function (err, twUser) {
+                      if (twUser && twUser.phoneNumber && twUser.phoneNumber.length >= 10) {
+                        var num = twUser.phoneNumber;
+                        var message = "Hey there! " + req.user.name + " has invited you to the event: " + eventBody.name + ". Go to http://htchr.me to respond!";
+                        myUtil.sendSMS(num, message, function () {});
+                      }
+                    });
+                  });
 
                   inviteUsers(eventBody.toInvite || []);
 

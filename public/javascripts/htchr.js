@@ -158,7 +158,7 @@ function newEventPageInit () {
 
       var lat = place.geometry.location.lat();
       var lng = place.geometry.location.lng();
-      var dateTime = new Date(date + " " + time + ":00");
+      var dateTime = (date + " " + time + ":00");
 
       var placeData = {
         name : place.name,
@@ -186,7 +186,7 @@ function newEventPageInit () {
 
       // TODO: MAKE THE REQUEST URL DYNAMIC OR SHIT WILL HIT THE FAN IN DEPLOYMENT
       // will take care of this - Matt 
-      $.post('http://localhost:3000/events/new', reqData, function (data) {
+      $.post('http://htchr.me/events/new', reqData, function (data) {
         $.unblockUI();
         $("#successPopup").off("popupafterclose")
         $("#successPopup").on("popupafterclose", function(){

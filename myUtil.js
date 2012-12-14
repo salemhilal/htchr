@@ -1,7 +1,7 @@
 // Facebook app info and module imports.
 var FacebookStrategy = require('passport-facebook').Strategy
-  , FACEBOOK_APP_ID = "226224270843611"
-  , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
+  , FACEBOOK_APP_ID = "184905018316777"
+  , FACEBOOK_APP_SECRET = "4e652010379a069f15f6b61b42ff1fd8"
   , path = require('path')
   , User = require('./db/models.js').User
   , graph = require('fbgraph')
@@ -14,7 +14,7 @@ module.exports = {
   configureApp: function (app, express, passport) {
     app.configure(function(){
       // Node
-      app.set('port', process.env.PORT || 3000);
+      app.set('port', process.env.PORT || 8080);
       app.set('views', __dirname + '/views');
 
       //Lets use EJS. None of that fancy Jade nonsense.
@@ -64,7 +64,7 @@ module.exports = {
     passport.use(new FacebookStrategy({
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
-        callbackURL: "http://localhost:3000/auth/facebook/callback"
+        callbackURL: "http://htchr.me/auth/facebook/callback"
       },
       function(access_token, refreshToken, profile, done) {
         User.where('fbID', profile.id).findOne().exec(function (err, user) {
