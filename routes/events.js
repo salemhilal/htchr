@@ -205,6 +205,29 @@ module.exports = {
     });
   },
 
+  event_POST: function (req, res){
+    var eventID = req.body.eventID;
+    var fbID = req.body.fbID;
+    var status = req.body.rsvp;
+
+    Event.findById(eventID, function(err, data){
+      if(err){
+        console.error(err);
+        res.end(JSON.stringify({error: err}));
+      }
+      else {
+        for (i=0; i<data.invited.length; i++) {
+          if (fbID === data.invited[i].fbID) {
+            data.invited[i].rsvpStatus = status;
+            data.save();
+            res.end(JSON.stringify({result:"OK"}));
+          }
+        }
+        return;
+      }
+    });
+  }
+
   // Get event data
   event_JSON: function (req, res){
     var id = req.params.id;
