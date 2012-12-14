@@ -411,8 +411,7 @@ function userPageInit () {
 }
 
 function viewPageInit () {
-  console.log('Loaded up viewPageInit().');
-
+  $('#viewContent').html('');
   var eventTemplate =
     '<h1>Title: <%= event.name %> </h1>' +
     '<h2>Created by: <%= event.ownerName %> </h2>' +
@@ -432,8 +431,9 @@ function viewPageInit () {
          
       $("#viewContent").prepend(templated);
 
+      $("#eventviewBack").off();
       $("#eventViewBack")
-        .click(function() {
+        .on('click', function() {
               history.back();
               return false;
         });
