@@ -226,19 +226,21 @@ function feedPageInit () {
 }
 
 function userPageInit () {
-  console.log('loading userPageInit().');
-  // $('#userInfo').html("");
+  /*doing the template rendering server side now to load faster
+      but this init may come in handy later so saving it for now.
 
-  var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
+      // $('#userInfo').html("");
 
-  $.getJSON('/users/current.json', function (user) {
-      console.log("user", user);
-      var templated = _.template(userTemplate, {
-        username : user.name
-      });
-  
-      // $('#userInfo').append(templated);
-  });
+      var userTemplate = '<h1>Hi, my name is <%= username %> </h1>';
+
+      $.getJSON('/users/current.json', function (user) {
+          console.log("user", user);
+          var templated = _.template(userTemplate, {
+            username : user.name
+          });
+      
+          // $('#userInfo').append(templated);
+      }); */
 }
 
 function viewPageInit () {

@@ -1,4 +1,6 @@
-var User = require('../db/models.js').User;
+var models = require('../db/models.js')
+  , User = models.User
+  , Event = models.Event;
 
 module.exports = {
   profile_JSON: function (req, res) {
@@ -14,7 +16,14 @@ module.exports = {
       });
     }
   }, 
+
   profile_GET: function (req, res) {
+    console.log("profile_GET USER", req.user);
+    var fbID = req.user.fbID;
+    //find all events for which the user fbID is in the invited array of objects
+    //also group them by the rsvp status on the profile page
+    // Event.find({   })
     res.render('users/user', { name : req.user.name });
   }
+
 }
