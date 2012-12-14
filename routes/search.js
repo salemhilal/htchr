@@ -8,6 +8,53 @@ module.exports = {
     res.render('search');
   },
 
+  geo_JSON: function (req, res){
+    console.log(req.body);
+    var lng = req.body.lng;
+    var lat = req.body.lat;
+    if(parseFloat(lat).toString() === "NaN" || parseFloat(lng).toString() === "NaN"){
+      res.end(JSON.stringify({error: "Invalid coordinates."}));
+    } else {
+      var result = {};
+      var range = 2; //km
+      var earthRadius = 6378; //km
+
+      Place.find({ location : { $near : [lng, lat]} }).limit(3).exec(function(err, nearby){
+        if(err){
+          console.error("Error occurred when searching for nearby places", err);
+          res.end(JSON.stringify({error: err}));
+        } else{
+          var places = {};
+          for(i in nearby){
+            places[nearby[i]._id] = nearby[i];
+          }
+          result.places = places;
+
+          var friends = [];
+          var i=0;
+          for(frnd in req.user.friends){
+            friends[i] = req.user.friends[frnd].id + "";
+            i++;
+          }
+          friends[i] = req.user.fbID;
+
+          Event.find().where("placeID").in(nearby.map(function(i){return i._id})).where('ownerFbID').in(friends).limit(5).exec(function(err2, nearbyEvents){
+            if(err){
+              console.error("Error occurred when searching for nearby events", err);
+              res.end(JSON.stringify({error: err2}));
+            } else{
+              result.events = nearbyEvents;
+              res.end(JSON.stringify(result));
+            }
+
+          });
+        }
+
+      });
+
+    }
+  },
+
   query_JSON: function (req, res) {
     var query = req.body.query;
     // Check if empty query. We don't want those.

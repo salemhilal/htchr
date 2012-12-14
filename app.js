@@ -44,6 +44,9 @@ app.get('/search'
 app.post('/search'
   , myUtil.ensureAuthenticated
   , routes.search.query_JSON);
+app.post('/search/geo'
+  , myUtil.ensureAuthenticated
+  , routes.search.geo_JSON);
 
 // Events
 app.get('/events/new'

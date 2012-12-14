@@ -16,6 +16,7 @@
   <script type="text/javascript" src="/javascripts/jquery.tokeninput.js"></script>
   <script type="text/javascript" src="/javascripts/jquery.blockui.js"></script>
   <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
+  <script type="text/javascript" src="/javascripts/moment.min.js"></script>
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDG2T7EFLq_lT1Vq7TZ7uwPHNh6J-q2FOw&libraries=places&sensor=false"></script>
   <script type="text/javascript" src="/javascripts/htchr.js"></script>
   
@@ -31,7 +32,17 @@
   </div><!-- /header -->
 
   <div data-role="content" id="viewContent">
-    <a href="#" id="eventInteract" data-role='button' data-icon='check' data-iconpos='right' data-inline='true'></a>
+      <div data-role="fieldcontain">
+        <fieldset data-role="controlgroup" data-type="horizontal">
+          <legend><h3>Will you be there?</h3></legend>
+              <input type="radio" name="radio-view" id="radio-view-a" value="attending"/>
+              <label for="radio-view-a">Definitely</label>
+              <input type="radio" name="radio-view" id="radio-view-b" value="maybe"/>
+              <label for="radio-view-b">Maybe</label>
+              <input type="radio" name="radio-view" id="radio-view-c" value="declined"/>
+              <label for="radio-view-c">Not this time</label>
+        </fieldset>
+      </div>
   </div><!-- /content -->
 
   <div data-id="footNav" data-role="footer" data-position="fixed">        
