@@ -1211,11 +1211,36 @@ a.ui-link-inherit {
 /* ID-specific styling.
 -----------------------------------------------------------------------------------------------------------*/
 
-/* New event creation modal */
+/* New event creation model */
 #errorPopup{
   max-width: 400px;
   min-width: 300px;
 }
 #sorry{
-  width: 100%
+  width: 100%;
+}
+
+.ui-slider {
+    margin-bottom: 10px !important;
+}
+#inviteBox li {
+    font-size: 15px;
+}
+/*Overwrite the google autocomplete styling.*/
+.pac-container:after{
+    content: "" !important;
+}
+.pac-item{
+    font-family: Helvetica, Arial, sans-serif !important;
+}
+
+/* My Profile Page */
+#userInfo {
+  display: inline-block;
+}
+
+#logoutButton {
+  float: right;
+  width: 75px;
+  margin: 20px 20px 0px 0px;
 }
