@@ -16,6 +16,9 @@
 
 .ui-bar-a {
 	border: 1px solid #b3b3b3 /*{a-bar-border}*/;
+	box-shadow: 0 -5px 10px #333;
+	-moz-box-shadow: 0 -5px 10px #333;
+	-webkit-box-shadow: 0 -5px 10px #333;
 	background: #31475e /*{a-bar-background-color}*/;
 	color: #dbdbdb /*{a-bar-color}*/;
 	font-weight: bold;
@@ -170,12 +173,12 @@
 	color: #dbdbdb /*{b-bar-color}*/;
 	font-weight: bold;
 	text-shadow: 0 /*{b-bar-shadow-x}*/ 0px /*{b-bar-shadow-y}*/ 0 /*{b-bar-shadow-radius}*/ #ffffff /*{b-bar-shadow-color}*/;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #31475e /*{b-bar-background-start}*/), to( #31475e /*{b-bar-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #31475e /*{b-bar-background-start}*/, #31475e /*{b-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #31475e /*{b-bar-background-start}*/, #31475e /*{b-bar-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #31475e /*{b-bar-background-start}*/, #31475e /*{b-bar-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #31475e /*{b-bar-background-start}*/, #31475e /*{b-bar-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #31475e /*{b-bar-background-start}*/, #31475e /*{b-bar-background-end}*/);
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #b44b4e /*{b-bar-background-start}*/), to( #b44b4e /*{b-bar-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #b44b4e /*{b-bar-background-start}*/, #b44b4e /*{b-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #b44b4e /*{b-bar-background-start}*/, #b44b4e /*{b-bar-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #b44b4e /*{b-bar-background-start}*/, #b44b4e /*{b-bar-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #b44b4e /*{b-bar-background-start}*/, #b44b4e /*{b-bar-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #b44b4e /*{b-bar-background-start}*/, #b44b4e /*{b-bar-background-end}*/);
 }
 .ui-bar-b .ui-link-inherit {
 	color: #dbdbdb /*{b-bar-color}*/;
@@ -806,7 +809,7 @@ a.ui-link-inherit {
 .ui-header .ui-title {
 	font-size: 24px;
 	text-transform: uppercase;
-	margin: .5em 30% .6em;
+	margin: .5em 10% .6em;
 }
 
 

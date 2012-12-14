@@ -2,7 +2,8 @@ var models = require('../db/models.js')
   , User = models.User
   , Event = models.Event
   , Place = models.Place
-  , graph = require('fbgraph');
+  , graph = require('fbgraph')
+  , myUtil = require('../myUtil.js');
 
 module.exports = {
   // Render the page to create an event
@@ -22,7 +23,7 @@ module.exports = {
     Place.find({name : placeBody.name}, function(err, places) {
 
       // a function to make and save an event given a place ID
-      var makeEvent = function (placeID) {
+      var makeEvent = function (placeID, types) {
         // event we're going to store in our database
         var hEvent = new Event({
           name: eventBody.name,
@@ -32,6 +33,7 @@ module.exports = {
           ownerFbID: req.user.fbID,
           ownerName: req.user.name,
           isPrivate: eventBody.isPrivate == "true",
+          types: types,
           placeID: placeID
         });
 
@@ -117,7 +119,7 @@ module.exports = {
 
       // Is there already a place corresponding to our event?
       if (places.length !== 0) {
-        makeEvent(places[0]._id);
+        makeEvent(places[0]._id, places[0].types);
       }
       else {
         var gData = JSON.parse(placeBody.googleData);
@@ -141,7 +143,7 @@ module.exports = {
 
         // Update the current user's preferences.
         var hash = req.user.prefs.hash || {};
-        var topTypes = req.user.prefs.top || {};
+        var topTypes = req.user.prefs.top || [];
 
         // Given a type, update the topTypes and hash.
          var updateTopTypes = function(type){
@@ -161,22 +163,22 @@ module.exports = {
           }
 
           //Update topTypes
-          if(hash[type] >= hash[topTypes[0]])
+          if(hash[type] >= hash[topTypes[0]]      || topTypes.length === 0)
           	topTypes.splice(0,0,type);
-          else if(hash[type] >= hash[topTypes[1]])
+          else if(hash[type] >= hash[topTypes[1]] || topTypes.length === 1)
           	topTypes.splice(1,0,type);
-          else if(hash[type] >= hash[topTypes[2]])
+          else if(hash[type] >= hash[topTypes[2]] || topTypes.length === 2)
           	topTypes.splice(2,0,type);
 
-          topTypes.length = 3;
+          if(topTypes.length > 3) topTypes.length = 3;
         };
 
         for (var i=0; i<hPlace.types.length; i++) {
           updateTopTypes(hPlace.types[i]);
         }
 
-        req.user.types = {hash: hash, top: topTypes};
-    		console.log("req.user.types for " + req.user.name + " is now:", {hash: hash, top: topTypes});
+        req.user.prefs = {hash: hash, top: topTypes};
+    		console.log("req.user.prefs for " + req.user.name + " is now:", {hash: hash, top: topTypes});
         req.user.save();
 
         // Save the new place in our database
@@ -185,11 +187,11 @@ module.exports = {
             console.error(err);
           } else {
             // finally create the event based on the place id
-            makeEvent(hPlace._id);
+            makeEvent(hPlace._id, hPlace.types);
           }
         });
-    }
-  });
+      }
+    });
   },
 
   // Get event data
@@ -233,10 +235,43 @@ module.exports = {
         response.date = new Date();
         response.data = data;
 
-        res.end(JSON.stringify({
-          data: data,
-          time: new Date()
-        }));
+        var top = req.user.prefs.top;
+        var curFbID = req.user.fbID;
+
+        // If the user has a complete top 3...
+        if(top.length === 3){
+          Event.find({
+            isPrivate : false,
+            ownerFbID : {$ne : curFbID},
+            $or: [
+              {types : {$all : [top[0], top[1]]}},
+              {types : {$all : [top[0], top[2]]}},
+              {types : {$all : [top[1], top[2]]}}
+            ]
+          }).limit(3).exec(function(err, recommended){
+            if(err){
+              console.error("Error getting recommended: ", err);
+            }
+            console.log("Recommended: ", recommended);
+           
+            res.end(JSON.stringify({
+              data: data,
+              recommended : recommended,
+              time: new Date()
+            }));
+
+          });
+        } 
+        // Otherwise, forget recs. 
+        else {
+          res.end(JSON.stringify({
+            data: data,
+            recommended : [],
+            time: new Date()
+          }));
+        }
+
+
       }
     });
   }

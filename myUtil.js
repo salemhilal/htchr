@@ -4,7 +4,11 @@ var FacebookStrategy = require('passport-facebook').Strategy
   , FACEBOOK_APP_SECRET = "c06b0f2f32eaef7488805d871063accf"
   , path = require('path')
   , User = require('./db/models.js').User
-  , graph = require('fbgraph');
+  , graph = require('fbgraph')
+  , request = require('request')
+  , twSID = "AC4d0c86f9a7d24751b5ab01af6ba5c563"
+  , twAuth = "fa13f367a1339a20172267d0554307cc"
+  , twNum = "+16465026857";
 
 module.exports = {
   configureApp: function (app, express, passport) {
@@ -109,5 +113,22 @@ module.exports = {
     //   login page.
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/');
+  },
+  sendSMS: function (recNumber, message, callback) {
+    var url = "https://api.twilio.com/2010-04-01/Accounts/" + twSID + "/SMS/Messages.json";
+    var auth = "Basic " + new Buffer(twSID + ":" + twAuth).toString("base64");
+    var headers = {
+      "Authorization": auth
+    }
+    var opts = {
+      url: url,
+      headers: headers,
+      form: {
+        "From": twNum,
+        "To": recNumber,
+        "Body": message
+      }
+    }
+    request.post(opts, callback);
   }
 }
