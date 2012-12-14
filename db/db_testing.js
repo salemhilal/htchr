@@ -35,9 +35,4 @@ var costcoTrip = new Event({
 
 matt.save(); dima.save(); salem.save(); costcoTrip.save();
 
-// Event.find({}).where('startTime').gt(new Date()).lt(new Date(2012, 11, 1, 12, 00, 00, 00)).exec(function (err, events) {
-//   console.log(events);
-//   mongoose.disconnect();
-// });
-
 mongoose.disconnect();
