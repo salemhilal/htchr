@@ -142,7 +142,7 @@ module.exports = {
 
         // Update the current user's preferences.
         var hash = req.user.prefs.hash || {};
-        var topTypes = req.user.prefs.top || {};
+        var topTypes = req.user.prefs.top || [];
 
         // Given a type, update the topTypes and hash.
          var updateTopTypes = function(type){
@@ -169,7 +169,7 @@ module.exports = {
           else if(hash[type] >= hash[topTypes[2]])
           	topTypes.splice(2,0,type);
 
-          topTypes.length = 3;
+          if(topTypes.length > 3) topTypes.length = 3;
         };
 
         for (var i=0; i<hPlace.types.length; i++) {
@@ -234,18 +234,20 @@ module.exports = {
         response.date = new Date();
         response.data = data;
 
-        var tops = req.user.prefs.top;
+        var top = req.user.prefs.top;
 
-        Event.find({
-          isPrivate : false,
-          $or: [
-            {types : $all[top[1], top[2]]},
-            {types : $all[top[1], top[3]]},
-            {types : $all[top[2], top[3]]}
-          ]
-        }).limit(3).exec(function(err, recommended){
+        // If the user has a complete top 3...
+        if(top.length === 3){
+          Event.find({
+            isPrivate : false,
+            $or: [
+              {types : {$all : [top[1], top[2]]}},
+              {types : {$all : [top[1], top[3]]}},
+              {types : {$all : [top[2], top[3]]}}
+            ]
+          }).limit(3).exec(function(err, recommended){
             if(err){
-              console.error(err);
+              console.error("Error getting recommended: ", err);
             }
             console.log("Recommended: ", recommended);
            
@@ -256,6 +258,16 @@ module.exports = {
             }));
 
           });
+        } 
+        // Otherwise, forget recs. 
+        else {
+          res.end(JSON.stringify({
+            data: data,
+            recommended : [],
+            time: new Date()
+          }));
+        }
+
 
       }
     });
