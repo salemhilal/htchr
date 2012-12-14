@@ -13,6 +13,7 @@ var userSchema = new Schema({
     name: String,
     id: Number
   }], 
+  phoneNumber: String,
   prefs: {
     top: [String], //Keep the top 3 close.
     hash: Schema.Types.Mixed //Hash types to counts
